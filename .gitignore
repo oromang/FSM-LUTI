@@ -1,0 +1,31 @@
+# Local inputs, model runs and private research work
+/data/
+/outputs/
+/diagnostics/
+/calibration/
+/source_manifest.json
+
+# Python environments, build outputs and caches
+/.venv/
+/venv/
+/env/
+/.uv-cache/
+/.pytest_cache/
+/.mypy_cache/
+/.ruff_cache/
+__pycache__/
+*.py[cod]
+*.egg-info/
+/build/
+/dist/
+.coverage
+htmlcov/
+
+# Local machine/editor settings
+.env
+.env.*
+!.env.example
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

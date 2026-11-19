@@ -1,0 +1,39 @@
+{
+  "beta": [
+    0.07518280412992764,
+    0.16495093657559792,
+    0.22690282409397533
+  ],
+  "mode_order": [
+    "pt",
+    "car",
+    "bike"
+  ],
+  "cost_unit": "minutes",
+  "fit_years": [
+    2014,
+    2018
+  ],
+  "selection_year": 2018,
+  "evaluation_year": 2020,
+  "network_year": 2017,
+  "family": "expanded_scaled_npvm",
+  "status": "Provisional internal three-canton commuting fit; not modal or relocation validation",
+  "geography": {
+    "cantons": [
+      "ZH",
+      "TG",
+      "SH"
+    ],
+    "zones": 1541,
+    "municipalities": 268
+  },
+  "bike_speed_kmh": 18,
+  "attraction": "GWS WTF residential living area",
+  "mode_constants": [
+    0,
+    0,
+    0
+  ],
+  "external_alternatives": "Not included. Swiss nonregional and German workers audited separately."
+}
