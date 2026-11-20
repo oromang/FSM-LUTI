@@ -1,0 +1,235 @@
+{
+  "schema_version": 1,
+  "files": [
+    {
+      "path": "region/background_od.npz",
+      "bytes": 3628086,
+      "sha256": "a97c22dec2ccd787e9eed761a076788b973528a7fd906799de0c7fb6264cdb68"
+    },
+    {
+      "path": "region/boundary_gate_candidates.parquet",
+      "bytes": 19830,
+      "sha256": "eb15850a3b610369f019af396a19136d0e8a4d9cd1c32dcd4e366f60f3d997f0"
+    },
+    {
+      "path": "region/boundary_ledger.parquet",
+      "bytes": 160323616,
+      "sha256": "0da2e71cd7330b75621ac1f802b2211165efa8d7387d085bf3bd5f7b3a7065a6"
+    },
+    {
+      "path": "region/boundary_manifest.json",
+      "bytes": 37910,
+      "sha256": "12fd9d702cf2a73a1d5fdd96b60ba0e2a05061232524e78f5abf151a96279e04"
+    },
+    {
+      "path": "region/connectors.parquet",
+      "bytes": 45486,
+      "sha256": "aec4f9fb5cf22cc2138810bfb05d924a4da2738e4462e911741fd5212133a4ed"
+    },
+    {
+      "path": "region/demand_manifest.json",
+      "bytes": 5893,
+      "sha256": "fc3c2a7e88c2aeb905b17b387e666a7d669e9a43ee37a6eb6e722349a99c3354"
+    },
+    {
+      "path": "region/external_gate_additions.csv",
+      "bytes": 22498,
+      "sha256": "fabc5371938b462f2d5c3691b5207f1494bd7c734a545219a8c921c129700f97"
+    },
+    {
+      "path": "region/external_gate_anchors.csv",
+      "bytes": 33664,
+      "sha256": "a860fbd6ff4a939ebe4676ed5d66887f5ce1355b0791ba28426f87ded8d069f0"
+    },
+    {
+      "path": "region/external_native_zone_coordinates.csv",
+      "bytes": 60865,
+      "sha256": "9600ff997f84adccfaa240013db2530df54a3cc9cae2422e5236da982266f9ba"
+    },
+    {
+      "path": "region/external_passenger_od.parquet",
+      "bytes": 96127164,
+      "sha256": "50f664234bb3b9454fa9d5ffb9c7c845a1f40191c467c4a91094a0fc4ca52f2a"
+    },
+    {
+      "path": "region/external_passenger_summary.csv",
+      "bytes": 4190,
+      "sha256": "f9474319d9d9ab343b13909e1ae467045e88dd64c6dc2b3ebc85a07ab946c994"
+    },
+    {
+      "path": "region/external_road_coverage.csv",
+      "bytes": 1448,
+      "sha256": "5b83ce51bd9c8edc37cb9b028dfcf97b392d27f2da09afd7eea8590fb2f07820"
+    },
+    {
+      "path": "region/external_zone_countries.csv",
+      "bytes": 174994,
+      "sha256": "db9ea5b97bf887791d28f8154449413c72a5e56b3d0d988791635e311510e0e0"
+    },
+    {
+      "path": "region/external_zone_coverage.parquet",
+      "bytes": 255955,
+      "sha256": "e5a21d9dbb990b50db7c6279adb4e7036ec962356a391722869bd07be7c3d944"
+    },
+    {
+      "path": "region/gate_edges.parquet",
+      "bytes": 31337,
+      "sha256": "c8ee527c40da4846fcfd7e121571b1cbfa296e8b2c9c598f80922cfaab7369e4"
+    },
+    {
+      "path": "region/gate_nodes.parquet",
+      "bytes": 22756,
+      "sha256": "e29f7c8b355673364b7aeb89c32eb24bb1f03c901f2e86520f2241eea99e1349"
+    },
+    {
+      "path": "region/gate_od.npz",
+      "bytes": 3340042,
+      "sha256": "75473c54c7339a334659c2761360fc81d5cc5a3ae6d91fb148c5b1c7bbf4fc7e"
+    },
+    {
+      "path": "region/gate_stub_nodes.parquet",
+      "bytes": 5264,
+      "sha256": "ff3772b328289dbc6347da138ab9e526519bffd2605dde34d0e0027abc1ece85"
+    },
+    {
+      "path": "region/international_gate_manifest.json",
+      "bytes": 1365,
+      "sha256": "7b17deb3504010f60a0144e779e7b7fa574a36ff16e85ddb583edda64ad498a7"
+    },
+    {
+      "path": "region/international_gate_stub_members.parquet",
+      "bytes": 17686,
+      "sha256": "34d898f5e5d5bee3af1f5ea3ce68e3498c08f74c13476377eace8b50fdca737b"
+    },
+    {
+      "path": "region/manifest.json",
+      "bytes": 5851,
+      "sha256": "356115def565a3f5c02eff750c8161f3d9b16813cc851097d514048ac3743234"
+    },
+    {
+      "path": "region/network_manifest.json",
+      "bytes": 2596,
+      "sha256": "f92e9477d9dbb2ae2e9067e8beb9b443d91dc7ac9e26ac7981409c7e87c1655d"
+    },
+    {
+      "path": "region/passenger_od.npz",
+      "bytes": 38685576,
+      "sha256": "5c71c8498057863efe07137d0f0387f29f66efa2f1ea4d7323ac1970580e53fc"
+    },
+    {
+      "path": "region/project_node_snaps.csv",
+      "bytes": 593,
+      "sha256": "4ab99f79e34d703b7ed62e5bea32a8a0e170ad16b48091eae27a308c05fcec03"
+    },
+    {
+      "path": "region/road_chain_members.parquet",
+      "bytes": 8914740,
+      "sha256": "ca12e42d10f424e52ebf87f2aa68cc6139bed2725f6d1acb33a4a2d053680bcb"
+    },
+    {
+      "path": "region/road_edges.parquet",
+      "bytes": 9737300,
+      "sha256": "147dd9d62ff4679852babe202d3118fce1bd980dc6ad98fc90cc7996ad6f57d5"
+    },
+    {
+      "path": "region/road_nodes.parquet",
+      "bytes": 1969277,
+      "sha256": "5a0297f353a6771fe8566a95f866a301df59f30e6478e2a6f0c73962d4c10bf2"
+    },
+    {
+      "path": "region/skims_2017.npz",
+      "bytes": 30645995,
+      "sha256": "cd9fe358ca4b81a4d4b5e614a121fa71edc4af0887a9cd43e7247ac25285740e"
+    },
+    {
+      "path": "region/skims_2023.npz",
+      "bytes": 38258484,
+      "sha256": "02c1fac86f974f8be285b055efeecca45f85a81e6c8adba1a4e19dd9eee3ce99"
+    },
+    {
+      "path": "region/zone_attributes.csv",
+      "bytes": 405318,
+      "sha256": "342f535be30b2ebe3d304b4c73e5810eebdcbc42ce6b80c17db271cef2bbd421"
+    },
+    {
+      "path": "region/zones.parquet",
+      "bytes": 3607438,
+      "sha256": "56079bc029318b6f04b88f82fb519403efa87329c6419a7a2ecb9f4345446fe9"
+    },
+    {
+      "path": "projections/bfs_canton_controls.csv",
+      "bytes": 94395,
+      "sha256": "291dd38f4c71c1de0128ce3836dbf62fddec41326fea81eae4da3fa7bdbed6bd"
+    },
+    {
+      "path": "projections/bfs_metadata.json",
+      "bytes": 5379,
+      "sha256": "518b4ce119ab5b86e662abf0c74c2ca75e606473336c2906026b9518338df783"
+    },
+    {
+      "path": "projections/bfs_query.json",
+      "bytes": 2107,
+      "sha256": "84f18bf8d7f57ec5c42d6e2f2b9d1f5c08fd85dac67c0a4769e054d69c79991c"
+    },
+    {
+      "path": "projections/bfs_response.json",
+      "bytes": 148884,
+      "sha256": "8103fa6268c2224c0eb6bc5e8a52876e3b4b087ca478959f36b2957ed55e618e"
+    },
+    {
+      "path": "projections/employment_sector_controls.parquet",
+      "bytes": 13137,
+      "sha256": "1ad95d19b52ed774a4d0f27f7291b36ab656ffbd2ba27a4fd79f2be20ae773e0"
+    },
+    {
+      "path": "projections/neutral_paths.parquet",
+      "bytes": 6568812,
+      "sha256": "b14ad05bd180bef3d0a16f18ee585768794794bec7b734530c44302eba88d7eb"
+    },
+    {
+      "path": "projections/neutral_totals.csv",
+      "bytes": 13215,
+      "sha256": "fa97a0c6b41bd94b5de0a765b7ef31e0d6d4c19b14bb8771b2ac5bbbc84e956e"
+    },
+    {
+      "path": "projections/thurgau_municipal_patterns.parquet",
+      "bytes": 74913,
+      "sha256": "5671f72a00b0c1eed838c5647e53853ae716b16981fd1e8f59542e8f1475f7ce"
+    },
+    {
+      "path": "projections/zurich_district_patterns.parquet",
+      "bytes": 12636,
+      "sha256": "3e2868456f0ba60493c3e9b124f8ae19417f8948536641153cfb520b48dd0f53"
+    },
+    {
+      "path": "gtfs_2026/connections.parquet",
+      "bytes": 5186699,
+      "sha256": "eabd3bb94711ae331977d9c34b0fcf8b701578386903731582e3a4372b337ff4"
+    },
+    {
+      "path": "gtfs_2026/manifest.json",
+      "bytes": 936,
+      "sha256": "615be2b35dddc3239180678cb7a907ebdb8994255454cf8c272761ed030a528f"
+    },
+    {
+      "path": "gtfs_2026/platforms.parquet",
+      "bytes": 1506006,
+      "sha256": "41b794049aec0d79f5ab4d894954513b1c2db1e32e3770be767215661169afe4"
+    },
+    {
+      "path": "gtfs_2026/pt_skims.npz",
+      "bytes": 58128041,
+      "sha256": "4856a73efa4dad1ad30e6dd8c9c5ff0d5862bd8bcfc3b5e2d1dcb4631a6fdf11"
+    },
+    {
+      "path": "gtfs_2026/pt_skims_manifest.json",
+      "bytes": 2269,
+      "sha256": "0b73a1ebb3e90dfd4f66d516d7dcd6914ba0691816c289b97ca6bf76dee4a8b8"
+    },
+    {
+      "path": "gtfs_2026/stops.parquet",
+      "bytes": 367764,
+      "sha256": "21fb29411f84f6c43dbd8ea09d47eb0607cf173da4d9d5ce7910f7a128264f33"
+    }
+  ]
+}

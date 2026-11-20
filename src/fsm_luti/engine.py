@@ -127,7 +127,7 @@ transport immediately but receives zero elapsed relocation time at that instant.
         # projects enter only the final transport at an exact opening endpoint.
         response_active=active if opts.mode!='partial_adjustment' else tuple(sorted(k for k,v in projects.items() if v<year))
         dt=float(year-previous_date)
-        if year==start_year and not (opts.mode=='equilibrium' and active):
+        if opts.mode=='off' or not active or (year==start_year and not (opts.mode=='equilibrium' and active)):
             state=b.copy();outcome=fixed
             diag={'iterations':0,'converged':True,'population_relative_residual':0.,'mode':opts.mode,'initial_state':'neutral_anchor'}
         else:

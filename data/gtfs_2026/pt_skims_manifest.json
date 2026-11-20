@@ -1,0 +1,63 @@
+{
+  "routing": "service-date earliest-arrival vectorized connection scan",
+  "departures_min": [
+    1020.0,
+    1040.0,
+    1060.0
+  ],
+  "availability": "PT available only if reachable at every sampled departure",
+  "access": "straight-line distance * 1.3; walk4.8kmh <=1500m, bike13kmh <=5000m, nearest8 station candidates",
+  "pt_bike_definition": "bicycle access and egress, matching retained FSM convention; bicycle availability at destination is assumed",
+  "transfer_policy": "parent station collapse plus 3min minimum change, nearby <=250m straight-line footpaths",
+  "status": "screening skims; access barriers/platform-specific transfers and frequency-based trips require validation",
+  "diagnostics": [
+    {
+      "mode": "pt_walk",
+      "departure_min": 1020.0,
+      "connections_scanned": 200636,
+      "zones_with_access": 1489,
+      "reachable_od_fraction": 0.9156610930057553,
+      "maximum_component_sum_error_min": 3.0517578125e-05
+    },
+    {
+      "mode": "pt_walk",
+      "departure_min": 1040.0,
+      "connections_scanned": 193968,
+      "zones_with_access": 1489,
+      "reachable_od_fraction": 0.9135307015973935,
+      "maximum_component_sum_error_min": 3.0517578125e-05
+    },
+    {
+      "mode": "pt_walk",
+      "departure_min": 1060.0,
+      "connections_scanned": 185376,
+      "zones_with_access": 1489,
+      "reachable_od_fraction": 0.9134321620461864,
+      "maximum_component_sum_error_min": 3.0517578125e-05
+    },
+    {
+      "mode": "pt_bike",
+      "departure_min": 1020.0,
+      "connections_scanned": 200636,
+      "zones_with_access": 1541,
+      "reachable_od_fraction": 0.9968517876716915,
+      "maximum_component_sum_error_min": 3.0517578125e-05
+    },
+    {
+      "mode": "pt_bike",
+      "departure_min": 1040.0,
+      "connections_scanned": 193968,
+      "zones_with_access": 1541,
+      "reachable_od_fraction": 0.9959771438774303,
+      "maximum_component_sum_error_min": 3.0517578125e-05
+    },
+    {
+      "mode": "pt_bike",
+      "departure_min": 1060.0,
+      "connections_scanned": 185376,
+      "zones_with_access": 1541,
+      "reachable_od_fraction": 0.9968042023328607,
+      "maximum_component_sum_error_min": 3.0517578125e-05
+    }
+  ]
+}

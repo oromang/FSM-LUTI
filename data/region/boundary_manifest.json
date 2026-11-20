@@ -1,0 +1,1103 @@
+{
+  "cohort_zones": 3087,
+  "internal_zones": 1541,
+  "covered_external_zones": 1546,
+  "gate_count": 251,
+  "covered_foreign_zone_centroids": 11,
+  "source_audit": [
+    {
+      "source": "drive_domestic",
+      "period_factor": 0.1049,
+      "all_region_inbound_vehicles": 29455.831428976093,
+      "all_region_outbound_vehicles": 29625.07423907156,
+      "covered_endpoint_inbound_vehicles": 28036.15531128213,
+      "covered_endpoint_outbound_vehicles": 28096.627958731493,
+      "omitted_endpoint_inbound_vehicles": 1419.6761176939617,
+      "omitted_endpoint_outbound_vehicles": 1528.4462803400675
+    },
+    {
+      "source": "drive_crossborder",
+      "period_factor": 0.1232,
+      "all_region_inbound_vehicles": 3646.36272,
+      "all_region_outbound_vehicles": 3646.3085120000005,
+      "covered_endpoint_inbound_vehicles": 278.8632,
+      "covered_endpoint_outbound_vehicles": 278.8471839999999,
+      "omitted_endpoint_inbound_vehicles": 3367.4995200000003,
+      "omitted_endpoint_outbound_vehicles": 3367.461328000001
+    },
+    {
+      "source": "van_domestic",
+      "period_factor": 0.1349,
+      "all_region_inbound_vehicles": 4618.788489,
+      "all_region_outbound_vehicles": 4623.318431,
+      "covered_endpoint_inbound_vehicles": 4015.3807889999975,
+      "covered_endpoint_outbound_vehicles": 4025.6048599999995,
+      "omitted_endpoint_inbound_vehicles": 603.407700000002,
+      "omitted_endpoint_outbound_vehicles": 597.7135710000002
+    },
+    {
+      "source": "van_crossborder",
+      "period_factor": 0.1349,
+      "all_region_inbound_vehicles": 236.89788999999996,
+      "all_region_outbound_vehicles": 236.80346,
+      "covered_endpoint_inbound_vehicles": 14.933429999999998,
+      "covered_endpoint_outbound_vehicles": 14.758059999999986,
+      "omitted_endpoint_inbound_vehicles": 221.96445999999997,
+      "omitted_endpoint_outbound_vehicles": 222.04540000000003
+    },
+    {
+      "source": "truck",
+      "period_factor": 0.1087,
+      "all_region_inbound_vehicles": 797.0427500000001,
+      "all_region_outbound_vehicles": 797.653644,
+      "covered_endpoint_inbound_vehicles": 658.7459140000001,
+      "covered_endpoint_outbound_vehicles": 659.2872399999999,
+      "omitted_endpoint_inbound_vehicles": 138.29683599999998,
+      "omitted_endpoint_outbound_vehicles": 138.3664040000001
+    },
+    {
+      "source": "articulated",
+      "period_factor": 0.0908,
+      "all_region_inbound_vehicles": 564.8077800000001,
+      "all_region_outbound_vehicles": 564.625272,
+      "covered_endpoint_inbound_vehicles": 294.14569200000017,
+      "covered_endpoint_outbound_vehicles": 294.3327400000003,
+      "omitted_endpoint_inbound_vehicles": 270.6620879999999,
+      "omitted_endpoint_outbound_vehicles": 270.2925319999997
+    }
+  ],
+  "minimum_od_vehicles": 0.001,
+  "maximum_external_connector_m": 3000.0,
+  "omitted_small_od_vehicles": 710.5477897369847,
+  "unreachable_vehicles": 0.0,
+  "bypass_vehicles": 249628.5030966493,
+  "inbound_vehicles": 39319.73105797607,
+  "outbound_vehicles": 39493.783558071555,
+  "through_vehicles": 5285.703363194632,
+  "ledger_rows": 5953522,
+  "gate_od_vehicles": 84099.21797924228,
+  "period": "ASP17:00\u201318:00; inherited daily-to-hour factors",
+  "external_modal_response": "none; road vehicles exogenous, separately from internalpassenger choice",
+  "routing_basis": "Original parent-road paths plus explicitly labelled native-skim boundary-anchor proxies for missing region-linked OD.",
+  "outside_leg_basis": "parentroadtime plus externalcentroid20kmhconnector, preserved per originalOD",
+  "through_coverage": "Original traceable through OD retained; distant external-to-external routes remain unclassified.",
+  "external_centroid_sources": [
+    {
+      "path": "C:\\Personal\\Data\\NPVM\\1_Verkehrszonen_Schweiz_Zentroide_NPVM_2023.gpkg",
+      "bytes": 901120,
+      "sha256": "c338c9e671590fcc90dde712c63c3728a5fbc3ec1cb49bf75bc8730c430af742"
+    },
+    {
+      "path": "C:\\Personal\\Data\\NPVM\\1_Verkehrszonen_Ausland_NPVM_2023.zip",
+      "bytes": 23622758,
+      "sha256": "44d8dac61bbe68cd81b4eb8c7c10e124b3d18802662ef140525ae24caf1998cc"
+    }
+  ],
+  "limitations": [
+    "External endpoint demand is complete for region-linked road OD, but proxy gateway paths remain unvalidated.",
+    "Distant external-to-external through coverage still needs native VISUM assignment paths.",
+    "External PT and active demand is preserved as fixed reporting, not endogenously routed or monetized."
+  ],
+  "source_zones_sha256": "56079bc029318b6f04b88f82fb519403efa87329c6419a7a2ecb9f4345446fe9",
+  "zone_ids_sha256": "c94b07cb46146b23d113b0a2cf8b1fe3f29913a3b116e7d921fac7f55c44b28d",
+  "international_portals": {
+    "method": "Active native Swiss road GIS dead-end terminals near published foreign land; actual directed native road stubs restored once, including shared bottlenecks.",
+    "border_tolerance_m": 150.0,
+    "original_gate_count": 219,
+    "added_international_gate_count": 32,
+    "gate_count": 251,
+    "virtual_terminal_connector_count": 62,
+    "native_stub_source_edges": 236,
+    "native_stub_path_members": 242,
+    "shared_native_stub_edges": 6,
+    "restored_native_road_nodes": 122,
+    "candidate_terminal_count": 61,
+    "positive_flow_terminal_count": 32,
+    "rejected_directions": [],
+    "road_source": {
+      "path": "C:\\Personal\\Code\\LUTI\\fsm_luti_build\\data\\raw_npvm\\regional_road_source.parquet",
+      "bytes": 37378493,
+      "sha256": "dfd684ce9f6cbf277f1aaa1445b517780c4fcdd065bfc9283c69f48f04472244"
+    },
+    "scope": "Retained road nodes/edges/internal skims unchanged. Gate edges restore each previously pruned native Swiss-side stub once, preserving shared capacities.",
+    "limitations": [
+      "Border tolerance needs review where cul-de-sacs lie close to foreign land. Native observed flow supplies evidence of active direction, not a legal road-permission table.",
+      "Foreign network route choice remains an explicit geographic proxy; this does not reconstruct foreign links or complete unclassified distant through traffic."
+    ]
+  },
+  "external_completion": {
+    "method": "Preserve existing traced OD; native directional TTC boundary anchors for missing domestic endpoints; native foreign zone coordinates with explicit geographic gateway proxy where TTC has no foreign identifiers.",
+    "native_skim_source": {
+      "path": "C:\\Personal\\Data\\NPVM\\4_TTC_PW_NPVM_2023.omx",
+      "bytes": 185919195,
+      "sha256": "1f1e14b858ebd0a3e5fcf22d84dac1d967b5029f33dda7fe658437485155cef8"
+    },
+    "native_od_sources": [
+      {
+        "source": "drive_domestic",
+        "period_factor": 0.1049,
+        "inbound_vehicles": 29455.831428976093,
+        "outbound_vehicles": 29625.07423907156
+      },
+      {
+        "source": "drive_crossborder",
+        "period_factor": 0.1232,
+        "inbound_vehicles": 3646.36272,
+        "outbound_vehicles": 3646.308512
+      },
+      {
+        "source": "van_domestic",
+        "period_factor": 0.1349,
+        "inbound_vehicles": 4618.788489,
+        "outbound_vehicles": 4623.318431
+      },
+      {
+        "source": "van_crossborder",
+        "period_factor": 0.1349,
+        "inbound_vehicles": 236.89788999999996,
+        "outbound_vehicles": 236.80346000000003
+      },
+      {
+        "source": "truck",
+        "period_factor": 0.1087,
+        "inbound_vehicles": 797.0427500000001,
+        "outbound_vehicles": 797.6536440000001
+      },
+      {
+        "source": "articulated",
+        "period_factor": 0.0908,
+        "inbound_vehicles": 564.8077800000001,
+        "outbound_vehicles": 564.625272
+      }
+    ],
+    "anchor_count": 3,
+    "anchor_max_distance_m": 4798.59306970525,
+    "anchor_nearest_max_distance_m": 3150.8040851090796,
+    "native_coordinate_source": {
+      "path": "C:\\Personal\\Data\\NPVM\\NPVM 2017+\\NPVM_2017+_DWV_MIV_Umlegung.ver",
+      "bytes": 977928398,
+      "sha256": "f9fabc943b0e71f141024e640db9056c5e0259fcbcfaeadba1afd90ef0973b90"
+    },
+    "native_coordinate_validation": {
+      "public_points_checked": 100,
+      "median_error_m": 0.0008031330041832502,
+      "p95_error_m": 0.0012041114944027905,
+      "maximum_error_m": 0.0012806319816631507
+    },
+    "road_od_zone_count": 8898,
+    "native_ttc_zone_count": 7978,
+    "external_ids_absent_from_native_ttc": 920,
+    "positive_region_linked_external_ids_absent_from_native_ttc": 643,
+    "foreign_proxy_speed_kmh": 60.0,
+    "foreign_proxy_circuity": 1.3,
+    "added_vehicles_by_mapping_method": {
+      "native_skim_boundary_anchor_proxy": 5038.945570653057,
+      "native_foreign_coordinate_geographic_gateway_proxy": 7644.857317125888
+    },
+    "foreign_60_vs_80_kmh_gateway_changed_vehicle_share": 0.374071546488955,
+    "all_region_linked_road_demand_included": true,
+    "external_zone_count": 7357,
+    "added_inbound_vehicles": 6288.956782498848,
+    "added_outbound_vehicles": 6394.846105280088,
+    "added_rows": 3053343,
+    "added_vehicles": 12683.802887778937,
+    "country_coverage": [
+      {
+        "country": "AT",
+        "direction": "inbound",
+        "source_vehicles": 222.872019,
+        "source_car_vehicles": 200.70512,
+        "previous_vehicles": 61.265568,
+        "added_vehicles": 161.606451,
+        "included_vehicles": 222.872019
+      },
+      {
+        "country": "CH",
+        "direction": "inbound",
+        "source_vehicles": 34980.09155316236,
+        "source_car_vehicles": 29218.02466716236,
+        "previous_vehicles": 32514.975798677682,
+        "added_vehicles": 2465.11575448468,
+        "included_vehicles": 34980.09155316236
+      },
+      {
+        "country": "DE",
+        "direction": "inbound",
+        "source_vehicles": 3447.2997064330943,
+        "source_car_vehicles": 3119.006029433094,
+        "previous_vehicles": 403.293330204841,
+        "added_vehicles": 3044.0063762282534,
+        "included_vehicles": 3447.2997064330943
+      },
+      {
+        "country": "FR",
+        "direction": "inbound",
+        "source_vehicles": 98.35567404208462,
+        "source_car_vehicles": 89.10084004208463,
+        "previous_vehicles": 0.0,
+        "added_vehicles": 98.35567404208462,
+        "included_vehicles": 98.35567404208462
+      },
+      {
+        "country": "IT",
+        "direction": "inbound",
+        "source_vehicles": 122.14245382081731,
+        "source_car_vehicles": 109.64177182081731,
+        "previous_vehicles": 0.0,
+        "added_vehicles": 122.14245382081731,
+        "included_vehicles": 122.14245382081731
+      },
+      {
+        "country": "LI",
+        "direction": "inbound",
+        "source_vehicles": 53.09198551772889,
+        "source_car_vehicles": 50.68346451772889,
+        "previous_vehicles": 51.23957859469575,
+        "added_vehicles": 1.8524069230331441,
+        "included_vehicles": 53.09198551772889
+      },
+      {
+        "country": "UNKNOWN",
+        "direction": "inbound",
+        "source_vehicles": 395.87766600000003,
+        "source_car_vehicles": 315.03225599999996,
+        "previous_vehicles": 0.0,
+        "added_vehicles": 395.87766600000003,
+        "included_vehicles": 395.87766600000003
+      },
+      {
+        "country": "AT",
+        "direction": "outbound",
+        "source_vehicles": 222.96725600000002,
+        "source_car_vehicles": 200.669392,
+        "previous_vehicles": 61.092206000000004,
+        "added_vehicles": 161.87505,
+        "included_vehicles": 222.96725600000002
+      },
+      {
+        "country": "CH",
+        "direction": "outbound",
+        "source_vehicles": 35163.53352793759,
+        "source_car_vehicles": 29396.240712937586,
+        "previous_vehicles": 32593.567724729244,
+        "added_vehicles": 2569.9658032083453,
+        "included_vehicles": 35163.53352793759
+      },
+      {
+        "country": "DE",
+        "direction": "outbound",
+        "source_vehicles": 3433.1126120367453,
+        "source_car_vehicles": 3105.3552090367452,
+        "previous_vehicles": 389.36869237070357,
+        "added_vehicles": 3043.7439196660416,
+        "included_vehicles": 3433.1126120367453
+      },
+      {
+        "country": "FR",
+        "direction": "outbound",
+        "source_vehicles": 99.35856408381113,
+        "source_car_vehicles": 90.23122008381111,
+        "previous_vehicles": 0.0,
+        "added_vehicles": 99.35856408381113,
+        "included_vehicles": 99.35856408381113
+      },
+      {
+        "country": "IT",
+        "direction": "outbound",
+        "source_vehicles": 121.97078467408883,
+        "source_car_vehicles": 109.59584767408883,
+        "previous_vehicles": 0.0,
+        "added_vehicles": 121.97078467408883,
+        "included_vehicles": 121.97078467408883
+      },
+      {
+        "country": "LI",
+        "direction": "outbound",
+        "source_vehicles": 56.541548339332266,
+        "source_car_vehicles": 54.13244933933227,
+        "previous_vehicles": 54.90882969151835,
+        "added_vehicles": 1.6327186478139128,
+        "included_vehicles": 56.541548339332266
+      },
+      {
+        "country": "UNKNOWN",
+        "direction": "outbound",
+        "source_vehicles": 396.29926500000005,
+        "source_car_vehicles": 315.15792000000005,
+        "previous_vehicles": 0.0,
+        "added_vehicles": 396.29926500000005,
+        "included_vehicles": 396.29926500000005
+      }
+    ],
+    "one_vs_three_anchor_changed_gate_vehicle_share": 0.2827108606344927,
+    "weighted_second_best_gateway_gap_min": 1.3849003419766819,
+    "negative_outside_offset_clamped_vehicle_mass": 0.08552981029607318,
+    "fixed_external_passenger_summary": [
+      {
+        "country": "AT",
+        "mode": "drive_domestic",
+        "direction": "inbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "CH",
+        "mode": "drive_domestic",
+        "direction": "inbound",
+        "daily_persons": 317526.6741712593,
+        "period_persons": 33308.54812056509,
+        "positive_od_pairs": 2574164,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "DE",
+        "mode": "drive_domestic",
+        "direction": "inbound",
+        "daily_persons": 1750.3882702929207,
+        "period_persons": 183.6157295537274,
+        "positive_od_pairs": 1496,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "FR",
+        "mode": "drive_domestic",
+        "direction": "inbound",
+        "daily_persons": 282.06229979005195,
+        "period_persons": 29.58833524797646,
+        "positive_od_pairs": 1541,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "IT",
+        "mode": "drive_domestic",
+        "direction": "inbound",
+        "daily_persons": 1.1105254121232906,
+        "period_persons": 0.11649411573173318,
+        "positive_od_pairs": 102,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "LI",
+        "mode": "drive_domestic",
+        "direction": "inbound",
+        "daily_persons": 550.8021882765579,
+        "period_persons": 57.77914955021093,
+        "positive_od_pairs": 11708,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "UNKNOWN",
+        "mode": "drive_domestic",
+        "direction": "inbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "AT",
+        "mode": "drive_domestic",
+        "direction": "outbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "CH",
+        "mode": "drive_domestic",
+        "direction": "outbound",
+        "daily_persons": 319463.4357745362,
+        "period_persons": 33511.71441274884,
+        "positive_od_pairs": 2575086,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "DE",
+        "mode": "drive_domestic",
+        "direction": "outbound",
+        "daily_persons": 1601.9309672248787,
+        "period_persons": 168.04255846188977,
+        "positive_od_pairs": 1504,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "FR",
+        "mode": "drive_domestic",
+        "direction": "outbound",
+        "daily_persons": 295.3910194046203,
+        "period_persons": 30.98651793554467,
+        "positive_od_pairs": 1541,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "IT",
+        "mode": "drive_domestic",
+        "direction": "outbound",
+        "daily_persons": 1.2407163818995144,
+        "period_persons": 0.13015114846125905,
+        "positive_od_pairs": 97,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "LI",
+        "mode": "drive_domestic",
+        "direction": "outbound",
+        "daily_persons": 588.284006166242,
+        "period_persons": 61.710992246838785,
+        "positive_od_pairs": 11725,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "UNKNOWN",
+        "mode": "drive_domestic",
+        "direction": "outbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "AT",
+        "mode": "drive_crossborder",
+        "direction": "inbound",
+        "daily_persons": 1857.1739999999998,
+        "period_persons": 228.80383679999997,
+        "positive_od_pairs": 4375,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "CH",
+        "mode": "drive_crossborder",
+        "direction": "inbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "DE",
+        "mode": "drive_crossborder",
+        "direction": "inbound",
+        "daily_persons": 27370.544999999995,
+        "period_persons": 3372.051144,
+        "positive_od_pairs": 28356,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "FR",
+        "mode": "drive_crossborder",
+        "direction": "inbound",
+        "daily_persons": 584.307,
+        "period_persons": 71.98662239999999,
+        "positive_od_pairs": 3457,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "IT",
+        "mode": "drive_crossborder",
+        "direction": "inbound",
+        "daily_persons": 1013.5968,
+        "period_persons": 124.87512576,
+        "positive_od_pairs": 2874,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "LI",
+        "mode": "drive_crossborder",
+        "direction": "inbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "UNKNOWN",
+        "mode": "drive_crossborder",
+        "direction": "inbound",
+        "daily_persons": 2915.0711999999994,
+        "period_persons": 359.13677183999994,
+        "positive_od_pairs": 5850,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "AT",
+        "mode": "drive_crossborder",
+        "direction": "outbound",
+        "daily_persons": 1856.8433999999997,
+        "period_persons": 228.76310688,
+        "positive_od_pairs": 4363,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "CH",
+        "mode": "drive_crossborder",
+        "direction": "outbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "DE",
+        "mode": "drive_crossborder",
+        "direction": "outbound",
+        "daily_persons": 27370.636199999997,
+        "period_persons": 3372.06237984,
+        "positive_od_pairs": 28347,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "FR",
+        "mode": "drive_crossborder",
+        "direction": "outbound",
+        "daily_persons": 583.4177999999999,
+        "period_persons": 71.87707296,
+        "positive_od_pairs": 3410,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "IT",
+        "mode": "drive_crossborder",
+        "direction": "outbound",
+        "daily_persons": 1013.0609999999999,
+        "period_persons": 124.8091152,
+        "positive_od_pairs": 2846,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "LI",
+        "mode": "drive_crossborder",
+        "direction": "outbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "UNKNOWN",
+        "mode": "drive_crossborder",
+        "direction": "outbound",
+        "daily_persons": 2916.234,
+        "period_persons": 359.28002879999997,
+        "positive_od_pairs": 5856,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "AT",
+        "mode": "pt",
+        "direction": "inbound",
+        "daily_persons": 346.16,
+        "period_persons": 32.746736,
+        "positive_od_pairs": 3475,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "CH",
+        "mode": "pt",
+        "direction": "inbound",
+        "daily_persons": 165522.59000000003,
+        "period_persons": 15658.437014000001,
+        "positive_od_pairs": 3306349,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "DE",
+        "mode": "pt",
+        "direction": "inbound",
+        "daily_persons": 4741.17,
+        "period_persons": 448.514682,
+        "positive_od_pairs": 18746,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "FR",
+        "mode": "pt",
+        "direction": "inbound",
+        "daily_persons": 483.50000000000006,
+        "period_persons": 45.7391,
+        "positive_od_pairs": 3159,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "IT",
+        "mode": "pt",
+        "direction": "inbound",
+        "daily_persons": 469.08,
+        "period_persons": 44.374968,
+        "positive_od_pairs": 1807,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "LI",
+        "mode": "pt",
+        "direction": "inbound",
+        "daily_persons": 372.29,
+        "period_persons": 35.218634,
+        "positive_od_pairs": 7593,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "UNKNOWN",
+        "mode": "pt",
+        "direction": "inbound",
+        "daily_persons": 337.99,
+        "period_persons": 31.973854000000003,
+        "positive_od_pairs": 2542,
+        "external_identifiers_absent_from_source": 179
+      },
+      {
+        "country": "AT",
+        "mode": "pt",
+        "direction": "outbound",
+        "daily_persons": 344.31,
+        "period_persons": 32.571726,
+        "positive_od_pairs": 3486,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "CH",
+        "mode": "pt",
+        "direction": "outbound",
+        "daily_persons": 165090.38,
+        "period_persons": 15617.549948,
+        "positive_od_pairs": 3297237,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "DE",
+        "mode": "pt",
+        "direction": "outbound",
+        "daily_persons": 4891.12,
+        "period_persons": 462.69995200000005,
+        "positive_od_pairs": 18668,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "FR",
+        "mode": "pt",
+        "direction": "outbound",
+        "daily_persons": 491.65000000000003,
+        "period_persons": 46.510090000000005,
+        "positive_od_pairs": 3141,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "IT",
+        "mode": "pt",
+        "direction": "outbound",
+        "daily_persons": 498.66999999999996,
+        "period_persons": 47.174182,
+        "positive_od_pairs": 1807,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "LI",
+        "mode": "pt",
+        "direction": "outbound",
+        "daily_persons": 382.37000000000006,
+        "period_persons": 36.172202,
+        "positive_od_pairs": 7545,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "UNKNOWN",
+        "mode": "pt",
+        "direction": "outbound",
+        "daily_persons": 348.56,
+        "period_persons": 32.973776,
+        "positive_od_pairs": 2565,
+        "external_identifiers_absent_from_source": 179
+      },
+      {
+        "country": "AT",
+        "mode": "bike",
+        "direction": "inbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "CH",
+        "mode": "bike",
+        "direction": "inbound",
+        "daily_persons": 9613.940000000002,
+        "period_persons": 1442.091,
+        "positive_od_pairs": 181538,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "DE",
+        "mode": "bike",
+        "direction": "inbound",
+        "daily_persons": 13.290000000000003,
+        "period_persons": 1.9935,
+        "positive_od_pairs": 177,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "FR",
+        "mode": "bike",
+        "direction": "inbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "IT",
+        "mode": "bike",
+        "direction": "inbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "LI",
+        "mode": "bike",
+        "direction": "inbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "UNKNOWN",
+        "mode": "bike",
+        "direction": "inbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 210
+      },
+      {
+        "country": "AT",
+        "mode": "bike",
+        "direction": "outbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "CH",
+        "mode": "bike",
+        "direction": "outbound",
+        "daily_persons": 9616.39,
+        "period_persons": 1442.4585000000002,
+        "positive_od_pairs": 181680,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "DE",
+        "mode": "bike",
+        "direction": "outbound",
+        "daily_persons": 13.44,
+        "period_persons": 2.0159999999999996,
+        "positive_od_pairs": 197,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "FR",
+        "mode": "bike",
+        "direction": "outbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "IT",
+        "mode": "bike",
+        "direction": "outbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "LI",
+        "mode": "bike",
+        "direction": "outbound",
+        "daily_persons": 0.01,
+        "period_persons": 0.0015,
+        "positive_od_pairs": 1,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "UNKNOWN",
+        "mode": "bike",
+        "direction": "outbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 210
+      },
+      {
+        "country": "AT",
+        "mode": "ebike",
+        "direction": "inbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "CH",
+        "mode": "ebike",
+        "direction": "inbound",
+        "daily_persons": 6462.92,
+        "period_persons": 969.4380000000001,
+        "positive_od_pairs": 207209,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "DE",
+        "mode": "ebike",
+        "direction": "inbound",
+        "daily_persons": 333.71,
+        "period_persons": 50.05650000000001,
+        "positive_od_pairs": 968,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "FR",
+        "mode": "ebike",
+        "direction": "inbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "IT",
+        "mode": "ebike",
+        "direction": "inbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "LI",
+        "mode": "ebike",
+        "direction": "inbound",
+        "daily_persons": 3.88,
+        "period_persons": 0.5820000000000001,
+        "positive_od_pairs": 350,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "UNKNOWN",
+        "mode": "ebike",
+        "direction": "inbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 210
+      },
+      {
+        "country": "AT",
+        "mode": "ebike",
+        "direction": "outbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "CH",
+        "mode": "ebike",
+        "direction": "outbound",
+        "daily_persons": 6461.26,
+        "period_persons": 969.1890000000001,
+        "positive_od_pairs": 207015,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "DE",
+        "mode": "ebike",
+        "direction": "outbound",
+        "daily_persons": 333.88999999999993,
+        "period_persons": 50.083499999999994,
+        "positive_od_pairs": 978,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "FR",
+        "mode": "ebike",
+        "direction": "outbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "IT",
+        "mode": "ebike",
+        "direction": "outbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "LI",
+        "mode": "ebike",
+        "direction": "outbound",
+        "daily_persons": 3.75,
+        "period_persons": 0.5625,
+        "positive_od_pairs": 340,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "UNKNOWN",
+        "mode": "ebike",
+        "direction": "outbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 210
+      },
+      {
+        "country": "AT",
+        "mode": "walk",
+        "direction": "inbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 35
+      },
+      {
+        "country": "CH",
+        "mode": "walk",
+        "direction": "inbound",
+        "daily_persons": 3332.5999999999995,
+        "period_persons": 499.89000000000004,
+        "positive_od_pairs": 93808,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "DE",
+        "mode": "walk",
+        "direction": "inbound",
+        "daily_persons": 3.249999999999999,
+        "period_persons": 0.48750000000000004,
+        "positive_od_pairs": 102,
+        "external_identifiers_absent_from_source": 216
+      },
+      {
+        "country": "FR",
+        "mode": "walk",
+        "direction": "inbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 356
+      },
+      {
+        "country": "IT",
+        "mode": "walk",
+        "direction": "inbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 101
+      },
+      {
+        "country": "LI",
+        "mode": "walk",
+        "direction": "inbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "UNKNOWN",
+        "mode": "walk",
+        "direction": "inbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 211
+      },
+      {
+        "country": "AT",
+        "mode": "walk",
+        "direction": "outbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 35
+      },
+      {
+        "country": "CH",
+        "mode": "walk",
+        "direction": "outbound",
+        "daily_persons": 3329.5499999999997,
+        "period_persons": 499.4325,
+        "positive_od_pairs": 93429,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "DE",
+        "mode": "walk",
+        "direction": "outbound",
+        "daily_persons": 3.379999999999999,
+        "period_persons": 0.5069999999999998,
+        "positive_od_pairs": 111,
+        "external_identifiers_absent_from_source": 216
+      },
+      {
+        "country": "FR",
+        "mode": "walk",
+        "direction": "outbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 356
+      },
+      {
+        "country": "IT",
+        "mode": "walk",
+        "direction": "outbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 101
+      },
+      {
+        "country": "LI",
+        "mode": "walk",
+        "direction": "outbound",
+        "daily_persons": 0.01,
+        "period_persons": 0.0015,
+        "positive_od_pairs": 1,
+        "external_identifiers_absent_from_source": 0
+      },
+      {
+        "country": "UNKNOWN",
+        "mode": "walk",
+        "direction": "outbound",
+        "daily_persons": 0.0,
+        "period_persons": 0.0,
+        "positive_od_pairs": 0,
+        "external_identifiers_absent_from_source": 211
+      }
+    ],
+    "external_passenger_status": "Native region-linked car/PT/bike/ebike/walk OD retained in external_passenger_od.parquet; only car vehicles enter road gates. PT/active are fixed reporting, not endogenously routed.",
+    "long_distance_through_status": "Existing traced through OD retained; additional far external-to-external trips cannot be classified as crossing this region without native assignment paths.",
+    "proxy_limitations": [
+      "Complete OD coverage does not validate gateway route choice.",
+      "Foreign gateway costs are geographic proxies, not native travel-time skims or a German road-network model; lakes, terrain and missing road connections can change true entry gates.",
+      "Nearest-boundary anchor approximation inherits inconsistent native/graph travel times and ignores missing native turn/permission rules.",
+      "External gateway choices are frozen before scenarios; external mode choice and foreign land-use are not endogenous.",
+      "External passengers are not added to internal modal-pie denominators; car reporting is the same demand as gate car vehicles, never an additional road load."
+    ]
+  }
+}

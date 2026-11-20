@@ -16,6 +16,7 @@ from .transport.assignment import DirectedRoadNetwork,solve_feedback
 from .transport.demand import balance_od
 from .transport.gtfs import load_pt_skims
 from .projects.network import NetworkState,apply_project,validate_project_roles
+from .projects.settings import load_prepared_network,validate_road_attachments
 from .scenarios import interpolate_driver
 from .application import parameter_path
 from .projects.pt_effects import has_pt_effect,prepare_project_pt_skims
@@ -65,6 +66,29 @@ def route_times(network,costs,batch=32,finite_required_count=None):
     return result
 
 
+def _assignment_graph_key(network,internal_count):
+    """Identity of the exact directed road problem, including gate/zone order.
+
+    Coordinates and descriptive project metadata do not enter road costs. The
+    edge identifier does enter parallel-edge tie breaking, so it is retained.
+    Capacity/BPR fields are included even though the free-flow skim itself is
+    independent of congestion: converged warm-start skims use the same key.
+    """
+    columns=['edge_id','source','target','length_m','free_flow_time_min','capacity_vph','alpha','beta']
+    digest=hashlib.sha256(pd.util.hash_pandas_object(network.edges[columns],index=False).values.tobytes())
+    descriptor={'schema':1,'internal_count':int(internal_count),
+        'zone_ids':list(network.zone_ids),'zone_nodes':network.node_ids[network.zone_nodes].tolist()}
+    digest.update(json.dumps(descriptor,sort_keys=True,default=str).encode())
+    return digest.hexdigest()
+
+
+def _remember_road_state(cache,key,value,limit=6):
+    """Bound the number of road graphs retained by one scenario backend."""
+    cache.pop(key,None)
+    cache[key]=value
+    while len(cache)>limit:cache.pop(next(iter(cache)))
+
+
 class RegionalTransport:
     def __init__(self,root,region,projections,config,scenario='mean',progress=None):
         validate_project_roles(config)
@@ -77,23 +101,33 @@ class RegionalTransport:
             if unsupported:raise ValueError(f'Screening cannot identify separate link-load classes for {sorted(unsupported)}; use assignment')
         self.start=config['start_year'];self.end=config['end_year'];self.n=len(region.zone_ids)
         demand_meta=read_json(self.data/'region/demand_manifest.json')
-        if self.start!=demand_meta['scenario_anchor']:
-            raise ValueError('Simulation start must match the prepared OD scenario anchor; reprepare/rebase the input demand explicitly')
+        self.anchor_year=config.get('anchor_year',demand_meta['scenario_anchor'])
+        if self.anchor_year!=demand_meta['scenario_anchor']:
+            raise ValueError('anchor_year must match the prepared OD scenario anchor; reprepare/rebase the input demand explicitly')
+        self.driver_start_year=config.get('driver_start_year',self.anchor_year)
+        self.driver_end_year=config.get('driver_end_year',self.end)
+        if self.driver_end_year<=self.driver_start_year:
+            raise ValueError('driver_end_year must exceed driver_start_year; set driver dates independently for a single-year run')
         if not np.isfinite(self.settings.get('occupancy',1.14)) or self.settings.get('occupancy',1.14)<=0:
             raise ValueError('Occupancy must be finite and positive')
         self.ids=tuple(region.zone_ids);self.groups=region.zones.canton.to_numpy(str)
-        self.base_population=projections.at(self.start,scenario,'population')
-        self.base_employment=projections.at(self.start,scenario,'employment')
+        self.base_population=projections.at(self.anchor_year,scenario,'population')
+        self.base_employment=projections.at(self.anchor_year,scenario,'employment')
         self.seed=self._load_od('passenger_od.npz');self.background=self._load_od('background_od.npz')
         city_ids={str(int(x)) for x in self.settings.get('city_municipalities',[261])}
         self.city=region.zones.municipality_id.astype(int).astype(str).isin(city_ids).to_numpy()
-        road=self.data/'region';nodes=pd.read_parquet(road/'road_nodes.parquet');edges=pd.read_parquet(road/'road_edges.parquet')
+        road=self.data/'region'
         self.connectors=pd.read_parquet(road/'connectors.parquet').set_index('zone_id')
         self.connectors.index=self.connectors.index.astype(str)
         self.zone_nodes=self.connectors.loc[list(self.ids),'node_id'].tolist()
         gtfs=self.root/config.get('gtfs_dir','data/gtfs_2026')
-        self.base=NetworkState(road_nodes=nodes,road_edges=edges,pt_stops=pd.read_parquet(gtfs/'stops.parquet'),
-                               pt_connections=pd.read_parquet(gtfs/'connections.parquet')).validate()
+        self.base=load_prepared_network(self.root,data_dir=config.get('data_dir','data'),
+            gtfs_dir=config.get('gtfs_dir','data/gtfs_2026'),
+            baseline_network_package=config.get('baseline_network_package'))
+        validate_road_attachments(self.base,self.root,data_dir=config.get('data_dir','data'))
+        missing_zone_nodes=set(self.zone_nodes)-set(self.base.road_nodes.node_id)
+        if missing_zone_nodes:
+            raise ValueError(f'Baseline network edits remove zone attachment nodes: {sorted(missing_zone_nodes)[:5]}')
         self.projects=dict(config.get('project_definitions',{}))
         if not self.projects:
             for path in sorted((self.root/'configs').glob('projects.*.resolved.json')):
@@ -111,6 +145,7 @@ class RegionalTransport:
         self.physical.distances_m.update({k:v[np.ix_(ix,ix)].astype(float) for k,v in pt.distances_m.items()})
         self.pt_metadata=pt.metadata;self.physical.metadata=pt.metadata;del pt
         self.route_cache={};self.freeflow_cache={};self.anchor_route=None;self._project_pt_cache={}
+        self._assignment_freeflow_cache={};self._road_skim_seeds={}
         self._last_call_key=None;self._last_outcome=None
         self.gate_od=None;self.gates=None;self.gate_edges=None
         if self.settings.get('include_gates',True):
@@ -123,7 +158,7 @@ class RegionalTransport:
                 self.gates=pd.read_parquet(road/'gate_nodes.parquet');self.gate_edges=pd.read_parquet(road/'gate_edges.parquet')
             elif self.settings['method']=='assignment':
                 raise ValueError('Prepare the actual boundary demand before assignment with include_gates=true')
-        self.fingerprint=hashlib.sha256(pd.util.hash_pandas_object(edges,index=False).values.tobytes()).hexdigest()
+        self.fingerprint=hashlib.sha256(pd.util.hash_pandas_object(self.base.road_edges,index=False).values.tobytes()).hexdigest()
 
     def _load_od(self,name):
         with np.load(self.data/'region'/name) as a:
@@ -131,7 +166,8 @@ class RegionalTransport:
             return a['matrix'][np.ix_(ix,ix)]
 
     def driver(self,name,year,default=1.):
-        return interpolate_driver(self.scenario_spec,name,year,self.start,self.end,default)
+        return interpolate_driver(self.scenario_spec,name,year,
+            getattr(self,'driver_start_year',self.start),getattr(self,'driver_end_year',self.end),default)
 
     def _state(self,projects,year):
         state=self.base
@@ -180,23 +216,54 @@ class RegionalTransport:
             edges=pd.concat([edges,self.gate_edges],ignore_index=True)
             bgfull=self.gate_od*self.driver('external_traffic_multiplier',year);bgfull=bgfull.copy();bgfull[:self.n,:self.n]+=bg;bg=bgfull
         network=DirectedRoadNetwork(edges,nodes,ids)
-        # Start from physical, connected road costs, including gate nodes.
-        initial=route_times(network,network.t0,finite_required_count=self.n)[:self.n,:self.n];np.fill_diagonal(initial,np.diag(physical.times['drive']))
-        physical.times['drive']=initial
         options=self.settings.get('assignment',{})
+        graph_key=_assignment_graph_key(network,self.n)
+        cached_freeflow=graph_key in self._assignment_freeflow_cache
+        if not cached_freeflow:
+            exact=route_times(network,network.t0,finite_required_count=self.n)[:self.n,:self.n].copy()
+            _remember_road_state(self._assignment_freeflow_cache,graph_key,exact)
+        # This is always the current graph's exact free-flow route, never the
+        # initialization skim. Preserve current native intrazonal values outside
+        # the graph cache because they are not zero-length centroid routes.
+        freeflow=self._assignment_freeflow_cache[graph_key].copy()
+        native_time_diagonal=np.diag(physical.times['drive']).copy()
+        native_distance_diagonal=np.diag(physical.distances_m['drive']).copy()
+        np.fill_diagonal(freeflow,native_time_diagonal)
+        use_warm_start=options.get('warm_start_road_skims',True)
+        seed=self._road_skim_seeds.get(graph_key) if use_warm_start else None
+        initialization='converged_same_graph_road_skims' if seed is not None else 'current_graph_free_flow'
+        if seed is None:
+            physical.times['drive']=freeflow.copy()
+        else:
+            # Only road skims initialize mode choice. PT, current costs/mode
+            # parameters, demand and background flows are recomputed normally.
+            # Link flows are not reused across changing demand matrices.
+            physical.times['drive']=seed['time_min'].copy()
+            physical.distances_m['drive']=seed['distance_m'].copy()
+            np.fill_diagonal(physical.times['drive'],native_time_diagonal)
+            np.fill_diagonal(physical.distances_m['drive'],native_distance_diagonal)
         result=solve_feedback(q,physical,network,city,background_od=bg,occupancy=self.settings.get('occupancy',1.14),
             max_outer_iterations=options.get('max_outer_iterations',8),demand_tolerance=options.get('demand_tolerance',1e-3),
-            damping=options.get('damping',.5),assignment_options={'max_iterations':options.get('max_iterations',100),
-                'relative_gap':options.get('relative_gap',1e-3),'with_distances':True},
+            damping=options.get('damping',.5),adaptive_inner_tolerance=options.get('adaptive_inner_tolerance',False),
+            assignment_options={'max_iterations':options.get('max_iterations',100),
+                'relative_gap':options.get('relative_gap',1e-3),'with_distances':True,
+                'algorithm':options.get('algorithm','conjugate_frank_wolfe'),
+                'loading_workers':options.get('loading_workers',1),'loading_backend':options.get('loading_backend','thread')},
             mode_options=mode_options,perception_options=perception,progress=self.progress,assignment_zone_positions=np.arange(self.n))
         physical=result['physical_skims']
-        physical=Skims({k:v[:self.n,:self.n] for k,v in result['perceived_skims'].physical_times.items()},
-            {k:v[:self.n,:self.n] for k,v in physical.distances_m.items()},self.ids,metadata={})
+        physical=Skims({k:v[:self.n,:self.n].copy() for k,v in result['perceived_skims'].physical_times.items()},
+            {k:v[:self.n,:self.n].copy() for k,v in physical.distances_m.items()},self.ids,metadata={})
+        if use_warm_start and result['diagnostics']['converged']:
+            _remember_road_state(self._road_skim_seeds,graph_key,{
+                'time_min':physical.times['drive'].copy(),'distance_m':physical.distances_m['drive'].copy(),'year':float(year)})
         demands={k:v[:self.n,:self.n] for k,v in result['mode_demand'].items()}
         choice=result['choice_at_final_costs'];payments={k:choice.diagnostics[k][:self.n,:self.n] for k in ('cost_car_chf','fare_pt_walk_chf','fare_pt_bike_chf')}
         diag={**result['diagnostics'],'road_assignment':result['assignment'].diagnostics,'population_sensitive':True,
+              'road_initialization':initialization,'warm_start_road_skims':bool(use_warm_start),
+              'road_seed_year':seed['year'] if seed is not None else None,
+              'road_graph_key':graph_key,'free_flow_cache_hit':cached_freeflow,
               'gate_vehicle_trips':float(self.gate_od.sum())*self.driver('external_traffic_multiplier',year) if self.gate_od is not None else 0.}
-        extra={'free_flow_drive_min':initial,'congestion_drive_min':np.maximum(physical.times['drive']-initial,0.),
+        extra={'free_flow_drive_min':freeflow,'congestion_drive_min':np.maximum(physical.times['drive']-freeflow,0.),
                'car_time_decomposition':'shortest_congested_minus_shortest_freeflow_route',
                'road_assignment_edges':result['assignment'].edges,
                'road_assigned_od':result['assignment'].assigned_od,'road_zone_ids':ids}
@@ -236,8 +303,9 @@ class RegionalTransport:
             factor=float(population.sum()/self.base_population.sum())*self.driver('trip_rate_multiplier',year)
             route=self._screen_route(active,year,factor)
             if self.anchor_route is None:
-                anchor_projects=tuple(uid for uid,spec in self.config.get('baseline_projects',{}).items() if self.start>=spec['opening_year'])
-                self.anchor_route=self._screen_route(anchor_projects,self.start,1.)
+                anchor=getattr(self,'anchor_year',self.start)
+                anchor_projects=tuple(uid for uid,spec in self.config.get('baseline_projects',{}).items() if anchor>=spec['opening_year'])
+                self.anchor_route=self._screen_route(anchor_projects,anchor,1.)
             bridged=self.physical.times['drive']+route-self.anchor_route
             physical.times['drive']=np.maximum(.1,bridged)
             freeflow=self._freeflow_route(active,year)

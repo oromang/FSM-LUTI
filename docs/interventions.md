@@ -1,14 +1,21 @@
 # Defining interventions
 
-Edit `PROJECTS` in `interventions.py`. Each enabled dictionary entry becomes an
-individual comparison against do nothing. Use a distinct stable dictionary key
-for each project. `opening_year` controls when its effects begin. Combined runs
-apply all enabled entries to the same immutable reference network.
+Define projects in `PROJECTS` in `interventions.py`, then select their IDs in
+`main.py`. Each selected project is compared individually against do nothing.
+Use a distinct stable dictionary key for each project. `opening_year` controls
+when effects begin. Optional combined runs apply the selected projects together
+to the same corrected reference network. Baseline GeoPackage corrections apply
+to all cases; they have no project opening date.
+
+For road design in QGIS, use the [GeoPackage workflow](qgis_projects.md). Paths
+in `main.py` override the corresponding Python road builders. Geometry, link
+attributes and explicit connections then come from the selected package.
 
 The available builders are:
 
 | Builder | Editable effects |
 |---|---|
+| `geopackage` | `package_file`: a QGIS-editable directed road design |
 | `road_capacity` | Selected original link IDs, target directional capacity and eligibility threshold |
 | `road_bypass` | Alignment, junction nodes, length, speed, capacity and optional flanking measures |
 | `rail_frequency` | Corridor endpoints, timing stops, service window and target headway |
@@ -71,3 +78,21 @@ Added trains may create newly reachable OD pairs. The default common-market
 comparison records these pairs but retains baseline unavailability there. Their
 benefits require an explicit reservation-cost treatment before monetization;
 they are not assigned invented time savings.
+
+
+To register an additional QGIS road project, supply its package and opening:
+
+```python
+PROJECTS['my_road'] = {
+    'enabled': True,
+    'name': 'My road design',
+    'builder': 'geopackage',
+    'package_file': 'configs/projects/my_road.gpkg',
+    'opening_year': 2045,
+}
+```
+
+Select `my_road` in `RUN['projects']` and add its capital and operating assumptions
+in `appraisal_conventions.py`. New nodes and edges need unique IDs if designs
+may be combined. An alternative path can also be supplied through
+`RUN['project_geopackages']` or `--project-package`.

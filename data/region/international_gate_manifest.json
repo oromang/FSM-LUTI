@@ -1,0 +1,25 @@
+{
+  "method": "Active native Swiss road GIS dead-end terminals near published foreign land; actual directed native road stubs restored once, including shared bottlenecks.",
+  "border_tolerance_m": 150.0,
+  "original_gate_count": 219,
+  "added_international_gate_count": 32,
+  "gate_count": 251,
+  "virtual_terminal_connector_count": 62,
+  "native_stub_source_edges": 236,
+  "native_stub_path_members": 242,
+  "shared_native_stub_edges": 6,
+  "restored_native_road_nodes": 122,
+  "candidate_terminal_count": 61,
+  "positive_flow_terminal_count": 32,
+  "rejected_directions": [],
+  "road_source": {
+    "path": "C:\\Personal\\Code\\LUTI\\fsm_luti_build\\data\\raw_npvm\\regional_road_source.parquet",
+    "bytes": 37378493,
+    "sha256": "dfd684ce9f6cbf277f1aaa1445b517780c4fcdd065bfc9283c69f48f04472244"
+  },
+  "scope": "Retained road nodes/edges/internal skims unchanged. Gate edges restore each previously pruned native Swiss-side stub once, preserving shared capacities.",
+  "limitations": [
+    "Border tolerance needs review where cul-de-sacs lie close to foreign land. Native observed flow supplies evidence of active direction, not a legal road-permission table.",
+    "Foreign network route choice remains an explicit geographic proxy; this does not reconstruct foreign links or complete unclassified distant through traffic."
+  ]
+}

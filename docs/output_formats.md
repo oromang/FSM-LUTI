@@ -9,6 +9,7 @@ Parquet, HDF5 and GeoPackage files can be used independently for postprocessing.
 | `configuration.json`, `run_manifest.json` | Resolved settings, execution status, input/source fingerprints and convergence flags |
 | `settings/` | Copies of editable Python settings and resolved project operations |
 | `index.json` | One summary record per scenario and case |
+| `progress.jsonl` | Timestamped transport starts, inner road gaps, outer modal residuals, cache reuse and elapsed time |
 | `figures/` | Network, zones/gates, projects, mode-share pies, trajectories, appraisal and additional LUTI effects; PNG and optional PDF |
 | `spatial/network.gpkg` | Base road nodes/edges, zones, gates/connectors, PT stops and project layers |
 | `tables/` | Run, transport, mode-share, population/employment, project-operation, boundary and appraisal tables |
@@ -16,14 +17,15 @@ Parquet, HDF5 and GeoPackage files can be used independently for postprocessing.
 | `<scenario>/<case>/land_use.parquet` | Zone population, neutral population and employment by model date |
 | `<scenario>/<case>/fixed_land_use_benefits.json` | Annual matched-market appraisal at model dates |
 | `<scenario>/<case>/appraisal.json` | Annual component ledger, present values, exclusions and missing-account flags |
+| `<scenario>/<case>/timing.json` | Case elapsed time, unique transport solves and reused references |
 | `matrix_index.json`, `matrix_schema.json` | Matrix locations, axes, units and saved-state definitions |
 | `matrices/<scenario>/.../*.h5` | OD demand, physical times, distances, payments and HARMONY costs |
 | `link_tables/` or `*.links.parquet` | Prescribed road loads or assigned link flows, labelled by transport method |
 
-All spatial layers use **EPSG:2056 (Swiss LV95)**. Road edges are drawn as straight
-segments between routing nodes, so contracted sections are schematic rather
-than engineering alignment geometry. The GeoPackage contains the base graph
-and separate project changes.
+All spatial layers use **EPSG:2056 (Swiss LV95)**. Edited roads retain their
+GeoPackage engineering geometry. Other roads use straight segments between
+routing nodes, so unedited contracted sections remain schematic. The output
+GeoPackage contains the corrected baseline graph and separate project changes.
 
 ## Matrices
 
@@ -85,3 +87,23 @@ project state. Allocation difference is half the absolute population difference
 from the neutral path. It is not a count of observed movers. Passenger-hours and
 vehicle-kilometres are physical outcomes; monetary land-use welfare is recorded
 as unavailable and is not added to transport benefits.
+
+
+## Editable design and projection provenance
+
+`settings/network_inputs/` contains byte-for-byte copies of the selected
+baseline and project GeoPackages. `settings/network_inputs.json` records their
+original paths, copied paths and SHA256 hashes. Resolved operations are also
+saved in `configuration.json`; `settings/resolved_projects.json` is written
+when geographic exports are enabled. Baseline corrections apply to the network
+in every case. Project edits apply from their configured opening dates.
+
+`projection_support.json` records the prepared/source horizons, selected
+continuation method and requested dates. Its contents are also included in the
+run manifest. The manifest distinguishes the demand/projection anchor year from
+the selected simulation timeframe.
+
+Road output geometry retains the edited GeoPackage lines where available.
+Unedited prepared links use endpoint chords. The geographic package includes
+`removed_<project>` layers for removed baseline links; these are design context,
+not links in the assigned project network.

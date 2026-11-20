@@ -1,0 +1,26 @@
+{
+  "source_archive": "C:\\Personal\\Data\\GTFS Archive\\GTFS_FP2026_20260503.zip",
+  "service_date": "2026-04-23",
+  "active_services": 9400,
+  "active_national_trips": 190855,
+  "connections": 247274,
+  "regional_trips": 18708,
+  "stations": 9157,
+  "stop_time_rows_read": 21378457,
+  "bounds_lv95": [
+    2654244.908,
+    1208895.631,
+    2772913.2955,
+    1310933.56
+  ],
+  "time_window_min": [
+    1020.0,
+    1260.0
+  ],
+  "frequency_template_trips_omitted": 5,
+  "pickup_policy": "only regular pickup/dropoff (type 0)",
+  "distance_basis": "straight line between consecutive station coordinates; not rail track kilometres",
+  "platform_policy": "collapse to parent station; explicit transfer floor in routing",
+  "transfer_rules": "route/trip-specific transfers.txt restrictions not represented; screening use only",
+  "source_sha256": "aa2c77e7ccc336f7b809dd7bb5e051918b089a611a4bef24bbca6eb4b1fc1b82"
+}

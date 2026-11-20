@@ -1,0 +1,7 @@
+# Input hashes must survive checkout unchanged, including JSON and CSV files.
+/data/** -text whitespace=cr-at-eol
+
+# Large prepared arrays/tables and editable QGIS project assets use Git LFS.
+/data/**/*.parquet filter=lfs diff=lfs merge=lfs -text
+/data/**/*.npz filter=lfs diff=lfs merge=lfs -text
+/configs/**/*.gpkg filter=lfs diff=lfs merge=lfs -text

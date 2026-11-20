@@ -1,10 +1,16 @@
 # Input data
 
-The source package and input package are separate. Place an authorized prepared
-input package in `data/`, or set `data_dir` and `gtfs_dir` in `run_settings.py` to
-their local locations. A source-only checkout can run the unit tests, but a model
-run needs the prepared inputs below. No predecessor repository is imported at
-runtime.
+The prepared inputs for Zurich, Thurgau and Schaffhausen are included in the
+repository. Git LFS stores the large binary files; run `git lfs install` before
+cloning and `git lfs pull` from the checkout to retrieve them. No separate data
+delivery or predecessor repository is needed for the supplied model.
+
+The complete input set is `data/region/`, `data/projections/` and
+`data/gtfs_2026/` (approximately 447 MiB). Keep all files in these folders:
+`data/region/package_integrity.json` records 46 checked inputs, including
+provenance and boundary-demand audit tables. The locations below are relative
+to `data/`. To use another prepared geography, set both `data_dir` and
+`gtfs_dir` in `run_settings.py` to that package's locations.
 
 | Location | Contents |
 |---|---|
@@ -16,8 +22,9 @@ runtime.
 | `region/gate_stub_nodes.parquet`, `international_gate_stub_members.parquet` | Restored native border-road geometry and link provenance; shared links occur once |
 | `region/external_passenger_od.parquet`, `external_*coverage.csv` | Original external passenger OD and coverage audits; fixed external PT/active reporting |
 | `region/boundary_ledger.parquet` | Original external OD identities, mapped gates and outside journey information |
-| `region/*manifest.json`, `package_integrity.json` | Input definitions, provenance and content fingerprints |
+| `region/*manifest.json`, `region/package_integrity.json` | Input definitions, provenance and content fingerprints |
 | `projections/neutral_paths.parquet` | Annual population and employment paths by zone and projection family |
+| `projections/bfs_canton_controls.csv`, `employment_sector_controls.parquet` | Population and sectoral employment controls for projection continuation |
 | `gtfs_2026/stops.parquet`, `connections.parquet`, `pt_skims.npz` | Prepared service-day timetable, stop locations and PT components |
 | `gtfs_2026/manifest.json`, `pt_skims_manifest.json` | Timetable and skim preparation settings |
 
@@ -26,12 +33,14 @@ using the supplied sealing workflow; this folder name identifies the package
 component, while its manifest identifies the actual service date. When moving
 the whole package, update both `data_dir` and `gtfs_dir` together.
 Runtime coefficients are small public configuration files in `parameters/`.
-Large prepared datasets, source downloads and caches are ignored by Git.
+Prepared Parquet/NPZ inputs and project GeoPackages are tracked through Git LFS.
+Source downloads and regenerable caches are ignored. `.gitattributes` disables
+line-ending conversion for every prepared input so integrity hashes are portable.
 
 From the repository root, validate the package with:
 
 ```powershell
-python main.py --check
+.\run.ps1 --check
 ```
 
 Changing zones requires rebuilding aligned demand, skims, connectors and gates.
@@ -39,6 +48,12 @@ Selecting cantons only from the stock table would lose traffic across the new
 boundary. Keep a separate data directory for each prepared geography.
 
 ## Preparation commands
+
+Preparation is not required to run the included model. Rebuilding or changing
+the geography requires additional source data: prepared upstream HARMONY
+zones, historical stocks and skims; original population/employment projections;
+NPVM matrices and network sources; and the original GTFS feed. These research
+sources are not part of the runtime input set.
 
 The scripts require local source paths. Run each with `--help` for its full
 arguments. The main preparation sequence is:

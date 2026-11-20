@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "cantons": [
+    "ZH",
+    "TG",
+    "SH"
+  ],
+  "zone_count": 1541,
+  "zone_counts": {
+    "SH": 83,
+    "TG": 238,
+    "ZH": 1220
+  },
+  "base_stock_year": 2023,
+  "scenario_start_year": 2025,
+  "scenario_end_year": 2055,
+  "population_units": "permanent residents; annual end-year stock",
+  "employment_units": "STATENT masked hectare job headcounts grown by canton/sector EmpHead ratios",
+  "housing_units": "residential living area square metres (WTF)",
+  "skim_axis_order": "origin,destination; HARMONY caller uses work origin/residence destination",
+  "skim_time_units": "minutes; bicycle distance/18kmh; exact retained area-based intrazonal costs",
+  "calibration_reference_skim_year": 2017,
+  "current_skim_year": 2023,
+  "base2025_status": "derived neutral allocation, not observed zonal population",
+  "population_allocation": "BFS canton controls; ZH district and TG municipal scenario shares; SH constant zone shares",
+  "luti_control_default": "joint regional sum, permitting cross-canton moves",
+  "employment_bridge": "Employment headcounts are workplace attractions, not resident workers or daily trips. No external-worker subtraction is inferred. FSM must retain its own observed-trip accounting; HARMONY allocation scores are normalized to population controls.",
+  "sources": [
+    {
+      "path": "C:\\Personal\\Code\\LUTI\\expanded_harmony\\data\\zones.parquet",
+      "bytes": 3441820,
+      "sha256": "290e1cc6e513be8b6873286210f70989015b5cfa67e934c354109ba0e1ae65d7"
+    },
+    {
+      "path": "C:\\Personal\\Code\\LUTI\\expanded_harmony\\data\\panel_2017.parquet",
+      "bytes": 131884,
+      "sha256": "cc51f2c5db5b025e834b2b73a86019231b42966119a1b9606d03d90868c4bf9a"
+    },
+    {
+      "path": "C:\\Personal\\Code\\LUTI\\expanded_harmony\\data\\housing_2017.parquet",
+      "bytes": 25259,
+      "sha256": "4db6fa04002e0304c45ed1a3365c51cf353f0c96a15ef2d822f99fcd07427c6c"
+    },
+    {
+      "path": "C:\\Personal\\Code\\LUTI\\expanded_harmony\\data\\npvm_2017_pt.npz",
+      "bytes": 7590163,
+      "sha256": "37626641e05e3cc361432d56d8d9c59535cea016c1393d5e5a3573f080f8379c"
+    },
+    {
+      "path": "C:\\Personal\\Code\\LUTI\\expanded_harmony\\data\\npvm_2017_car.npz",
+      "bytes": 7548412,
+      "sha256": "3e8304ec0e7e87900f3edaa3b2405bd43abcf3360e926503ca35c637e33791af"
+    },
+    {
+      "path": "C:\\Personal\\Code\\LUTI\\expanded_harmony\\data\\npvm_2017_distance.npz",
+      "bytes": 7565356,
+      "sha256": "db76cb9c85454c7d8b234d179d8bce1250596b0381100c89c4e4f981518e9795"
+    },
+    {
+      "path": "C:\\Personal\\Code\\LUTI\\expanded_harmony\\data\\panel_2023.parquet",
+      "bytes": 131906,
+      "sha256": "6fca14323c70917226a93e991b111fe4c9b0ac4fa0b15e8e25ae2bd27c50d058"
+    },
+    {
+      "path": "C:\\Personal\\Code\\LUTI\\expanded_harmony\\data\\housing_2023.parquet",
+      "bytes": 25469,
+      "sha256": "8a67832fea89c8e79f1a6339d0825c8720ba26872c5412a01a18d99752145a23"
+    },
+    {
+      "path": "C:\\Personal\\Code\\LUTI\\expanded_harmony\\data\\npvm_2023_pt.npz",
+      "bytes": 8193945,
+      "sha256": "28b9e8235f0a570017fa841281b6357fd5125f7425311ac482ac41a98af0d19d"
+    },
+    {
+      "path": "C:\\Personal\\Code\\LUTI\\expanded_harmony\\data\\npvm_2023_car.npz",
+      "bytes": 8324360,
+      "sha256": "e92419899cf836e1a12bec28660c144853760b8252028890c4d6911a78b0c89d"
+    },
+    {
+      "path": "C:\\Personal\\Code\\LUTI\\expanded_harmony\\data\\npvm_2023_distance.npz",
+      "bytes": 8429426,
+      "sha256": "bef50c343c7e8fdf996f1db1c077065ce7ec0956d226d6a4a6465a2ca35a6034"
+    },
+    {
+      "path": "C:\\Personal\\Data\\Zurich Population Projections\\KTZH_00000705_00006706.csv",
+      "bytes": 16412000,
+      "sha256": "8ef2a7b71e05ab9271c0335c9634e1fb75f4338663af085fee0435c96d74c6a7"
+    },
+    {
+      "path": "C:\\Personal\\Data\\Thurgau Population Projections\\2025_2055_KantonBezGde_Bestand_Veranderung.xlsx",
+      "bytes": 486533,
+      "sha256": "74abcc757b4b2bdaaaff09e249f9a7217c62356ff327dbb858bc94a74bf5ead2"
+    },
+    {
+      "path": "C:\\Personal\\Data\\Sectoral Scenarios\\Meta_FcastRep.xlsx",
+      "bytes": 157076,
+      "sha256": "a98033850e077bbf1b66553520915979c302b86a837723643f1b368a63aa187b"
+    },
+    {
+      "path": "C:\\Personal\\Data\\Sectoral Scenarios\\rn1b_cli.csv",
+      "bytes": 179001354,
+      "sha256": "da9175383793aeae1a21dee08e566a3097d3366f7a39c79b3a9c841d189dd0a0"
+    },
+    {
+      "path": "C:\\Personal\\Data\\Sectoral Scenarios\\rdlb_cli.csv",
+      "bytes": 179003363,
+      "sha256": "b1386a7dcdd036ce3ee361fbf55e0623aeafa7e51691493b264b313a4ec9876a"
+    },
+    {
+      "path": "C:\\Personal\\Data\\Sectoral Scenarios\\rdub_cli.csv",
+      "bytes": 178996626,
+      "sha256": "3baf4c49422018508205c45db010cf05a859648d32764edfa0be4cf9b714edd5"
+    }
+  ],
+  "bfs_snapshot": {
+    "path": "C:\\Personal\\Code\\LUTI\\fsm_luti_build\\data\\projections\\bfs_response.json",
+    "bytes": 148884,
+    "sha256": "8103fa6268c2224c0eb6bc5e8a52876e3b4b087ca478959f36b2957ed55e618e"
+  },
+  "bfs_source_url": "https://statistik.admin.ch/de/asset/34687262",
+  "limitations": [
+    "2023 stocks are masked hectare aggregates, not exact canton totals.",
+    "Housing is frozen2023; no verified future developable capacity supplied.",
+    "BFS totals differ from canton-vintage forecasts; local series supply shares only.",
+    "SH local spatial allocation remains constant-share.",
+    "Other canton selections require explicit prepared zone/network data and calibration compatibility checks."
+  ],
+  "source_zones_sha256": "56079bc029318b6f04b88f82fb519403efa87329c6419a7a2ecb9f4345446fe9",
+  "zone_ids_sha256": "c94b07cb46146b23d113b0a2cf8b1fe3f29913a3b116e7d921fac7f55c44b28d"
+}

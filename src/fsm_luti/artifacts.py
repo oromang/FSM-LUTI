@@ -153,6 +153,13 @@ def edge_geography(edges,nodes):
     source=lookup.reindex(edges.source).to_numpy(float);target=lookup.reindex(edges.target).to_numpy(float)
     if not np.isfinite(source).all() or not np.isfinite(target).all():raise ValueError('Map edge references missing node coordinates')
     geometry=shapely.linestrings(np.stack([source,target],axis=1))
+    if 'geometry_wkt' in edges:
+        for i,wkt in enumerate(edges.geometry_wkt):
+            if isinstance(wkt,str) and wkt:
+                drawn=shapely.from_wkt(wkt)
+                if drawn.geom_type!='LineString' or drawn.is_empty or not drawn.is_valid:
+                    raise ValueError('Invalid stored engineering road geometry')
+                geometry[i]=drawn
     return gpd.GeoDataFrame(edges.copy(),geometry=geometry,crs=2056)
 
 
@@ -245,7 +252,7 @@ class RunArtifacts:
             gpd.GeoDataFrame(stops,geometry=gpd.points_from_xy(stops.x,stops.y),crs=2056).to_file(gpkg,layer='pt_stops',index=False)
             pt_links.to_file(gpkg,layer='pt_links',index=False)
         fig,ax=plt.subplots(figsize=(10,9));self.map_background(ax)
-        segments=np.stack([np.asarray(road.geometry.get_coordinates()).reshape(-1,2,2)[:,0],np.asarray(road.geometry.get_coordinates()).reshape(-1,2,2)[:,1]],axis=1)
+        segments=[np.asarray(line.coords) for line in road.geometry]
         ax.add_collection(LineCollection(segments,colors='#59646c',linewidths=.18,alpha=.55))
         ax.set_title('Road network and selected cantons');self.save_figure(fig,'network')
         fig,ax=plt.subplots(figsize=(10,9));self.map_background(ax)
@@ -271,6 +278,13 @@ class RunArtifacts:
             changed_ids={op['id'] for op in project['operations'] if op['table']=='road_edges' and op['action']!='remove'}
             changed=state.road_edges[state.road_edges.edge_id.isin(changed_ids)]
             geometries=list(edge_geography(changed,state.road_nodes).geometry) if len(changed) else []
+            removed_ids={op['id'] for op in project['operations'] if op['table']=='road_edges' and op['action']=='remove'}
+            removed=backend.base.road_edges[backend.base.road_edges.edge_id.isin(removed_ids)].copy()
+            if len(removed):
+                removed['design_action']='remove'
+                geometries.extend(edge_geography(removed,backend.base.road_nodes).geometry)
+                if self.options.get('geopackage',True):
+                    edge_geography(removed,backend.base.road_nodes).to_file(gpkg,layer='removed_'+uid[:40],index=False)
             for op in project['operations']:
                 effects.append({'project':uid,'table':op['table'],'action':op['action'],'id':str(op['id']),
                     'expected':json.dumps(op.get('expected',{}),default=str),'values':json.dumps(op.get('values',{}),default=str)})
@@ -319,7 +333,7 @@ class RunArtifacts:
         # external passenger/coverage files, when prepared, are copied directly.
         for pattern in ['external_*summary*.csv','external_*summary*.json','external_passenger*.parquet','external_*coverage*.csv']:
             for path in (self.data/'region').glob(pattern):shutil.copy2(path,self.tables/path.name)
-        write_json(self.spatial/'geometry_metadata.json',{'crs':'EPSG:2056','road_geometry':'Straight segments between routing nodes; contracted geometry is schematic',
+        write_json(self.spatial/'geometry_metadata.json',{'crs':'EPSG:2056','road_geometry':'Stored engineering geometry from design packages where available; endpoint chords otherwise. Unedited contracted geometry is schematic',
             'zones':'Prepared NPVM polygons','pt':'Prepared timetable stops and deduplicated directional stop-pair chords; not track or bus-route geometry',
             'pt_links':'service_count counts scheduled connections in the prepared timetable window; first/last departure minutes are relative to service-day midnight',
             'catchments':'Illustrative station buffers in LV95 metres; not path-level station-use observations',
@@ -367,7 +381,8 @@ class RunArtifacts:
             benchmark=self.npvm[self.npvm.group==group].set_index('mode').reindex(MODES)
             reference=modes[(modes.scenario==scenario)&(modes.case==case)&(modes.year==year)&(modes.state=='reference')&(modes.group==group)].set_index('mode').reindex(MODES)
             project=modes[(modes.scenario==scenario)&(modes.case==case)&(modes.year==year)&(modes.state=='luti')&(modes.group==group)].set_index('mode').reindex(MODES)
-            for j,(data,title) in enumerate([(benchmark,'NPVM benchmark'),(reference,f'Do nothing {year:g}'),(project,f'Project + LUTI {year:g}')]):
+            project_title=f'Project, fixed land use {year:g}' if self.config.get('luti',{}).get('mode')=='off' else f'Project + LUTI {year:g}'
+            for j,(data,title) in enumerate([(benchmark,'NPVM benchmark'),(reference,f'Do nothing {year:g}'),(project,project_title)]):
                 values=data.share.fillna(0).to_numpy()
                 if values.sum()>0:axes[i,j].pie(values,colors=[COLORS[m] for m in MODES],autopct=lambda x:f'{x:.1f}%' if x>=3 else '',startangle=90,pctdistance=.8,textprops={'fontsize':8})
                 axes[i,j].set_title(f'{group}\n{title}',fontsize=10)
@@ -532,7 +547,7 @@ class RunArtifacts:
 body{font:16px system-ui,sans-serif;max-width:1200px;margin:auto;padding:28px;color:#20313d;background:#f5f7f8}
 section{background:white;padding:20px;margin:24px 0;border-radius:10px}img{max-width:100%;height:auto}table{border-collapse:collapse;font-size:13px}td,th{padding:7px;border-bottom:1px solid #ddd;text-align:right}h1,h2{font-weight:600}a{color:#23688b}.table{overflow-x:auto}
 </style></head><body><h1>FSM–LUTI run results</h1><p>Settings, transport states and appraisal are stored together in this folder. Monetary results cover the declared accounts; additional LUTI effects are reported separately.</p>
-<p><a href="configuration.json">Configuration</a> · <a href="tables/run_summary.csv">Summary table</a> · <a href="tables/appraisal_components.csv">Appraisal components</a> · <a href="matrix_index.json">OD archive index</a> · <a href="spatial/network.gpkg">Network GeoPackage</a></p>'''
+<p><a href="configuration.json">Configuration</a> · <a href="tables/run_summary.csv">Summary table</a> · <a href="tables/appraisal_components.csv">Appraisal components</a> · <a href="matrix_index.json">OD archive index</a> · <a href="spatial/network.gpkg">Network GeoPackage</a> · <a href="projection_support.json">Projection coverage</a> · <a href="settings/network_inputs.json">Editable input snapshots</a></p>'''
         page+='<section><h2>Appraisal summary</h2><div class="table">'+appraisal.to_html(index=False,border=0,escape=True)+'</div></section>'
         audits=sorted((self.out/'postprocessing').glob('*/postprocessing_manifest.json'))
         if audits:
@@ -548,5 +563,9 @@ section{background:white;padding:20px;margin:24px 0;border-radius:10px}img{max-w
             page+='</p></section>'
         if not (self.spatial/'network.gpkg').exists():
             page=page.replace(' · <a href="spatial/network.gpkg">Network GeoPackage</a>','')
+        if not (self.out/'projection_support.json').exists():
+            page=page.replace(' · <a href="projection_support.json">Projection coverage</a>','')
+        if not (self.out/'settings/network_inputs.json').exists():
+            page=page.replace(' · <a href="settings/network_inputs.json">Editable input snapshots</a>','')
         page+=''.join(sections)+'</body></html>'
         (self.out/'index.html').write_text(page,encoding='utf8')

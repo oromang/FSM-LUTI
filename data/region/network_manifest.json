@@ -1,0 +1,47 @@
+{
+  "excluded_special_type_edges": {
+    "87": 2,
+    "93": 22,
+    "97": 6
+  },
+  "excluded_special_type_asp_pw": 2999.0,
+  "special_speed_overrides_kmh": {},
+  "max_endpoint_disagreement_m": 0.0,
+  "strong_components": 24,
+  "largest_scc_nodes": 165695,
+  "all_road_nodes": 166003,
+  "pruned_terminal_nodes": 23050,
+  "before_contraction_edges": 365710,
+  "contracted_road_edges": 227322,
+  "source": {
+    "path": "C:\\Personal\\Code\\LUTI\\fsm_luti_build\\data\\raw_npvm\\regional_road_source.parquet",
+    "bytes": 37378493,
+    "sha256": "dfd684ce9f6cbf277f1aaa1445b517780c4fcdd065bfc9283c69f48f04472244"
+  },
+  "zone_count": 1541,
+  "final_nodes": 74992,
+  "final_edges": 230404,
+  "connector_max_m": 3202.1466939871293,
+  "connector_p95_m": 409.92373720431124,
+  "connectors_above_1km": 13,
+  "connector_policy": "zone centroid to nearest nonmotorway node in main directed SCC; bidirectional noncongesting20kmh connectors",
+  "bpr_aggregation": "exact summed cost for commonalpha=.15,beta=4; C_eq=(sum(t0)/sum(t0/C^4))^(1/4)",
+  "free_flow_time_basis": "geometry length / NPVM type-table signalled speed proxy, NOT nativeV0 or observed travel time",
+  "capacity_units": "vehicles/hour; use matching one-hourASP demand",
+  "observed_counts_basis": "NPVMmodelledASP flows, not independent traffic-count validation; chain length-weighted mean",
+  "external_demand_status": "not included by this preparation step; no arbitrarybackground uplift",
+  "boundary_crossing_directed_edges": 474,
+  "boundary_gate_definition": "directed road edge with endpoints on opposite sides of endogenous-zone polygon union; preserved before contraction",
+  "limitations": [
+    "Native turning prohibitions/delays absent from publishedGIS",
+    "Native centroid connectors absent; generated connectors require sensitivity checks",
+    "True free-flowV0 absent; signalled speed proxy requires comparison withNPVMskims",
+    "Parent source is bufferedregional extract, not complete Europe; boundary/Germany coverage must be audited",
+    "Native vehicle-system direction permissions absent; zero-flow reverse arcs may be inactive."
+  ],
+  "motorway_autostrasse_edges": 3888,
+  "motorway_autostrasse_zero_asp_edges": 1836,
+  "direction_permissions_status": "GIS directed arcs omit vehicle-system permissions; zero-flow reverse arcs may be inactive. Legal MIV topology is unverified.",
+  "source_zones_sha256": "56079bc029318b6f04b88f82fb519403efa87329c6419a7a2ecb9f4345446fe9",
+  "zone_ids_sha256": "c94b07cb46146b23d113b0a2cf8b1fe3f29913a3b116e7d921fac7f55c44b28d"
+}

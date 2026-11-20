@@ -1,5 +1,12 @@
-# Local inputs, model runs and private research work
-/data/
+# Publish only the prepared runtime inputs; keep downloads and caches local.
+/data/*
+!/data/region/
+!/data/projections/
+!/data/gtfs_2026/
+
+# Local model runs, tests and private research work
+/tests/
+/src/fsm_luti/projects/diagnostics.py
 /outputs/
 /diagnostics/
 /calibration/
@@ -29,3 +36,11 @@ htmlcov/
 .idea/
 .DS_Store
 Thumbs.db
+
+# QGIS backup files and live GeoPackage transaction sidecars
+*.qgs~
+*.qgz~
+*.gpkg-wal
+*.gpkg-shm
+*.gpkg-journal
+*.writing.gpkg

@@ -2,7 +2,8 @@
 
 All values below are modelling assumptions, not approved engineering designs.
 Copy a project dictionary to add a project. Supported builders are
-``road_capacity``, ``road_bypass``, ``rail_frequency`` and ``explicit`` (supply
+``road_capacity``, ``road_bypass``, ``rail_frequency``, ``geopackage`` (set
+``package_file`` to a QGIS design package) and ``explicit`` (supply
 network patch operations directly). PT component reductions can accompany any
 builder; set every reduction to zero to disable them.
 """
@@ -68,6 +69,6 @@ PROJECTS = {
 }
 
 
-def project_definitions(root, settings=None):
+def project_definitions(root, settings=None, **network_options):
     """Resolve editable settings against the prepared network and timetable."""
-    return build_interventions(root, PROJECTS if settings is None else settings)
+    return build_interventions(root, PROJECTS if settings is None else settings, **network_options)
