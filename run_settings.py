@@ -1,5 +1,9 @@
 """Edit model assumptions here; choose cases and simulation dates in main.py."""
 from copy import deepcopy
+from solver_settings import resolve_solver_controls
+
+DEFAULT_SOLVER_PROFILE = 'screening'
+_solver = resolve_solver_controls(DEFAULT_SOLVER_PROFILE)
 
 MODEL = {
     'data_dir': 'data', 'gtfs_dir': 'data/gtfs_2026',
@@ -12,23 +16,23 @@ MODEL = {
     'driver_start_year': 2025, 'driver_end_year': 2055,
     'projection_extension': {'method': 'damped_log', 'lookback_years': 10.,
         'damping': .8, 'before_source': 'error'},
-    'baseline_network_package': None,
+    'baseline_network_package': 'configs/network_edits/baseline.gpkg',
     'harmony_parameters': 'parameters/harmony.json',
     'mode_choice_parameters': 'parameters/mode_choice.json',
     'include_combined': False, 'baseline_projects': {},
+    'solver_profile': DEFAULT_SOLVER_PROFILE,
     'transport': {
         'method': 'assignment', 'occupancy': 1.14,
         'include_gates': True, 'city_municipalities': [261], 'perception': {},
         'origin_population_weight': 1., 'destination_population_weight': 0.,
         'assignment': {'algorithm': 'conjugate_frank_wolfe', 'loading_workers': 4,
             'loading_backend': 'process', 'adaptive_inner_tolerance': True,
-            'warm_start_road_skims': True,
-            'max_iterations': 300, 'relative_gap': .001,
-            'max_outer_iterations': 12, 'demand_tolerance': .001, 'damping': .5},
+            'warm_start_road_skims': False,
+            **_solver['assignment']},
     },
     'luti': {'mode': 'equilibrium', 'step_years': 5., 'lag_years': 5.,
-        'control': 'region', 'max_iterations': 20, 'tolerance': 1e-5,
-        'damping': .5, 'cost_bridge': 'matched_delta', 'unsupported_housing': 'hold_neutral'},
+        'control': 'region', **_solver['luti'],
+        'cost_bridge': 'matched_delta', 'unsupported_housing': 'hold_neutral'},
     'exports': {
         'enabled': True, 'matrices': True,
         # 'all' saves every simulation date; a list such as [2025,2055] is valid.

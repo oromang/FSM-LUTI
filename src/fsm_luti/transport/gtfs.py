@@ -107,7 +107,8 @@ def access_candidates(zone_xy,stop_xy,speed_kph,max_distance_m,k=8,circuity=1.3)
 
 def connection_scan_components(connections,stops,zone_xy,departure_min,access_speed_kph=4.8,
                                max_access_m=1500.,access_k=8,circuity=1.3,minimum_transfer_min=3.,
-                               transfer_walk_max_m=250.,transfer_walk_k=8,max_journey_min=180.,progress=None):
+                               transfer_walk_max_m=250.,transfer_walk_k=8,max_journey_min=180.,progress=None,
+                               destination_xy=None):
     """All origins simultaneously, retaining physical components along selected paths.
 
     Earliest-arrival paths, deterministic same-trip continuation, and explicit
@@ -126,6 +127,12 @@ def connection_scan_components(connections,stops,zone_xy,departure_min,access_sp
     ids=stops.stop_id.astype(str).to_numpy(); stoppos={v:i for i,v in enumerate(ids)}
     xy=stops[['x','y']].to_numpy(float); n=len(zone_xy); ns=len(stops)
     candidate,access=access_candidates(zone_xy,xy,access_speed_kph,max_access_m,access_k,circuity)
+    if destination_xy is None:
+        destination_candidate,destination_access=candidate,access
+    else:
+        destination_candidate,destination_access=access_candidates(
+            np.asarray(destination_xy,float),xy,access_speed_kph,max_access_m,access_k,circuity)
+    destination_count=len(destination_candidate)
     arrival=np.full((ns,n),np.inf,dtype=np.float64)
     components=np.zeros((len(COMPONENTS),ns,n),dtype=np.float32)
     boards=np.zeros((ns,n),dtype=np.int16)
@@ -186,10 +193,10 @@ def connection_scan_components(connections,stops,zone_xy,departure_min,access_sp
         if i==last[trip]: on_trip.pop(trip,None)
         else: on_trip[trip]=(onboard,data,counts,arr[i])
         if progress is not None and i and i%20000==0: progress({'connections_scanned':i,'connections_total':len(c),'active_trip_states':len(on_trip)})
-    out={name:np.full((n,n),999.,dtype=np.float32) for name in COMPONENTS}
-    out['egress']=np.full((n,n),999.,dtype=np.float32); elapsed=np.full((n,n),999.,dtype=np.float32)
-    for destination in range(n):
-        valid=candidate[destination]<ns; ix=candidate[destination,valid]; egress=access[destination,valid]
+    out={name:np.full((n,destination_count),999.,dtype=np.float32) for name in COMPONENTS}
+    out['egress']=np.full((n,destination_count),999.,dtype=np.float32); elapsed=np.full((n,destination_count),999.,dtype=np.float32)
+    for destination in range(destination_count):
+        valid=destination_candidate[destination]<ns; ix=destination_candidate[destination,valid]; egress=destination_access[destination,valid]
         if not len(ix): continue
         total=arrival[ix]+egress[:,None]-departure_min
         total=np.where(boards[ix]>0,total,np.inf)

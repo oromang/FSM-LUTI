@@ -128,6 +128,9 @@ def build_interventions(root, settings, *, data_dir='data', gtfs_dir='data/gtfs_
             project['id']=uid
         project['name']=item.get('name',uid); project['enabled']=True
         project['settings']=item
+        for field in ('temporary_comparison', 'excludes', 'appraisal'):
+            if field in item:
+                project[field]=deepcopy(item[field])
         if item.get('pt_component_effects'):
             project['pt_component_effects']=deepcopy(item['pt_component_effects'])
         # GeoPackage geometry is authoritative when supplied; a legacy display

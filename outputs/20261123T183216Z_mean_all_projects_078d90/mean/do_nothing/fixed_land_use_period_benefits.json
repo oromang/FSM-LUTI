@@ -1,0 +1,857 @@
+[
+  {
+    "schema": "fixed_land_use_roh_v1",
+    "year": 2025.0,
+    "scenario_id": "mean",
+    "scope": "modelled_periods",
+    "price_year": 2025,
+    "profile_id": "all_users_simplified_appraisal",
+    "profile_status": "partial_screening_assumptions",
+    "market_count": 9034518,
+    "excluded_both_zero_market_count": 2838887,
+    "time_benefit_chf": 0.0,
+    "time_components_chf": {
+      "congestion_min": 0.0,
+      "in_vehicle_min": 0.0,
+      "cycle_min": 0.0,
+      "walk_min": 0.0,
+      "transfer_walk_min": 0.0,
+      "egress_min": 0.0,
+      "wait_min": 0.0,
+      "access_min": 0.0
+    },
+    "by_mode": {
+      "drive": {
+        "time_components_chf": {
+          "congestion_min": 0.0,
+          "in_vehicle_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 874194.2550391225,
+        "project_user_payments_chf": 874194.2550391225,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "bike": {
+        "time_components_chf": {
+          "cycle_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 0.0,
+        "project_user_payments_chf": 0.0,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "walk": {
+        "time_components_chf": {
+          "walk_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 0.0,
+        "project_user_payments_chf": 0.0,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "pt_walk": {
+        "time_components_chf": {
+          "transfer_walk_min": 0.0,
+          "egress_min": 0.0,
+          "wait_min": 0.0,
+          "in_vehicle_min": 0.0,
+          "access_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 133528.76454236853,
+        "project_user_payments_chf": 133528.76454236853,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "pt_bike": {
+        "time_components_chf": {
+          "transfer_walk_min": 0.0,
+          "egress_min": 0.0,
+          "wait_min": 0.0,
+          "in_vehicle_min": 0.0,
+          "access_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 55526.884039656485,
+        "project_user_payments_chf": 55526.884039656485,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      }
+    },
+    "user_payment_benefit_chf": 0.0,
+    "transport_user_benefit_chf": 0.0,
+    "operator_receipt_change_chf": null,
+    "tax_receipt_change_chf": null,
+    "transfer_accounting_complete": true,
+    "land_use_welfare_included": false,
+    "warnings": []
+  },
+  {
+    "schema": "fixed_land_use_roh_v1",
+    "year": 2030.0,
+    "scenario_id": "mean",
+    "scope": "modelled_periods",
+    "price_year": 2025,
+    "profile_id": "all_users_simplified_appraisal",
+    "profile_status": "partial_screening_assumptions",
+    "market_count": 9034518,
+    "excluded_both_zero_market_count": 2838887,
+    "time_benefit_chf": 0.0,
+    "time_components_chf": {
+      "congestion_min": 0.0,
+      "in_vehicle_min": 0.0,
+      "cycle_min": 0.0,
+      "walk_min": 0.0,
+      "transfer_walk_min": 0.0,
+      "egress_min": 0.0,
+      "wait_min": 0.0,
+      "access_min": 0.0
+    },
+    "by_mode": {
+      "drive": {
+        "time_components_chf": {
+          "congestion_min": 0.0,
+          "in_vehicle_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 906779.5926504476,
+        "project_user_payments_chf": 906779.5926504476,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "bike": {
+        "time_components_chf": {
+          "cycle_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 0.0,
+        "project_user_payments_chf": 0.0,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "walk": {
+        "time_components_chf": {
+          "walk_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 0.0,
+        "project_user_payments_chf": 0.0,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "pt_walk": {
+        "time_components_chf": {
+          "transfer_walk_min": 0.0,
+          "egress_min": 0.0,
+          "wait_min": 0.0,
+          "in_vehicle_min": 0.0,
+          "access_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 140826.06869873693,
+        "project_user_payments_chf": 140826.06869873693,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "pt_bike": {
+        "time_components_chf": {
+          "transfer_walk_min": 0.0,
+          "egress_min": 0.0,
+          "wait_min": 0.0,
+          "in_vehicle_min": 0.0,
+          "access_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 58867.08322053114,
+        "project_user_payments_chf": 58867.08322053114,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      }
+    },
+    "user_payment_benefit_chf": 0.0,
+    "transport_user_benefit_chf": 0.0,
+    "operator_receipt_change_chf": null,
+    "tax_receipt_change_chf": null,
+    "transfer_accounting_complete": true,
+    "land_use_welfare_included": false,
+    "warnings": []
+  },
+  {
+    "schema": "fixed_land_use_roh_v1",
+    "year": 2035.0,
+    "scenario_id": "mean",
+    "scope": "modelled_periods",
+    "price_year": 2025,
+    "profile_id": "all_users_simplified_appraisal",
+    "profile_status": "partial_screening_assumptions",
+    "market_count": 9034518,
+    "excluded_both_zero_market_count": 2838887,
+    "time_benefit_chf": 0.0,
+    "time_components_chf": {
+      "congestion_min": 0.0,
+      "in_vehicle_min": 0.0,
+      "cycle_min": 0.0,
+      "walk_min": 0.0,
+      "transfer_walk_min": 0.0,
+      "egress_min": 0.0,
+      "wait_min": 0.0,
+      "access_min": 0.0
+    },
+    "by_mode": {
+      "drive": {
+        "time_components_chf": {
+          "congestion_min": 0.0,
+          "in_vehicle_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 939809.5520167757,
+        "project_user_payments_chf": 939809.5520167757,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "bike": {
+        "time_components_chf": {
+          "cycle_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 0.0,
+        "project_user_payments_chf": 0.0,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "walk": {
+        "time_components_chf": {
+          "walk_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 0.0,
+        "project_user_payments_chf": 0.0,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "pt_walk": {
+        "time_components_chf": {
+          "transfer_walk_min": 0.0,
+          "egress_min": 0.0,
+          "wait_min": 0.0,
+          "in_vehicle_min": 0.0,
+          "access_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 145899.3659226475,
+        "project_user_payments_chf": 145899.3659226475,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "pt_bike": {
+        "time_components_chf": {
+          "transfer_walk_min": 0.0,
+          "egress_min": 0.0,
+          "wait_min": 0.0,
+          "in_vehicle_min": 0.0,
+          "access_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 61013.16657584514,
+        "project_user_payments_chf": 61013.16657584514,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      }
+    },
+    "user_payment_benefit_chf": 0.0,
+    "transport_user_benefit_chf": 0.0,
+    "operator_receipt_change_chf": null,
+    "tax_receipt_change_chf": null,
+    "transfer_accounting_complete": true,
+    "land_use_welfare_included": false,
+    "warnings": []
+  },
+  {
+    "schema": "fixed_land_use_roh_v1",
+    "year": 2039.0,
+    "scenario_id": "mean",
+    "scope": "modelled_periods",
+    "price_year": 2025,
+    "profile_id": "all_users_simplified_appraisal",
+    "profile_status": "partial_screening_assumptions",
+    "market_count": 9034518,
+    "excluded_both_zero_market_count": 2838887,
+    "time_benefit_chf": 0.0,
+    "time_components_chf": {
+      "congestion_min": 0.0,
+      "in_vehicle_min": 0.0,
+      "cycle_min": 0.0,
+      "walk_min": 0.0,
+      "transfer_walk_min": 0.0,
+      "egress_min": 0.0,
+      "wait_min": 0.0,
+      "access_min": 0.0
+    },
+    "by_mode": {
+      "drive": {
+        "time_components_chf": {
+          "congestion_min": 0.0,
+          "in_vehicle_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 960076.0917374309,
+        "project_user_payments_chf": 960076.0917374309,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "bike": {
+        "time_components_chf": {
+          "cycle_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 0.0,
+        "project_user_payments_chf": 0.0,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "walk": {
+        "time_components_chf": {
+          "walk_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 0.0,
+        "project_user_payments_chf": 0.0,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "pt_walk": {
+        "time_components_chf": {
+          "transfer_walk_min": 0.0,
+          "egress_min": 0.0,
+          "wait_min": 0.0,
+          "in_vehicle_min": 0.0,
+          "access_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 149218.27775290684,
+        "project_user_payments_chf": 149218.27775290684,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "pt_bike": {
+        "time_components_chf": {
+          "transfer_walk_min": 0.0,
+          "egress_min": 0.0,
+          "wait_min": 0.0,
+          "in_vehicle_min": 0.0,
+          "access_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 62429.25116048893,
+        "project_user_payments_chf": 62429.25116048893,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      }
+    },
+    "user_payment_benefit_chf": 0.0,
+    "transport_user_benefit_chf": 0.0,
+    "operator_receipt_change_chf": null,
+    "tax_receipt_change_chf": null,
+    "transfer_accounting_complete": true,
+    "land_use_welfare_included": false,
+    "warnings": []
+  },
+  {
+    "schema": "fixed_land_use_roh_v1",
+    "year": 2040.0,
+    "scenario_id": "mean",
+    "scope": "modelled_periods",
+    "price_year": 2025,
+    "profile_id": "all_users_simplified_appraisal",
+    "profile_status": "partial_screening_assumptions",
+    "market_count": 9034518,
+    "excluded_both_zero_market_count": 2838887,
+    "time_benefit_chf": 0.0,
+    "time_components_chf": {
+      "congestion_min": 0.0,
+      "in_vehicle_min": 0.0,
+      "cycle_min": 0.0,
+      "walk_min": 0.0,
+      "transfer_walk_min": 0.0,
+      "egress_min": 0.0,
+      "wait_min": 0.0,
+      "access_min": 0.0
+    },
+    "by_mode": {
+      "drive": {
+        "time_components_chf": {
+          "congestion_min": 0.0,
+          "in_vehicle_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 964828.7387279762,
+        "project_user_payments_chf": 964828.7387279762,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "bike": {
+        "time_components_chf": {
+          "cycle_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 0.0,
+        "project_user_payments_chf": 0.0,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "walk": {
+        "time_components_chf": {
+          "walk_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 0.0,
+        "project_user_payments_chf": 0.0,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "pt_walk": {
+        "time_components_chf": {
+          "transfer_walk_min": 0.0,
+          "egress_min": 0.0,
+          "wait_min": 0.0,
+          "in_vehicle_min": 0.0,
+          "access_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 149977.9761610102,
+        "project_user_payments_chf": 149977.9761610102,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "pt_bike": {
+        "time_components_chf": {
+          "transfer_walk_min": 0.0,
+          "egress_min": 0.0,
+          "wait_min": 0.0,
+          "in_vehicle_min": 0.0,
+          "access_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 62760.8707104035,
+        "project_user_payments_chf": 62760.8707104035,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      }
+    },
+    "user_payment_benefit_chf": 0.0,
+    "transport_user_benefit_chf": 0.0,
+    "operator_receipt_change_chf": null,
+    "tax_receipt_change_chf": null,
+    "transfer_accounting_complete": true,
+    "land_use_welfare_included": false,
+    "warnings": []
+  },
+  {
+    "schema": "fixed_land_use_roh_v1",
+    "year": 2044.0,
+    "scenario_id": "mean",
+    "scope": "modelled_periods",
+    "price_year": 2025,
+    "profile_id": "all_users_simplified_appraisal",
+    "profile_status": "partial_screening_assumptions",
+    "market_count": 9034518,
+    "excluded_both_zero_market_count": 2838887,
+    "time_benefit_chf": 0.0,
+    "time_components_chf": {
+      "congestion_min": 0.0,
+      "in_vehicle_min": 0.0,
+      "cycle_min": 0.0,
+      "walk_min": 0.0,
+      "transfer_walk_min": 0.0,
+      "egress_min": 0.0,
+      "wait_min": 0.0,
+      "access_min": 0.0
+    },
+    "by_mode": {
+      "drive": {
+        "time_components_chf": {
+          "congestion_min": 0.0,
+          "in_vehicle_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 982644.7986221234,
+        "project_user_payments_chf": 982644.7986221234,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "bike": {
+        "time_components_chf": {
+          "cycle_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 0.0,
+        "project_user_payments_chf": 0.0,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "walk": {
+        "time_components_chf": {
+          "walk_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 0.0,
+        "project_user_payments_chf": 0.0,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "pt_walk": {
+        "time_components_chf": {
+          "transfer_walk_min": 0.0,
+          "egress_min": 0.0,
+          "wait_min": 0.0,
+          "in_vehicle_min": 0.0,
+          "access_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 152608.89161935428,
+        "project_user_payments_chf": 152608.89161935428,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "pt_bike": {
+        "time_components_chf": {
+          "transfer_walk_min": 0.0,
+          "egress_min": 0.0,
+          "wait_min": 0.0,
+          "in_vehicle_min": 0.0,
+          "access_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 63878.165766958504,
+        "project_user_payments_chf": 63878.165766958504,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      }
+    },
+    "user_payment_benefit_chf": 0.0,
+    "transport_user_benefit_chf": 0.0,
+    "operator_receipt_change_chf": null,
+    "tax_receipt_change_chf": null,
+    "transfer_accounting_complete": true,
+    "land_use_welfare_included": false,
+    "warnings": []
+  },
+  {
+    "schema": "fixed_land_use_roh_v1",
+    "year": 2045.0,
+    "scenario_id": "mean",
+    "scope": "modelled_periods",
+    "price_year": 2025,
+    "profile_id": "all_users_simplified_appraisal",
+    "profile_status": "partial_screening_assumptions",
+    "market_count": 9034518,
+    "excluded_both_zero_market_count": 2838887,
+    "time_benefit_chf": 0.0,
+    "time_components_chf": {
+      "congestion_min": 0.0,
+      "in_vehicle_min": 0.0,
+      "cycle_min": 0.0,
+      "walk_min": 0.0,
+      "transfer_walk_min": 0.0,
+      "egress_min": 0.0,
+      "wait_min": 0.0,
+      "access_min": 0.0
+    },
+    "by_mode": {
+      "drive": {
+        "time_components_chf": {
+          "congestion_min": 0.0,
+          "in_vehicle_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 986589.0032167223,
+        "project_user_payments_chf": 986589.0032167223,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "bike": {
+        "time_components_chf": {
+          "cycle_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 0.0,
+        "project_user_payments_chf": 0.0,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "walk": {
+        "time_components_chf": {
+          "walk_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 0.0,
+        "project_user_payments_chf": 0.0,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "pt_walk": {
+        "time_components_chf": {
+          "transfer_walk_min": 0.0,
+          "egress_min": 0.0,
+          "wait_min": 0.0,
+          "in_vehicle_min": 0.0,
+          "access_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 153415.96794897527,
+        "project_user_payments_chf": 153415.96794897527,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "pt_bike": {
+        "time_components_chf": {
+          "transfer_walk_min": 0.0,
+          "egress_min": 0.0,
+          "wait_min": 0.0,
+          "in_vehicle_min": 0.0,
+          "access_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 64239.09655521097,
+        "project_user_payments_chf": 64239.09655521097,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      }
+    },
+    "user_payment_benefit_chf": 0.0,
+    "transport_user_benefit_chf": 0.0,
+    "operator_receipt_change_chf": null,
+    "tax_receipt_change_chf": null,
+    "transfer_accounting_complete": true,
+    "land_use_welfare_included": false,
+    "warnings": []
+  },
+  {
+    "schema": "fixed_land_use_roh_v1",
+    "year": 2050.0,
+    "scenario_id": "mean",
+    "scope": "modelled_periods",
+    "price_year": 2025,
+    "profile_id": "all_users_simplified_appraisal",
+    "profile_status": "partial_screening_assumptions",
+    "market_count": 9034518,
+    "excluded_both_zero_market_count": 2838887,
+    "time_benefit_chf": 0.0,
+    "time_components_chf": {
+      "congestion_min": 0.0,
+      "in_vehicle_min": 0.0,
+      "cycle_min": 0.0,
+      "walk_min": 0.0,
+      "transfer_walk_min": 0.0,
+      "egress_min": 0.0,
+      "wait_min": 0.0,
+      "access_min": 0.0
+    },
+    "by_mode": {
+      "drive": {
+        "time_components_chf": {
+          "congestion_min": 0.0,
+          "in_vehicle_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 1006829.7516095582,
+        "project_user_payments_chf": 1006829.7516095582,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "bike": {
+        "time_components_chf": {
+          "cycle_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 0.0,
+        "project_user_payments_chf": 0.0,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "walk": {
+        "time_components_chf": {
+          "walk_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 0.0,
+        "project_user_payments_chf": 0.0,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "pt_walk": {
+        "time_components_chf": {
+          "transfer_walk_min": 0.0,
+          "egress_min": 0.0,
+          "wait_min": 0.0,
+          "in_vehicle_min": 0.0,
+          "access_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 156541.31272522116,
+        "project_user_payments_chf": 156541.31272522116,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "pt_bike": {
+        "time_components_chf": {
+          "transfer_walk_min": 0.0,
+          "egress_min": 0.0,
+          "wait_min": 0.0,
+          "in_vehicle_min": 0.0,
+          "access_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 65566.14451158897,
+        "project_user_payments_chf": 65566.14451158897,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      }
+    },
+    "user_payment_benefit_chf": 0.0,
+    "transport_user_benefit_chf": 0.0,
+    "operator_receipt_change_chf": null,
+    "tax_receipt_change_chf": null,
+    "transfer_accounting_complete": true,
+    "land_use_welfare_included": false,
+    "warnings": []
+  },
+  {
+    "schema": "fixed_land_use_roh_v1",
+    "year": 2055.0,
+    "scenario_id": "mean",
+    "scope": "modelled_periods",
+    "price_year": 2025,
+    "profile_id": "all_users_simplified_appraisal",
+    "profile_status": "partial_screening_assumptions",
+    "market_count": 9034518,
+    "excluded_both_zero_market_count": 2838887,
+    "time_benefit_chf": 0.0,
+    "time_components_chf": {
+      "congestion_min": 0.0,
+      "in_vehicle_min": 0.0,
+      "cycle_min": 0.0,
+      "walk_min": 0.0,
+      "transfer_walk_min": 0.0,
+      "egress_min": 0.0,
+      "wait_min": 0.0,
+      "access_min": 0.0
+    },
+    "by_mode": {
+      "drive": {
+        "time_components_chf": {
+          "congestion_min": 0.0,
+          "in_vehicle_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 1024258.0742596096,
+        "project_user_payments_chf": 1024258.0742596096,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "bike": {
+        "time_components_chf": {
+          "cycle_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 0.0,
+        "project_user_payments_chf": 0.0,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "walk": {
+        "time_components_chf": {
+          "walk_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 0.0,
+        "project_user_payments_chf": 0.0,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "pt_walk": {
+        "time_components_chf": {
+          "transfer_walk_min": 0.0,
+          "egress_min": 0.0,
+          "wait_min": 0.0,
+          "in_vehicle_min": 0.0,
+          "access_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 159493.59299359025,
+        "project_user_payments_chf": 159493.59299359025,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      },
+      "pt_bike": {
+        "time_components_chf": {
+          "transfer_walk_min": 0.0,
+          "egress_min": 0.0,
+          "wait_min": 0.0,
+          "in_vehicle_min": 0.0,
+          "access_min": 0.0
+        },
+        "user_payment_benefit_chf": 0.0,
+        "reference_user_payments_chf": 66827.19941212541,
+        "project_user_payments_chf": 66827.19941212541,
+        "time_benefit_chf": 0.0,
+        "transport_user_benefit_chf": 0.0,
+        "annualization": null
+      }
+    },
+    "user_payment_benefit_chf": 0.0,
+    "transport_user_benefit_chf": 0.0,
+    "operator_receipt_change_chf": null,
+    "tax_receipt_change_chf": null,
+    "transfer_accounting_complete": true,
+    "land_use_welfare_included": false,
+    "warnings": []
+  }
+]

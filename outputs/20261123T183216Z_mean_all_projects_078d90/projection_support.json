@@ -1,0 +1,149 @@
+{
+  "settings": {
+    "method": "damped_log",
+    "lookback_years": 10.0,
+    "damping": 0.8,
+    "before_source": "error"
+  },
+  "prepared_file": "C:\\Personal\\Code\\FSM-LUTI\\data\\projections\\neutral_paths.parquet",
+  "input_fingerprints": {
+    "prepared_neutral_paths": {
+      "path": "C:\\Personal\\Code\\FSM-LUTI\\data\\projections\\neutral_paths.parquet",
+      "bytes": 6568812,
+      "sha256": "b14ad05bd180bef3d0a16f18ee585768794794bec7b734530c44302eba88d7eb"
+    },
+    "population_controls": {
+      "path": "C:\\Personal\\Code\\FSM-LUTI\\data\\projections\\bfs_canton_controls.csv",
+      "bytes": 94395,
+      "sha256": "291dd38f4c71c1de0128ce3836dbf62fddec41326fea81eae4da3fa7bdbed6bd"
+    },
+    "employment_controls": {
+      "path": "C:\\Personal\\Code\\FSM-LUTI\\data\\projections\\employment_sector_controls.parquet",
+      "bytes": 13137,
+      "sha256": "1ad95d19b52ed774a4d0f27f7291b36ab656ffbd2ba27a4fd79f2be20ae773e0"
+    }
+  },
+  "requested_years": [
+    2025.0,
+    2055.0
+  ],
+  "prepared_families": {
+    "reference": {
+      "first_year": 2025.0,
+      "last_year": 2055.0,
+      "requested_before_prepared": [],
+      "requested_after_prepared": []
+    }
+  },
+  "controls": {
+    "population": {
+      "basis": "source_control_ratios",
+      "series": [
+        {
+          "scenario": "reference",
+          "canton": "SH",
+          "first_year": 2024.0,
+          "last_year": 2055.0,
+          "requested_after_source": []
+        },
+        {
+          "scenario": "reference",
+          "canton": "TG",
+          "first_year": 2024.0,
+          "last_year": 2055.0,
+          "requested_after_source": []
+        },
+        {
+          "scenario": "reference",
+          "canton": "ZH",
+          "first_year": 2024.0,
+          "last_year": 2055.0,
+          "requested_after_source": []
+        }
+      ],
+      "source_file": "C:\\Personal\\Code\\FSM-LUTI\\data\\projections\\bfs_canton_controls.csv"
+    },
+    "employment": {
+      "basis": "source_control_ratios",
+      "series": [
+        {
+          "scenario": "reference",
+          "canton": "SH",
+          "sector": "primary",
+          "first_year": 2022.0,
+          "last_year": 2060.0,
+          "requested_after_source": []
+        },
+        {
+          "scenario": "reference",
+          "canton": "SH",
+          "sector": "secondary",
+          "first_year": 2022.0,
+          "last_year": 2060.0,
+          "requested_after_source": []
+        },
+        {
+          "scenario": "reference",
+          "canton": "SH",
+          "sector": "tertiary",
+          "first_year": 2022.0,
+          "last_year": 2060.0,
+          "requested_after_source": []
+        },
+        {
+          "scenario": "reference",
+          "canton": "TG",
+          "sector": "primary",
+          "first_year": 2022.0,
+          "last_year": 2060.0,
+          "requested_after_source": []
+        },
+        {
+          "scenario": "reference",
+          "canton": "TG",
+          "sector": "secondary",
+          "first_year": 2022.0,
+          "last_year": 2060.0,
+          "requested_after_source": []
+        },
+        {
+          "scenario": "reference",
+          "canton": "TG",
+          "sector": "tertiary",
+          "first_year": 2022.0,
+          "last_year": 2060.0,
+          "requested_after_source": []
+        },
+        {
+          "scenario": "reference",
+          "canton": "ZH",
+          "sector": "primary",
+          "first_year": 2022.0,
+          "last_year": 2060.0,
+          "requested_after_source": []
+        },
+        {
+          "scenario": "reference",
+          "canton": "ZH",
+          "sector": "secondary",
+          "first_year": 2022.0,
+          "last_year": 2060.0,
+          "requested_after_source": []
+        },
+        {
+          "scenario": "reference",
+          "canton": "ZH",
+          "sector": "tertiary",
+          "first_year": 2022.0,
+          "last_year": 2060.0,
+          "requested_after_source": []
+        }
+      ],
+      "source_file": "C:\\Personal\\Code\\FSM-LUTI\\data\\projections\\employment_sector_controls.parquet"
+    }
+  },
+  "population_spatial_rule": "continued zonal trends rescaled to continued canton totals",
+  "employment_spatial_rule": "terminal sector shares times canton-sector control ratios",
+  "zero_rule": "terminal zero stays zero; fewer than two positive source points holds terminal stock",
+  "interpretation": "Values after a source horizon are modeling assumptions, not official forecasts; in-range prepared values are unchanged."
+}

@@ -1,0 +1,17 @@
+group,mode,persons_per_ASP_hour,share,source_year,scope
+SH,drive,12036.740669902,0.3578957987252352,2023,internal-to-internal trips grouped by origin
+SH,pt,2105.462062,0.06260299586327349,2023,internal-to-internal trips grouped by origin
+SH,bike,4177.9619999999995,0.12422590866085803,2023,internal-to-internal trips grouped by origin
+SH,walk,15311.804999999997,0.4552752967506332,2023,internal-to-internal trips grouped by origin
+TG,drive,47184.1120053205,0.44315598234012826,2023,internal-to-internal trips grouped by origin
+TG,pt,4404.922236,0.04137129126020934,2023,internal-to-internal trips grouped by origin
+TG,bike,13720.515,0.128863891776788,2023,internal-to-internal trips grouped by origin
+TG,walk,41163.372,0.3866088346228743,2023,internal-to-internal trips grouped by origin
+ZH,drive,190102.14749380006,0.28469532121636,2023,internal-to-internal trips grouped by origin
+ZH,pt,88593.388136,0.13267668685250786,2023,internal-to-internal trips grouped by origin
+ZH,bike,102843.39,0.15401736559543222,2023,internal-to-internal trips grouped by origin
+ZH,walk,286199.9985,0.4286106263356999,2023,internal-to-internal trips grouped by origin
+Zurich city,drive,27262.979220426052,0.1221486510815025,2023,internal-to-internal trips grouped by origin
+Zurich city,pt,51892.19618,0.23249703247012346,2023,internal-to-internal trips grouped by origin
+Zurich city,bike,45607.407,0.20433875547252153,2023,internal-to-internal trips grouped by origin
+Zurich city,walk,98432.508,0.4410155609758524,2023,internal-to-internal trips grouped by origin

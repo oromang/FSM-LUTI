@@ -11,7 +11,8 @@ import math
 import numpy as np
 import pandas as pd
 
-from .core import AppraisalError, PHYSICAL_COMPONENTS, discounted_ledger
+from .core import AppraisalError, PHYSICAL_COMPONENTS, COST_KINDS, discounted_ledger
+from ..comparisons import temporary_comparisons, comparison_dates
 
 
 def _number(value, name, *, minimum=None):
@@ -115,6 +116,47 @@ def _interpolate(knots, years, opening, terminal, opening_events):
     return values
 
 
+def _additional_components(row, price, scenario, case):
+    """Validate signed annual welfare additions before geographic aggregation.
+
+    Extension ledgers use benefits positive and costs negative throughout. The
+    discounted core uses positive expenses; conversion happens only in add().
+    Geographic subtotals remain in the original ledger, not extra welfare rows.
+    """
+    account = row.get('additional_accounts')
+    if account is None:
+        return {}, {}, {}
+    if account.get('price_year') != price or account.get('year') != row['year']:
+        raise AppraisalError('Additional accounts differ in price year or model date')
+    if account.get('scenario_id') != scenario or account.get('case_id') != case:
+        raise AppraisalError('Additional accounts differ in scenario or case')
+    amounts, kinds, sources, seen = {}, {}, {}, set()
+    # Asset accounts belong to the project-cost calculator, never this hook.
+    allowed = {'transport_user_benefit', 'externality_benefit', 'other_resource_cost', 'pt_operation'}
+    for item in account.get('ledger', []):
+        component, kind = item.get('component'), item.get('kind')
+        if not component or kind not in allowed or not item.get('source'):
+            raise AppraisalError('Additional account needs component, allowed kind and source')
+        for field, expected in [('scenario_id', scenario), ('case_id', case),
+                                ('year', row['year']), ('price_year', price)]:
+            if item.get(field) != expected:
+                raise AppraisalError(f'Additional ledger {component}: inconsistent {field}')
+        identity = (component, item.get('cohort'), str(item.get('geography', '')),
+                    item.get('project_id'), item.get('vehicle_class'))
+        if identity in seen:
+            raise AppraisalError(f'Duplicate additional welfare account: {identity}')
+        seen.add(identity)
+        if component in kinds and kinds[component] != kind:
+            raise AppraisalError(f'Conflicting accounting kinds for {component}')
+        amounts[component] = amounts.get(component, 0.) + _number(item['amount_chf'], component)
+        kinds[component] = kind
+        sources.setdefault(component, set()).add(str(item['source']))
+    if not np.isclose(sum(amounts.values()), _number(account.get('annual_total_chf'), 'additional total'),
+                      rtol=1e-9, atol=1e-5):
+        raise AppraisalError('Additional ledger does not reconcile to annual total')
+    return amounts, kinds, {key: '; '.join(sorted(values)) for key, values in sources.items()}
+
+
 def integrated_appraisal(benefits, conventions, projects, *, scenario_id,
                          case_id, start_year, end_year):
     """Return annual component tables, a dated ledger and an explicitly scoped NPV.
@@ -137,11 +179,12 @@ def integrated_appraisal(benefits, conventions, projects, *, scenario_id,
     rate = _number(c['discount_rate'], 'discount_rate', minimum=0.)
     price = _year(c['price_year'], 'price_year')
     project_specs = {uid: ({'opening_year': spec} if not isinstance(spec, dict) else spec) for uid, spec in projects.items()}
+    temporary = temporary_comparisons(project_specs)
     opening_events = sorted({_year(p['opening_year'], 'opening_year') for p in project_specs.values()})
     opening = min(opening_events, default=start)
     years = list(range(start, end + 1))
     result = {'schema': 'integrated_nb05_style_appraisal_v1', 'case_id': case_id, 'scenario_id': scenario_id,
-        'scope': 'partial_fixed_land_use_time_and_declared_project_costs',
+        'scope': 'fixed_land_use_all_represented_users_and_simplified_externalities',
         'status': 'partial_screening', 'price_year': price, 'discount_base_year': base,
         'discount_rate': rate, 'start_year': start, 'end_year': end,
         'standing': c.get('standing'), 'exclusions': list(c.get('excluded_accounts', [])),
@@ -150,8 +193,15 @@ def integrated_appraisal(benefits, conventions, projects, *, scenario_id,
         'price_basis': c.get('price_basis'), 'terminal_benefits': c.get('terminal_benefits', 'constant'),
         'payment_accounting': c.get('payment_accounting', 'report_only'),
         'land_use_welfare_included': False, 'monetized_land_use_welfare_chf': None,
+        'external_users_included': False, 'freight_included': False,
         'official_project_ranking_eligible': False, 'official_niba_nistra_certified': False,
         'npv_chf': None, 'benefit_cost_ratio': None, 'component_table': [], 'ledger': []}
+    result['temporary_comparisons'] = temporary
+    result['reference_network_basis'] = ('case-specific temporary closure during the stated calendar years; ordinary do-nothing otherwise'
+        if temporary else 'ordinary do-nothing')
+    result['comparison_description'] = ('; '.join(
+        f'{uid}: no-project reference closed in {spec["start_year"]}–{spec["end_year_exclusive"]-1}; project uses temporary operating design'
+        for uid,spec in temporary.items()) if temporary else 'Project compared with ordinary do-nothing')
     table, ledger = [], []
 
     def add(year, component, kind, amount, *, uid=None, basis=None, cost=False):
@@ -166,7 +216,9 @@ def integrated_appraisal(benefits, conventions, projects, *, scenario_id,
         ledger.append({'year': int(year), 'kind': kind, 'amount_chf': amount, 'price_year': price,
                        'component': component, 'project_id': uid, 'source': basis})
 
-    known = {}
+    known, component_kinds, component_sources = {}, {}, {}
+    result['additional_account_coverage'] = []
+    supply_accounts = {}
     payment_reporting = []
     for row in benefits:
         try:
@@ -175,7 +227,23 @@ def integrated_appraisal(benefits, conventions, projects, *, scenario_id,
             year = _number(row.get('year'), 'benefit year')
             if year in known:
                 raise AppraisalError('Duplicate annual benefit date')
-            known[year] = _benefit_components(row, c)
+            components = _benefit_components(row, c)
+            extra, kinds, sources = _additional_components(row, price, scenario_id, case_id)
+            if components.keys() & extra.keys():
+                raise AppraisalError('Additional account duplicates an internal physical-time component')
+            for component, kind in kinds.items():
+                if component in component_kinds and component_kinds[component] != kind:
+                    raise AppraisalError(f'Accounting kind changes over time for {component}')
+                component_kinds[component] = kind
+                component_sources[component] = sources[component]
+            known[year] = {**components, **extra}
+            if row.get('additional_accounts'):
+                supply_accounts[year] = row['additional_accounts']
+                for coverage in row['additional_accounts'].get('coverage',{}).values():
+                    if isinstance(coverage,dict):result['exclusions'].extend(coverage.get('missing',[]))
+                result['additional_account_coverage'].append({'year': year,
+                    'coverage': row['additional_accounts'].get('coverage'),
+                    'assumptions': row['additional_accounts'].get('assumptions')})
             payment_reporting.append({'year': year, 'user_payment_benefit_chf': row.get('user_payment_benefit_chf'),
                 'by_mode': {mode: {k: v for k, v in m.items() if 'payment' in k}
                             for mode, m in row['by_mode'].items()}})
@@ -183,16 +251,28 @@ def integrated_appraisal(benefits, conventions, projects, *, scenario_id,
             result['benefit_errors'].append(f"{row.get('year')}: {exc}")
     if not known:
         result['benefit_errors'].append('No usable annual benefits')
+    result['external_users_included'] = bool(known) and all(supply_accounts.get(y,{}).get('external_users_included') is True for y in known)
+    result['freight_included'] = bool(known) and all(supply_accounts.get(y,{}).get('freight_included') is True for y in known)
     if opening <= end and projects and opening >= start and opening not in known:
         result['benefit_errors'].append('Project opening requires its own modelled annual benefit')
+    # A five-year shutdown must contribute exactly its configured calendar
+    # years. Both sides of closure/reopening jumps are evaluated explicitly.
+    # Constant terminal extrapolation cannot cross a known network change.
+    required_comparison_dates=[year for year in comparison_dates(project_specs) if start<=year<=end]
+    for year in required_comparison_dates:
+        if year not in known:
+            result['benefit_errors'].append(f'Temporary comparison transition requires modelled annual benefit in {year}; extend the model horizon or supply this event date')
+    result['required_comparison_dates'] = required_comparison_dates
     if known and not result['benefit_errors']:
         all_components = sorted({k for row in known.values() for k in row})
         for comp in all_components:
             knots = {year: values.get(comp, 0.) for year, values in known.items()}
             vals = _interpolate(knots, years, opening, c.get('terminal_benefits', 'constant'), opening_events)
-            kind = 'operator_receipt_change' if comp == 'operator_receipt_change' else 'tax_receipt_change' if comp == 'tax_receipt_change' else 'transport_user_benefit'
+            kind = component_kinds.get(comp, 'operator_receipt_change' if comp == 'operator_receipt_change' else 'tax_receipt_change' if comp == 'tax_receipt_change' else 'transport_user_benefit')
             for year, value in zip(years, vals):
-                add(year, comp, kind, value, basis='Annual matched fixed-land-use original OD physical components')
+                is_cost = kind in COST_KINDS
+                add(year, comp, kind, -value if is_cost else value, cost=is_cost,
+                    basis=component_sources.get(comp, 'Annual matched fixed-land-use original OD physical components'))
     result['payment_reporting'] = payment_reporting
     if c.get('payment_accounting', 'report_only') == 'report_only':
         result['exclusions'].append('user_payments_and_operator_tax_transfers_reported_separately')
@@ -206,6 +286,9 @@ def integrated_appraisal(benefits, conventions, projects, *, scenario_id,
                  'source': spec.get('source'), 'source_price_year': spec.get('source_price_year'),
                  'scope_note': spec.get('scope_note'), 'assumption_basis': spec.get('assumption_basis')}
         result['assumptions'].append(scope)
+        if op <= end and project.get('pt_component_effects') and spec.get('station_capital_included') is False:
+            result['missing_accounts'].append(f'{uid}.additional_station_measure_capital')
+            result['exclusions'].append(f'{uid}.station_measures_not_in_published_capital_scope')
         if capex is None:
             result['missing_accounts'].append(f'{uid}.capital_cost_chf')
             result['missing_accounts'].append(f'{uid}.capital_based_om_and_residual')
@@ -262,9 +345,22 @@ def integrated_appraisal(benefits, conventions, projects, *, scenario_id,
             scope.update(capital_paid_within_horizon_chf=paid, residual_eligible_share=share,
                          lifetime_years=life, annual_infrastructure_om_fraction=om)
         operation = spec.get('annual_service_operation_chf')
-        if operation is None:
-            result['missing_accounts'].append(f'{uid}.annual_service_operation_chf')
-            result['exclusions'].append(f'{uid}.additional_service_operation_and_rolling_stock')
+        if spec.get('service_operation_from_supply', False):
+            if operation is not None:
+                raise AppraisalError('Choose calculated supply operation or a configured annual service cost, not both')
+            for date in known:
+                if date < op or date > end:continue
+                extra=supply_accounts.get(date,{})
+                supplied=[r for r in extra.get('service_supply',{}).get('project',[]) if r.get('project_id')==uid]
+                valued=[r for r in extra.get('ledger',[]) if r.get('project_id')==uid and r.get('kind')=='pt_operation']
+                if not supplied or not valued:
+                    result['missing_accounts'].append(f'{uid}.calculated_service_operation')
+                    break
+            scope['service_operation_basis'] = 'Additional train supply and configured resource rates; annual extension ledger'
+        elif operation is None:
+            if op <= end:
+                result['missing_accounts'].append(f'{uid}.annual_service_operation_chf')
+                result['exclusions'].append(f'{uid}.additional_service_operation_and_rolling_stock')
         else:
             operation = _number(operation, f'{uid} annual service operation', minimum=0.)
             for year in years:
@@ -280,15 +376,26 @@ def integrated_appraisal(benefits, conventions, projects, *, scenario_id,
                     basis='Explicit renewal expense; no residual on unspecified renewal asset life', cost=True)
 
     allowed_extra = {'externality_benefit', 'other_resource_cost', 'construction_externality'}
+    extra_seen = set()
+    automatic_components = {entry['component'] for entry in ledger}
     for row in c.get('dated_streams', []):
         if row.get('project_id') not in projects:
+            continue
+        if not row.get('scenario_id') or not row.get('case_id'):
+            raise AppraisalError('Dated streams require explicit scenario_id and case_id (or explicit all)')
+        if row['scenario_id'] not in (scenario_id, 'all') or row['case_id'] not in (case_id, 'all'):
             continue
         if row.get('kind') not in allowed_extra or row.get('price_year') != price or not row.get('source'):
             raise AppraisalError('Extra dated streams need a disjoint allowed kind, common price year, source and project_id')
         year = _year(row['year'], 'extra stream year')
+        component = row.get('component', row['kind'])
+        key = (year, row['project_id'], component)
+        if key in extra_seen or component in automatic_components:
+            raise AppraisalError('Duplicate automatic or additional dated account')
+        extra_seen.add(key)
         if not base <= year <= end:
             raise AppraisalError('Additional dated stream falls outside the appraisal horizon')
-        add(year, row.get('component', row['kind']), row['kind'], row['amount_chf'], uid=row['project_id'],
+        add(year, component, row['kind'], row['amount_chf'], uid=row['project_id'],
             basis=row['source'], cost=row['kind'] != 'externality_benefit')
 
     result['component_table'] = sorted(table, key=lambda row: (row['year'], row['component'], row.get('project_id') or ''))
@@ -301,14 +408,15 @@ def integrated_appraisal(benefits, conventions, projects, *, scenario_id,
         key = row['component']
         result['pv_components_chf'][key] = result['pv_components_chf'].get(key, 0.) + row['discounted_chf']
     result['known_components_npv_chf'] = summary['npv_chf']
-    capex_missing = any(x.endswith('capital_cost_chf') for x in result['missing_accounts'])
-    if result['benefit_errors'] or capex_missing:
+    essential_cost_missing = any(x.endswith(('capital_cost_chf','calculated_service_operation',
+        'annual_service_operation_chf','additional_station_measure_capital')) for x in result['missing_accounts'])
+    if result['benefit_errors'] or essential_cost_missing:
         result['status'] = 'incomplete_inputs_known_components_reported'
     else:
         result['npv_chf'] = summary['npv_chf']
         result['benefit_cost_ratio'] = summary['benefit_cost_ratio']
         result['status'] = 'partial_screening_with_explicit_exclusions' if result['exclusions'] or result['missing_accounts'] else 'configured_scope_screening'
-    result['claim'] = ('NPV covers only the displayed annual physical-time benefits and declared cost accounts; '
+    result['claim'] = ('NPV covers the displayed annual passenger, freight, resource, simplified externality and project cost accounts; '
                        'missing/excluded accounts, price and project-scope assumptions prevent an official project ranking')
     result['exclusions'] = sorted(set(result['exclusions']))
     return result

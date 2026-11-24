@@ -8,7 +8,7 @@ from copy import deepcopy
 
 
 APPRAISAL = {
-    'id': 'nb05_style_partial_appraisal',
+    'id': 'all_users_simplified_appraisal',
     'price_year': 2025,
     'discount_rate': 0.02,
     # None sets time zero to the year preceding the run's first model year,
@@ -27,13 +27,28 @@ APPRAISAL = {
     # it holds the last annual benefit constant, an explicit terminal assumption.
     'appraisal_end_year': None,
     'terminal_benefits': 'constant',
-    # Time-only headline follows the course physical-time accounting. Payments
-    # are also reported, but cannot enter net welfare without receipts/resources.
+    # Fares/taxes are transfers. Resource costs are calculated independently;
+    # user payments cannot enter net welfare without matching receipts.
     'payment_accounting': 'report_only',
-    'standing': 'Modelled internal passenger users; external users excluded; external road traffic represented according to the configured transport method.',
-    'excluded_accounts': ['external_user_welfare', 'freight_welfare', 'safety',
-        'noise', 'air_pollution', 'greenhouse_gases', 'reliability',
-        'construction_disruption', 'private_vehicle_resources', 'land_use_welfare'],
+    'standing': 'All represented internal/external passengers and freight, including foreign and through road journeys; endpoint geography is reported separately, never used as a welfare exclusion.',
+    'simplified_factor_profile': 'configs/appraisal/nistra_2022_2_screening.json',
+    'road_user_factors': {},  # Optional explicit overrides of the sourced profile.
+    'external_passengers': {
+        # Only virtual zones without coordinates use this declared proxy.
+        # Prepared alternatives include Parent8506000 (Winterthur) and
+        # Parent8503424 (Schaffhausen); country tags remain UNKNOWN.
+        'unlocated_anchor_stop_id': 'Parent8503000',  # Zurich HB
+    },
+    'rail_supply': {
+        'operating_days_per_year': 300.,
+        'track_distance_multiplier': 1.10,  # station chords to approximate track km
+    },
+    'simplified_appraisal': {},  # Optional explicit factor/exposure sensitivities.
+    'excluded_accounts': ['reliability', 'construction_emissions_and_disruption',
+        'infrastructure_lifecycle_emissions', 'land_use_welfare',
+        'unrepresented_external_through_PT_and_active_trips',
+        'foreign_network_changes_outside_assigned_graph',
+        'biodiversity_land_take_and_water'],
     'price_basis': 'NB05 numerical unit values treated as constant 2025 CHF screening assumptions; no official rebase claimed',
     'annualization_basis': 'NB05: 300 equivalent weekdays, 4 congested hours/day; NPVM mode peak shares; active modes use a teaching assumption',
     # Residual = actual capital paid * eligible share * max(0, 1-age/life).
@@ -53,6 +68,15 @@ APPRAISAL = {
             'scope_note': 'Verkehr 45 Table 11: April 2025 prices, excluding VAT, +/-30%; STEP capacity-expansion share only. Additional adaptation and maintenance of existing road assets are excluded from that capital estimate',
             'annual_service_operation_chf': 0., 'service_operation_basis': 'Road infrastructure O&M is separately represented by the configured fraction',
         },
+        'a15_uster_hinwil': {
+            'capital_cost_chf': 2_250_000_000., 'source_price_year': 2025,
+            'cost_accuracy_fraction': .30,
+            'cost_status': 'published_reference_scope_proxy',
+            'source': 'https://www.uvek.admin.ch/dam/de/sd-web/trOl0yMZSQ9M/Beilage%2015%20Erl%C3%A4uternder%20Bericht%20DE%20zu%20BRA%20UVEK.pdf',
+            'scope_note': 'Verkehr 45 Table 11: April 2025 prices, excluding VAT, +/-30%; Uster–Hinwil reference expansion scope. A proxy for the implemented deep-long concept, not a variant-specific construction estimate or approved opening date.',
+            'annual_service_operation_chf': 0.,
+            'service_operation_basis': 'Road infrastructure O&M is separately represented by the configured fraction',
+        },
         'amriswil': {
             'capital_cost_chf': 1_280_000_000., 'source_price_year': 2025,
             'cost_accuracy_fraction': .30,
@@ -68,7 +92,9 @@ APPRAISAL = {
             'cost_accuracy_fraction': .20, 'construction_years': 4,
             'scope_note': 'Published double-track/half-hour infrastructure estimate, not a quote for quarter-hour service or illustrative additional hub measures; treated as 2025 CHF only for screening',
             'annual_service_operation_chf': None,
-            'service_operation_basis': 'Extra trains/rolling stock and illustrative station effects require separate costs; excluded until supplied',
+            'service_operation_from_supply': True,
+            'station_capital_included': False,
+            'service_operation_basis': 'Additional scheduled train-km/hours and screening resource rates; calculated in the annual extension ledger. Station measure capital is not included in the published reference.',
         },
     },
 }
@@ -76,4 +102,9 @@ APPRAISAL = {
 
 def get_appraisal_conventions():
     """Return an isolated copy so a run cannot mutate the editable defaults."""
-    return deepcopy(APPRAISAL)
+    result = deepcopy(APPRAISAL)
+    # Two counterfactuals for one investment: keep cost assumptions identical.
+    # A direct override permits a documented difference in staging costs.
+    result['project_costs'].setdefault('faesenstaub_redundancy',
+                                     deepcopy(result['project_costs']['faesenstaub']))
+    return result

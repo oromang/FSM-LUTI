@@ -31,6 +31,27 @@ def validate_project_roles(config: dict) -> None:
     overlap = sorted(baseline & interventions)
     if overlap:
         raise ProjectError(f"Projects cannot be both committed baseline and enabled interventions: {overlap}")
+    from ..comparisons import temporary_comparisons
+    projects={uid:spec for uid,spec in config.get('projects',{}).items() if spec.get('enabled',True)}
+    definitions=config.get('project_definitions',{})
+    for uid in baseline:
+        spec={**definitions.get(uid,{}),**config['baseline_projects'][uid]}
+        if spec.get('temporary_comparison'):
+            raise ProjectError(f'{uid}: a temporary comparison cannot be a committed baseline project; commit its ordinary design instead')
+        conflict=set(spec.get('excludes',[])) & interventions
+        if conflict:
+            raise ProjectError(f'{uid}: committed baseline excludes alternative designs {sorted(conflict)}')
+    temporary=temporary_comparisons(projects)
+    helper_ids={spec[field] for spec in temporary.values() for field in ('reference_project_id','project_project_id')}
+    if helper_ids & (interventions | baseline):
+        raise ProjectError('Temporary comparison network states cannot also be independent or committed projects')
+    for uid,spec in projects.items():
+        excluded=set(spec.get('excludes',[])) | set(definitions.get(uid,{}).get('excludes',[]))
+        if excluded & baseline:
+            raise ProjectError(f'{uid}: intervention excludes committed baseline designs {sorted(excluded & baseline)}')
+        conflicts=excluded & interventions if config.get('include_combined',False) else set()
+        if conflicts:
+            raise ProjectError(f'{uid}: combined case excludes alternative designs {sorted(conflicts)}')
 
 
 @dataclass

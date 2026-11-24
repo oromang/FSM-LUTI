@@ -1,0 +1,115 @@
+edge_id,road_class,built_fraction,noise_eligible_fraction,classification_source,length_m,source_segments,classification_length_m,network_length_m
+npvm:1373678:615965:616100,urban,1.0,1.0,Baseline physical junction reconstruction; speed-based preliminary class,98.53628781897294,1,,
+npvm:1373678:616100:615965,urban,1.0,1.0,Baseline physical junction reconstruction; speed-based preliminary class,98.53628781897292,1,,
+faesenstaub:engineering:zurich_to_circle,motorway,0.22,1.0,"Physical junction ramps; urban Ebnat connection, other motorway ramps",364.7949222169096,1,,
+faesenstaub:engineering:circle_to_bargen,motorway,0.22,1.0,"Physical junction ramps; urban Ebnat connection, other motorway ramps",334.91763513401025,1,,
+faesenstaub:engineering:ebnat_to_circle,urban,1.0,1.0,"Physical junction ramps; urban Ebnat connection, other motorway ramps",330.5882540672062,1,,
+faesenstaub:engineering:circle_to_ebnat,urban,1.0,1.0,"Physical junction ramps; urban Ebnat connection, other motorway ramps",330.5882540672062,1,,
+amriswil:e0:east,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",348.5859185665784,1,,
+amriswil:e0:west,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",348.5859185665784,1,,
+amriswil:e1:east,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",233.28301599933937,1,,
+amriswil:e1:west,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",233.28301599933937,1,,
+amriswil:e2:east,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",265.0124301220208,1,,
+amriswil:e2:west,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",265.0124301220208,1,,
+amriswil:e3:east,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",250.58419455775504,1,,
+amriswil:e3:west,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",250.58419455775504,1,,
+amriswil:e4:east,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",236.93698208640365,1,,
+amriswil:e4:west,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",236.93698208640365,1,,
+amriswil:e5:east,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",181.63924896233573,1,,
+amriswil:e5:west,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",181.63924896233573,1,,
+amriswil:e6:east,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",251.4229502455883,1,,
+amriswil:e6:west,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",251.4229502455883,1,,
+amriswil:e7:east,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",233.29810170259648,1,,
+amriswil:e7:west,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",233.29810170259648,1,,
+amriswil:e8:east,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",333.6892649380946,1,,
+amriswil:e8:west,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",333.6892649380946,1,,
+amriswil:e9:east,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",254.5238816993653,1,,
+amriswil:e9:west,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",254.5238816993653,1,,
+amriswil:e10:east,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",265.0124301215887,1,,
+amriswil:e10:west,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",265.0124301215887,1,,
+amriswil:e11:east,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",249.01141329115518,1,,
+amriswil:e11:west,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",249.01141329115518,1,,
+amriswil:e12:east,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",338.9034745842742,1,,
+amriswil:e12:west,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",338.9034745842742,1,,
+amriswil:e13:east,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",262.7670980554536,1,,
+amriswil:e13:west,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",262.7670980554536,1,,
+amriswil:e14:east,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",581.4903320851832,1,,
+amriswil:e14:west,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",581.4903320851832,1,,
+amriswil:e15:east,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",332.47663274410326,1,,
+amriswil:e15:west,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",332.47663274410326,1,,
+amriswil:e16:east,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",924.2560532334542,1,,
+amriswil:e16:west,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",924.2560532334542,1,,
+amriswil:e17:east,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",370.0968397670799,1,,
+amriswil:e17:west,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",370.0968397670799,1,,
+amriswil:e18:east,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",716.5473375772668,1,,
+amriswil:e18:west,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",716.5473375772668,1,,
+amriswil:e20:east,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",339.8106667112784,1,,
+amriswil:e20:west,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",339.8106667112784,1,,
+amriswil:e21:east,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",452.2501290381229,1,,
+amriswil:e21:west,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",452.2501290381229,1,,
+amriswil:e22:east,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",211.37838483426924,1,,
+amriswil:e22:west,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",211.37838483426924,1,,
+amriswil:e23:east,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",610.594421829962,1,,
+amriswil:e23:west,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",610.594421829962,1,,
+amriswil:e24:east,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",1158.114722821353,1,,
+amriswil:e24:west,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",1158.114722821353,1,,
+amriswil:e25:east,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",140.70955610071428,1,,
+amriswil:e25:west,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",140.70955610071428,1,,
+amriswil:e26:east,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",253.65406180099671,1,,
+amriswil:e26:west,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",253.65406180099671,1,,
+amriswil:e27:east,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",272.83574437278634,1,,
+amriswil:e27:west,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",272.83574437278634,1,,
+amriswil:e28:east,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",135.4864916693838,1,,
+amriswil:e28:west,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",135.4864916693838,1,,
+amriswil:e29:east,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",255.60524609207903,1,,
+amriswil:e29:west,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",255.60524609207903,1,,
+amriswil:e30:east,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",118.31909976409237,1,,
+amriswil:e30:west,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",118.31909976409237,1,,
+amriswil:e31:east,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",260.6621455506311,1,,
+amriswil:e31:west,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",260.6621455506311,1,,
+amriswil:connector0:in,rural,0.0,1.0,Physical access or Hof feeder; no automatic uninhabited noise exemption,39.466208113612275,1,,
+amriswil:connector0:out,rural,0.0,1.0,Physical access or Hof feeder; no automatic uninhabited noise exemption,39.466208113612275,1,,
+amriswil:connector4:in,rural,0.0,1.0,Physical access or Hof feeder; no automatic uninhabited noise exemption,122.05709756679333,1,,
+amriswil:connector4:out,rural,0.0,1.0,Physical access or Hof feeder; no automatic uninhabited noise exemption,122.05709756679333,1,,
+amriswil:connector15:in,rural,0.0,1.0,Physical access or Hof feeder; no automatic uninhabited noise exemption,58.007511835968806,1,,
+amriswil:connector15:out,rural,0.0,1.0,Physical access or Hof feeder; no automatic uninhabited noise exemption,58.007511835968806,1,,
+amriswil:connector26:in,rural,0.0,1.0,Physical access or Hof feeder; no automatic uninhabited noise exemption,162.35959063220784,1,,
+amriswil:connector26:out,rural,0.0,1.0,Physical access or Hof feeder; no automatic uninhabited noise exemption,162.35959063220784,1,,
+amriswil:connector32:in,rural,0.0,1.0,Physical access or Hof feeder; no automatic uninhabited noise exemption,201.45764213361835,1,,
+amriswil:connector32:out,rural,0.0,1.0,Physical access or Hof feeder; no automatic uninhabited noise exemption,201.45764213361835,1,,
+amriswil:e19split0:east,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",521.9523773388576,1,,
+amriswil:e19split1:east,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",439.0893517358368,1,,
+amriswil:e19split0:west,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",439.0893517358368,1,,
+amriswil:e19split1:west,rural,0.0,0.0,"New two-way80kmh bypass with at-grade accesses; rural accident class, uninhabited-road noise screening assumption",521.9523773388576,1,,
+amriswil:hof_existing_east_0,rural,0.0,1.0,Split existing rural road; original exposure retained,254.79675078997593,1,,
+amriswil:hof_existing_east_1,rural,0.0,1.0,Split existing rural road; original exposure retained,199.22933738676102,1,,
+amriswil:hof_existing_west_0,rural,0.0,1.0,Split existing rural road; original exposure retained,199.22933738676102,1,,
+amriswil:hof_existing_west_1,rural,0.0,1.0,Split existing rural road; original exposure retained,254.79675078997593,1,,
+amriswil:hof_feeder:in,rural,0.0,1.0,Physical access or Hof feeder; no automatic uninhabited noise exemption,518.8083943950501,1,,
+amriswil:hof_feeder:out,rural,0.0,1.0,Physical access or Hof feeder; no automatic uninhabited noise exemption,518.8083943950501,1,,
+a15_uster_hinwil:existing_approach:uster_diverge:upstream,motorway,0.22,1.0,A15 split approach: NPVM_source_type_and_geometry,1170.8023609253626,7,1170.8023609253626,1170.8023609253626
+a15_uster_hinwil:existing_approach:uster_diverge:downstream,motorway,0.22,1.0,A15 split approach: NPVM_source_type_and_geometry,485.33361922434875,7,485.33361922434875,485.3336192243488
+a15_uster_hinwil:existing_approach:uster_merge:upstream,motorway,0.22,1.0,A15 split approach: NPVM_source_type_and_geometry,697.8653866335017,4,697.8653866335017,697.8653866335017
+a15_uster_hinwil:existing_approach:uster_merge:downstream,motorway,0.22,1.0,A15 split approach: NPVM_source_type_and_geometry,1002.6017281694665,4,1002.6017281694665,1002.6017281694666
+a15_uster_hinwil:terminal:uster:sb:00,motorway,0.22,1.0,A15 new motorway terminal/ramp; national exposure proxy,539.7016201380513,1,539.7016201380513,539.7016201380513
+a15_uster_hinwil:terminal:uster:nb:00,motorway,0.22,1.0,A15 new motorway terminal/ramp; national exposure proxy,674.7115464883149,1,674.7115464883149,674.7115464883149
+a15_uster_hinwil:tunnel:sb:01,motorway,0.22,0.0,"A15 new motorway tunnel; zero direct surface noise, portal effects unmodelled",930.0537618869137,1,930.0537618869137,930.0537618869137
+a15_uster_hinwil:tunnel:nb:01,motorway,0.22,0.0,"A15 new motorway tunnel; zero direct surface noise, portal effects unmodelled",930.0537618869137,1,930.0537618869137,930.0537618869137
+a15_uster_hinwil:tunnel:sb:02,motorway,0.22,0.0,"A15 new motorway tunnel; zero direct surface noise, portal effects unmodelled",1202.0815280171307,1,1202.0815280171307,1202.0815280171307
+a15_uster_hinwil:tunnel:nb:02,motorway,0.22,0.0,"A15 new motorway tunnel; zero direct surface noise, portal effects unmodelled",1202.0815280171307,1,1202.0815280171307,1202.0815280171307
+a15_uster_hinwil:tunnel:sb:03,motorway,0.22,0.0,"A15 new motorway tunnel; zero direct surface noise, portal effects unmodelled",1308.62523283024,1,1308.62523283024,1308.62523283024
+a15_uster_hinwil:tunnel:nb:03,motorway,0.22,0.0,"A15 new motorway tunnel; zero direct surface noise, portal effects unmodelled",1308.62523283024,1,1308.62523283024,1308.62523283024
+a15_uster_hinwil:tunnel:sb:04,motorway,0.22,0.0,"A15 new motorway tunnel; zero direct surface noise, portal effects unmodelled",1308.62523283024,1,1308.62523283024,1308.62523283024
+a15_uster_hinwil:tunnel:nb:04,motorway,0.22,0.0,"A15 new motorway tunnel; zero direct surface noise, portal effects unmodelled",1308.62523283024,1,1308.62523283024,1308.62523283024
+a15_uster_hinwil:tunnel:sb:05,motorway,0.22,0.0,"A15 new motorway tunnel; zero direct surface noise, portal effects unmodelled",1308.62523283024,1,1308.62523283024,1308.62523283024
+a15_uster_hinwil:tunnel:nb:05,motorway,0.22,0.0,"A15 new motorway tunnel; zero direct surface noise, portal effects unmodelled",1308.62523283024,1,1308.62523283024,1308.62523283024
+a15_uster_hinwil:tunnel:sb:06,motorway,0.22,0.0,"A15 new motorway tunnel; zero direct surface noise, portal effects unmodelled",1131.370849898476,1,1131.370849898476,1131.370849898476
+a15_uster_hinwil:tunnel:nb:06,motorway,0.22,0.0,"A15 new motorway tunnel; zero direct surface noise, portal effects unmodelled",1131.370849898476,1,1131.370849898476,1131.370849898476
+a15_uster_hinwil:tunnel:sb:07,motorway,0.22,0.0,"A15 new motorway tunnel; zero direct surface noise, portal effects unmodelled",935.8461412005715,1,935.8461412005715,935.8461412005715
+a15_uster_hinwil:tunnel:nb:07,motorway,0.22,0.0,"A15 new motorway tunnel; zero direct surface noise, portal effects unmodelled",936.2734643254608,1,936.2734643254608,936.2734643254608
+a15_uster_hinwil:terminal:betzholz_sb,motorway,0.22,1.0,A15 new motorway terminal/ramp; national exposure proxy,579.2449957607611,1,579.2449957607611,579.2449957607611
+a15_uster_hinwil:terminal:betzholz_nb,motorway,0.22,1.0,A15 new motorway terminal/ramp; national exposure proxy,632.9770529063048,1,632.9770529063048,632.9770529063048
+a15_uster_hinwil:ramp:uster_entry,motorway,0.22,1.0,A15 new motorway terminal/ramp; national exposure proxy,276.7118105517426,1,276.7118105517426,276.7118105517426
+a15_uster_hinwil:ramp:uster_exit,motorway,0.22,1.0,A15 new motorway terminal/ramp; national exposure proxy,383.2397711104094,1,383.2397711104094,383.2397711104094
+a15_uster_hinwil:ramp:betzholz_entry,motorway,0.22,1.0,A15 new motorway terminal/ramp; national exposure proxy,239.91459073401495,1,239.91459073401495,239.91459073401495
+a15_uster_hinwil:ramp:betzholz_exit,motorway,0.22,1.0,A15 new motorway terminal/ramp; national exposure proxy,375.70711751058093,1,375.70711751058093,375.70711751058093

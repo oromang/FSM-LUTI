@@ -1,0 +1,8 @@
+{
+  "schema": "fsm_luti_scenario_reports_v1",
+  "scenarios": [
+    "mean"
+  ],
+  "shared_inputs": "Run-root settings, tables/npvm_mode_benchmark.csv and spatial are shared across scenarios",
+  "matrix_index_paths": "Relative to the directory containing each matrix_index.json; reference files shared by project cases"
+}

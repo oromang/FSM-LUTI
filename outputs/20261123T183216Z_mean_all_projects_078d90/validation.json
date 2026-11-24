@@ -1,0 +1,320 @@
+{
+  "configuration_valid": true,
+  "zones": 1541,
+  "cantons": [
+    "SH",
+    "TG",
+    "ZH"
+  ],
+  "input_integrity": {
+    "verified_files": 57,
+    "status": "all_prepared_snapshot_hashes_match"
+  },
+  "transport": "assignment",
+  "luti": "equilibrium",
+  "assignment_controls": {
+    "algorithm": "conjugate_frank_wolfe",
+    "loading_workers": 4,
+    "loading_backend": "process",
+    "adaptive_inner_tolerance": true,
+    "warm_start_road_skims": true,
+    "relative_gap": 0.005,
+    "max_iterations": 100,
+    "demand_tolerance": 0.005,
+    "max_outer_iterations": 6,
+    "damping": 0.5
+  },
+  "luti_controls": {
+    "mode": "equilibrium",
+    "step_years": 5.0,
+    "lag_years": 5.0,
+    "control": "region",
+    "tolerance": 0.001,
+    "max_iterations": 3,
+    "damping": 0.5,
+    "cost_bridge": "matched_delta",
+    "unsupported_housing": "hold_neutral"
+  },
+  "solver_profile": "screening",
+  "execution": {
+    "requested_case_workers": 2,
+    "effective_case_workers": 1,
+    "available_memory_gb": 6.8177032470703125,
+    "memory_per_case_gb": 12.0,
+    "memory_reserve_gb": 4.0,
+    "logical_cpus": 16,
+    "cpu_limit": 3,
+    "memory_limit": 1,
+    "assignment_workers_per_case": 4,
+    "native_threads": 1,
+    "memory_guard_is_estimate": true
+  },
+  "exports": {
+    "enabled": true,
+    "matrices": true,
+    "matrix_years": "endpoints_and_openings",
+    "matrix_states": [
+      "reference",
+      "fixed",
+      "luti"
+    ],
+    "hdf5_compression": 1,
+    "figures_pdf": true,
+    "geopackage": true
+  },
+  "scenarios": [
+    "mean"
+  ],
+  "projects": [
+    "faesenstaub_redundancy",
+    "amriswil",
+    "a15_uster_hinwil",
+    "lottstetten_jestetten"
+  ],
+  "cases": [
+    "do_nothing",
+    "faesenstaub_redundancy",
+    "amriswil",
+    "a15_uster_hinwil",
+    "lottstetten_jestetten"
+  ],
+  "temporary_comparisons": {
+    "faesenstaub_redundancy": {
+      "start_year": 2040,
+      "duration_years": 5,
+      "reference_project_id": "faesenstaub_renovation_closure",
+      "project_project_id": "faesenstaub_renovation_with_new_tube",
+      "end_year_exclusive": 2045
+    }
+  },
+  "extra_comparison_dates": [
+    2039,
+    2040,
+    2044,
+    2045
+  ],
+  "timeframe": {
+    "start_year": 2025,
+    "end_year": 2055,
+    "anchor_year": 2025,
+    "step_years": 5.0,
+    "reporting_dates": [
+      2025.0,
+      2030.0,
+      2035.0,
+      2040.0,
+      2045.0,
+      2050.0,
+      2055.0
+    ],
+    "evaluation_dates_union": [
+      2025.0,
+      2030.0,
+      2035.0,
+      2039.0,
+      2040.0,
+      2044.0,
+      2045.0,
+      2050.0,
+      2055.0
+    ],
+    "evaluation_date_count_union": 9
+  },
+  "driver_timeframe": {
+    "start_year": 2025,
+    "end_year": 2055
+  },
+  "projection_support": {
+    "settings": {
+      "method": "damped_log",
+      "lookback_years": 10.0,
+      "damping": 0.8,
+      "before_source": "error"
+    },
+    "prepared_file": "C:\\Personal\\Code\\FSM-LUTI\\data\\projections\\neutral_paths.parquet",
+    "input_fingerprints": {
+      "prepared_neutral_paths": {
+        "path": "C:\\Personal\\Code\\FSM-LUTI\\data\\projections\\neutral_paths.parquet",
+        "bytes": 6568812,
+        "sha256": "b14ad05bd180bef3d0a16f18ee585768794794bec7b734530c44302eba88d7eb"
+      },
+      "population_controls": {
+        "path": "C:\\Personal\\Code\\FSM-LUTI\\data\\projections\\bfs_canton_controls.csv",
+        "bytes": 94395,
+        "sha256": "291dd38f4c71c1de0128ce3836dbf62fddec41326fea81eae4da3fa7bdbed6bd"
+      },
+      "employment_controls": {
+        "path": "C:\\Personal\\Code\\FSM-LUTI\\data\\projections\\employment_sector_controls.parquet",
+        "bytes": 13137,
+        "sha256": "1ad95d19b52ed774a4d0f27f7291b36ab656ffbd2ba27a4fd79f2be20ae773e0"
+      }
+    },
+    "requested_years": [
+      2025.0,
+      2055.0
+    ],
+    "prepared_families": {
+      "reference": {
+        "first_year": 2025.0,
+        "last_year": 2055.0,
+        "requested_before_prepared": [],
+        "requested_after_prepared": []
+      }
+    },
+    "controls": {
+      "population": {
+        "basis": "source_control_ratios",
+        "series": [
+          {
+            "scenario": "reference",
+            "canton": "SH",
+            "first_year": 2024.0,
+            "last_year": 2055.0,
+            "requested_after_source": []
+          },
+          {
+            "scenario": "reference",
+            "canton": "TG",
+            "first_year": 2024.0,
+            "last_year": 2055.0,
+            "requested_after_source": []
+          },
+          {
+            "scenario": "reference",
+            "canton": "ZH",
+            "first_year": 2024.0,
+            "last_year": 2055.0,
+            "requested_after_source": []
+          }
+        ],
+        "source_file": "C:\\Personal\\Code\\FSM-LUTI\\data\\projections\\bfs_canton_controls.csv"
+      },
+      "employment": {
+        "basis": "source_control_ratios",
+        "series": [
+          {
+            "scenario": "reference",
+            "canton": "SH",
+            "sector": "primary",
+            "first_year": 2022.0,
+            "last_year": 2060.0,
+            "requested_after_source": []
+          },
+          {
+            "scenario": "reference",
+            "canton": "SH",
+            "sector": "secondary",
+            "first_year": 2022.0,
+            "last_year": 2060.0,
+            "requested_after_source": []
+          },
+          {
+            "scenario": "reference",
+            "canton": "SH",
+            "sector": "tertiary",
+            "first_year": 2022.0,
+            "last_year": 2060.0,
+            "requested_after_source": []
+          },
+          {
+            "scenario": "reference",
+            "canton": "TG",
+            "sector": "primary",
+            "first_year": 2022.0,
+            "last_year": 2060.0,
+            "requested_after_source": []
+          },
+          {
+            "scenario": "reference",
+            "canton": "TG",
+            "sector": "secondary",
+            "first_year": 2022.0,
+            "last_year": 2060.0,
+            "requested_after_source": []
+          },
+          {
+            "scenario": "reference",
+            "canton": "TG",
+            "sector": "tertiary",
+            "first_year": 2022.0,
+            "last_year": 2060.0,
+            "requested_after_source": []
+          },
+          {
+            "scenario": "reference",
+            "canton": "ZH",
+            "sector": "primary",
+            "first_year": 2022.0,
+            "last_year": 2060.0,
+            "requested_after_source": []
+          },
+          {
+            "scenario": "reference",
+            "canton": "ZH",
+            "sector": "secondary",
+            "first_year": 2022.0,
+            "last_year": 2060.0,
+            "requested_after_source": []
+          },
+          {
+            "scenario": "reference",
+            "canton": "ZH",
+            "sector": "tertiary",
+            "first_year": 2022.0,
+            "last_year": 2060.0,
+            "requested_after_source": []
+          }
+        ],
+        "source_file": "C:\\Personal\\Code\\FSM-LUTI\\data\\projections\\employment_sector_controls.parquet"
+      }
+    },
+    "population_spatial_rule": "continued zonal trends rescaled to continued canton totals",
+    "employment_spatial_rule": "terminal sector shares times canton-sector control ratios",
+    "zero_rule": "terminal zero stays zero; fewer than two positive source points holds terminal stock",
+    "interpretation": "Values after a source horizon are modeling assumptions, not official forecasts; in-range prepared values are unchanged."
+  },
+  "appraisal": {
+    "standing": "All represented internal/external passengers and freight, including foreign and through road journeys; endpoint geography is reported separately, never used as a welfare exclusion.",
+    "factor_profile": "configs/appraisal/nistra_2022_2_screening.json",
+    "portable_inputs_loaded": true,
+    "price_year": 2025
+  },
+  "network_package_inputs": [
+    {
+      "role": "baseline",
+      "id": "baseline",
+      "path": "C:\\Personal\\Code\\FSM-LUTI\\configs\\network_edits\\baseline.gpkg",
+      "sha256": "1a776086b7de1a03c796a117bc49984032afb26d1fa73f52bd8236de286708b9"
+    },
+    {
+      "role": "project",
+      "id": "faesenstaub_redundancy",
+      "path": "C:\\Personal\\Code\\FSM-LUTI\\configs\\projects\\faesenstaub.gpkg",
+      "sha256": "55b388e75019a4bfc83ab6c02e742fc28b6fabdc08cb5bf6127622149abd247d"
+    },
+    {
+      "role": "project",
+      "id": "amriswil",
+      "path": "C:\\Personal\\Code\\FSM-LUTI\\configs\\projects\\amriswil.gpkg",
+      "sha256": "4acdd36e438754629d63e5eba54fb8a7eb3dbea5abcded3b52e4c871e9ed3f36"
+    },
+    {
+      "role": "project",
+      "id": "a15_uster_hinwil",
+      "path": "C:\\Personal\\Code\\FSM-LUTI\\configs\\projects\\a15_uster_hinwil.gpkg",
+      "sha256": "b52442b2e840c5c3188ae64731606eed542ad506fa39fdd50540e46414063d60"
+    },
+    {
+      "role": "project",
+      "id": "faesenstaub_renovation_closure",
+      "path": "C:\\Personal\\Code\\FSM-LUTI\\configs\\projects\\faesenstaub_renovation_closure.gpkg",
+      "sha256": "eba24ae7b37e61a4d8f54b10516991232996b071394345d712ba75b5ac8993c6"
+    },
+    {
+      "role": "project",
+      "id": "faesenstaub_renovation_with_new_tube",
+      "path": "C:\\Personal\\Code\\FSM-LUTI\\configs\\projects\\faesenstaub_renovation_with_new_tube.gpkg",
+      "sha256": "19a99241cdeb7edbd0886e569575e1e3f462dbe0186da9078cf108ffab7a161d"
+    }
+  ]
+}

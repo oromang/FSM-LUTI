@@ -12,17 +12,26 @@ import numpy as np
 
 
 class TransportMemo:
-    def __init__(self, backend, directory, progress=None):
+    def __init__(self, backend, directory, progress=None, shared_entries=None):
         self.backend = backend
         self.directory = Path(directory)
         self.directory.mkdir(parents=True, exist_ok=True)
         self.progress = progress or (lambda row: None)
-        self.entries = {}
+        # Parent-owned completed references are read-only in project workers.
+        # New entries, if any, are written only into this memo's local directory.
+        self.entries = {key: Path(value) for key, value in (shared_entries or {}).items()}
         self.hits = 0
         self.solves = 0
         self.solve_seconds = 0.
 
+    @property
+    def warm_start_enabled(self):
+        return bool(getattr(self.backend, 'warm_start_enabled', False))
+
     def __call__(self, year, population, employment, project_ids):
+        return self.with_initialization(year, population, employment, project_ids)
+
+    def with_initialization(self, year, population, employment, project_ids, *, seed=None, purpose='reference'):
         projects = tuple(sorted(project_ids))
         digest = hashlib.sha256()
         digest.update(repr((float(year), projects)).encode())
@@ -38,7 +47,11 @@ class TransportMemo:
                 return pickle.load(stream)
         self.progress({'event': 'transport_start', 'year': float(year), 'projects': projects})
         started = time.perf_counter()
-        outcome = self.backend(year, population, employment, projects)
+        method = getattr(self.backend, 'with_initialization', None)
+        if method is None:
+            outcome = self.backend(year, population, employment, projects)
+        else:
+            outcome = method(year, population, employment, projects, seed=seed, purpose=purpose)
         elapsed = time.perf_counter() - started
         self.solves += 1
         self.solve_seconds += elapsed

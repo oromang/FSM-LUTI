@@ -115,20 +115,23 @@ def _retain_baseline_paths(candidate,baseline,preserve_availability=True):
 
 
 def prepare_project_pt_skims(root,base_stops,base_connections,zone_xy,zone_ids,baseline_pt,projects,*,
-                             departures=(1020.,1040.,1060.),cache_dir=None,progress=None,
-                             preserve_baseline_availability=True):
+                             departures=(1020.,1040.,1060.),cache_dir=None,read_cache_dir=None,progress=None,
+                             preserve_baseline_availability=True,return_timetable_only=False):
     """Build once per unique physical timetable/settings, then reuse disk cache.
 
     Pass active project dictionaries, with opening-year filtering done by caller.
     Returns (PT-only Skims, audit). Roads are ignored here. Set cache_dir to a run
-    cache for a read-only input directory. A project with no PT changes is exact.
+    cache for a read-only input directory. read_cache_dir optionally reuses an
+    existing matching cache without writing to it. Parallel workers must each
+    own their cache_dir. A project with no PT changes is exact.
     """
     projects=[p for p in projects if has_pt_effect(p)]
     baseline=_pt_only(baseline_pt)
     if tuple(map(str,zone_ids))!=tuple(map(str,baseline.zone_ids)):
         raise ProjectError('PT scenario zones must match the baseline order')
     if not projects:
-        return baseline,{'projects':[],'no_pt_changes':True}
+        answer=(baseline,{'projects':[],'no_pt_changes':True})
+        return (*answer,baseline) if return_timetable_only else answer
     digest=hashlib.sha256()
     descriptor={'schema':'cached_pt_scenarios_v2','projects':projects,'departures':list(map(float,departures)),
         'zone_ids':list(map(str,zone_ids)),'preserve_baseline_availability':bool(preserve_baseline_availability)}
@@ -141,9 +144,15 @@ def prepare_project_pt_skims(root,base_stops,base_connections,zone_xy,zone_ids,b
     for name,array in sorted(baseline.distances_m.items()):
         digest.update(name.encode()); digest.update(np.asarray(array,dtype='<f8').tobytes())
     key=digest.hexdigest(); directory=(Path(cache_dir) if cache_dir else Path(root)/'data/cache')/('pt_'+key)
-    if (directory/'audit.json').exists() and (directory/'pt_skims.npz').exists():
-        audit=read_json(directory/'audit.json'); audit['cache_hit']=True
-        return _restore_numerically_identical_paths(load_pt_skims(directory),baseline),audit
+    candidates=[directory]
+    if read_cache_dir is not None:candidates.append(Path(read_cache_dir)/('pt_'+key))
+    required=['audit.json','pt_skims.npz','pt_skims_manifest.json']
+    if return_timetable_only:required+=['timetable/pt_skims.npz','timetable/pt_skims_manifest.json']
+    for candidate_directory in candidates:
+        if all((candidate_directory/name).is_file() for name in required):
+            audit=read_json(candidate_directory/'audit.json'); audit['cache_hit']=True
+            answer=(_restore_numerically_identical_paths(load_pt_skims(candidate_directory),baseline),audit)
+            return (*answer,_restore_numerically_identical_paths(load_pt_skims(candidate_directory/'timetable'),baseline)) if return_timetable_only else answer
     timetable_projects=[]
     for project in projects:
         ptops=[op for op in project.get('operations',[]) if op['table'].startswith('pt_')]
@@ -157,6 +166,7 @@ def prepare_project_pt_skims(root,base_stops,base_connections,zone_xy,zone_ids,b
         candidate,paths=_retain_baseline_paths(routed,baseline,preserve_baseline_availability)
     else:
         candidate=baseline; paths={}; state=None
+    timetable_only=_restore_numerically_identical_paths(candidate.copy(),baseline)
     effects=[]
     for project in projects:
         if project.get('pt_component_effects'):
@@ -170,4 +180,5 @@ def prepare_project_pt_skims(root,base_stops,base_connections,zone_xy,zone_ids,b
     candidate=_restore_numerically_identical_paths(candidate,baseline)
     candidate.metadata={**(candidate.metadata or {}),'project_audit':audit}
     directory.mkdir(parents=True,exist_ok=True); save_pt_skims(candidate,directory); write_json(directory/'audit.json',audit)
-    return candidate,audit
+    save_pt_skims(timetable_only,directory/'timetable')
+    return (candidate,audit,timetable_only) if return_timetable_only else (candidate,audit)

@@ -1,0 +1,127 @@
+[
+  {
+    "scenario": "mean",
+    "case": "do_nothing",
+    "dates": 9,
+    "all_coupling_converged": true,
+    "final_population_moved_half_l1": 0.0,
+    "final_time_benefit_chf_per_ASP_hour": 0.0,
+    "final_time_benefit_chf_per_year": 0.0,
+    "appraisal_status": "partial_screening_with_explicit_exclusions",
+    "partial_scope_npv_chf": 0.0,
+    "transport_equilibrium_verified": true,
+    "started_utc": "2026-11-23T18:34:14.455293+00:00",
+    "completed_utc": "2026-11-23T19:28:18.151975+00:00",
+    "elapsed_seconds": 3243.705838099995,
+    "cache_statistics": {
+      "unique_transport_solves": 9,
+      "exact_cache_hits": 0,
+      "transport_solve_seconds": 2761.599401600135
+    },
+    "scenario_cache_statistics": {
+      "unique_transport_solves": 9,
+      "exact_cache_hits": 0,
+      "transport_solve_seconds": 2761.599401600135
+    }
+  },
+  {
+    "scenario": "mean",
+    "case": "faesenstaub_redundancy",
+    "dates": 9,
+    "all_coupling_converged": true,
+    "final_population_moved_half_l1": 147.3743046159534,
+    "final_time_benefit_chf_per_ASP_hour": -432.5346620078687,
+    "final_time_benefit_chf_per_year": -1244020.3988392123,
+    "appraisal_status": "partial_screening_with_explicit_exclusions",
+    "partial_scope_npv_chf": -324371503.7642675,
+    "transport_equilibrium_verified": true,
+    "started_utc": "2026-11-23T19:28:18.701865+00:00",
+    "completed_utc": "2026-11-23T21:04:36.414260+00:00",
+    "elapsed_seconds": 5777.728767299966,
+    "cache_statistics": {
+      "unique_transport_solves": 16,
+      "exact_cache_hits": 7,
+      "transport_solve_seconds": 5137.59164759994
+    },
+    "scenario_cache_statistics": {
+      "unique_transport_solves": 25,
+      "exact_cache_hits": 7,
+      "transport_solve_seconds": 7899.191049200075
+    }
+  },
+  {
+    "scenario": "mean",
+    "case": "amriswil",
+    "dates": 7,
+    "all_coupling_converged": true,
+    "final_population_moved_half_l1": 113.79946154092244,
+    "final_time_benefit_chf_per_ASP_hour": 88.83615803132791,
+    "final_time_benefit_chf_per_year": 324629.92337534647,
+    "appraisal_status": "partial_screening_with_explicit_exclusions",
+    "partial_scope_npv_chf": -896346171.026584,
+    "transport_equilibrium_verified": true,
+    "started_utc": "2026-11-23T21:04:37.280131+00:00",
+    "completed_utc": "2026-11-23T22:10:43.204052+00:00",
+    "elapsed_seconds": 3965.9351648999727,
+    "cache_statistics": {
+      "unique_transport_solves": 11,
+      "exact_cache_hits": 7,
+      "transport_solve_seconds": 3534.8930761000374
+    },
+    "scenario_cache_statistics": {
+      "unique_transport_solves": 36,
+      "exact_cache_hits": 14,
+      "transport_solve_seconds": 11434.084125300113
+    }
+  },
+  {
+    "scenario": "mean",
+    "case": "a15_uster_hinwil",
+    "dates": 7,
+    "all_coupling_converged": true,
+    "final_population_moved_half_l1": 380.3105034009236,
+    "final_time_benefit_chf_per_ASP_hour": 4611.9434767415605,
+    "final_time_benefit_chf_per_year": 10322864.224781662,
+    "appraisal_status": "partial_screening_with_explicit_exclusions",
+    "partial_scope_npv_chf": -1134969455.004981,
+    "transport_equilibrium_verified": true,
+    "started_utc": "2026-11-23T22:10:43.753816+00:00",
+    "completed_utc": "2026-11-23T23:20:10.501203+00:00",
+    "elapsed_seconds": 4166.759149899997,
+    "cache_statistics": {
+      "unique_transport_solves": 11,
+      "exact_cache_hits": 7,
+      "transport_solve_seconds": 3705.1216584999347
+    },
+    "scenario_cache_statistics": {
+      "unique_transport_solves": 47,
+      "exact_cache_hits": 21,
+      "transport_solve_seconds": 15139.205783800047
+    }
+  },
+  {
+    "scenario": "mean",
+    "case": "lottstetten_jestetten",
+    "dates": 7,
+    "all_coupling_converged": true,
+    "final_population_moved_half_l1": 3113.2636843719233,
+    "final_time_benefit_chf_per_ASP_hour": 1502.059621813763,
+    "final_time_benefit_chf_per_year": 5254984.482553858,
+    "appraisal_status": "incomplete_inputs_known_components_reported",
+    "partial_scope_npv_chf": null,
+    "transport_equilibrium_verified": true,
+    "started_utc": "2026-11-23T23:20:11.323429+00:00",
+    "completed_utc": "2026-11-24T00:45:34.188737+00:00",
+    "elapsed_seconds": 5122.879806500045,
+    "cache_statistics": {
+      "unique_transport_solves": 13,
+      "exact_cache_hits": 7,
+      "transport_solve_seconds": 4549.4036212000065
+    },
+    "scenario_cache_statistics": {
+      "unique_transport_solves": 60,
+      "exact_cache_hits": 28,
+      "transport_solve_seconds": 19688.609405000054
+    }
+  }
+]

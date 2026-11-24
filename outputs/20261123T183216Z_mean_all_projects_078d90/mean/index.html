@@ -1,0 +1,75 @@
+<!doctype html><html><head><meta charset="utf-8"><title>FSM–LUTI run</title><style>
+body{font:16px system-ui,sans-serif;max-width:1200px;margin:auto;padding:28px;color:#20313d;background:#f5f7f8}
+section{background:white;padding:20px;margin:24px 0;border-radius:10px}img{max-width:100%;height:auto}table{border-collapse:collapse;font-size:13px}td,th{padding:7px;border-bottom:1px solid #ddd;text-align:right}h1,h2{font-weight:600}a{color:#23688b}.table{overflow-x:auto}
+</style></head><body><h1>FSM–LUTI: mean</h1><p>Monetary results cover the declared accounts; additional LUTI effects are reported separately. Geography, benchmark inputs and configuration are shared at the run root.</p><p><a href="../index.html">All scenarios</a> · <a href="../configuration.json">Configuration</a> · <a href="tables/run_summary.csv">Summary table</a> · <a href="tables/appraisal_components.csv">Appraisal components</a> · <a href="tables/npv_plot_components.csv">NPV plot components</a> · <a href="tables/npv_plot_totals.csv">NPV totals</a> · <a href="matrix_index.json">OD archive index</a> · <a href="../spatial/network.gpkg">Network GeoPackage</a> · <a href="../projection_support.json">Projection coverage</a> · <a href="../settings/network_inputs.json">Editable input snapshots</a></p><section><h2>Case results</h2><ul><li>a15_uster_hinwil: <a href="a15_uster_hinwil/summary.json">Annual results</a> · <a href="a15_uster_hinwil/appraisal.json">Appraisal ledger</a></li><li>amriswil: <a href="amriswil/summary.json">Annual results</a> · <a href="amriswil/appraisal.json">Appraisal ledger</a></li><li>do_nothing: <a href="do_nothing/summary.json">Annual results</a> · <a href="do_nothing/appraisal.json">Appraisal ledger</a></li><li>faesenstaub_redundancy: <a href="faesenstaub_redundancy/summary.json">Annual results</a> · <a href="faesenstaub_redundancy/appraisal.json">Appraisal ledger</a></li><li>lottstetten_jestetten: <a href="lottstetten_jestetten/summary.json">Annual results</a> · <a href="lottstetten_jestetten/appraisal.json">Appraisal ledger</a></li></ul></section><section><h2>Appraisal summary</h2><div class="table"><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>scenario</th>
+      <th>case</th>
+      <th>status</th>
+      <th>npv_chf</th>
+      <th>known_components_npv_chf</th>
+      <th>benefit_cost_ratio</th>
+      <th>reference_network_basis</th>
+      <th>comparison_description</th>
+      <th>excluded_accounts</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>mean</td>
+      <td>do_nothing</td>
+      <td>partial_screening_with_explicit_exclusions</td>
+      <td>0.000000e+00</td>
+      <td>0.000000e+00</td>
+      <td>NaN</td>
+      <td>ordinary do-nothing</td>
+      <td>Project compared with ordinary do-nothing</td>
+      <td>["biodiversity_land_take_and_water", "construction_emissions_and_disruption", "foreign_network_changes_outside_assigned_graph", "infrastructure_lifecycle_emissions", "land_use_welfare", "reliability", "unrepresented_external_through_PT_and_active_trips", "user_payments_and_operator_tax_transfers_reported_separately"]</td>
+    </tr>
+    <tr>
+      <td>mean</td>
+      <td>faesenstaub_redundancy</td>
+      <td>partial_screening_with_explicit_exclusions</td>
+      <td>-3.243715e+08</td>
+      <td>-3.243715e+08</td>
+      <td>-0.029438</td>
+      <td>case-specific temporary closure during the stated calendar years; ordinary do-nothing otherwise</td>
+      <td>faesenstaub_redundancy: no-project reference closed in 2040–2044; project uses temporary operating design</td>
+      <td>["biodiversity_land_take_and_water", "construction_emissions_and_disruption", "foreign_network_changes_outside_assigned_graph", "infrastructure_lifecycle_emissions", "land_use_welfare", "reliability", "unrepresented_external_through_PT_and_active_trips", "user_payments_and_operator_tax_transfers_reported_separately"]</td>
+    </tr>
+    <tr>
+      <td>mean</td>
+      <td>amriswil</td>
+      <td>partial_screening_with_explicit_exclusions</td>
+      <td>-8.963462e+08</td>
+      <td>-8.963462e+08</td>
+      <td>-0.044530</td>
+      <td>ordinary do-nothing</td>
+      <td>Project compared with ordinary do-nothing</td>
+      <td>["biodiversity_land_take_and_water", "construction_emissions_and_disruption", "foreign_network_changes_outside_assigned_graph", "infrastructure_lifecycle_emissions", "land_use_welfare", "reliability", "unrepresented_external_through_PT_and_active_trips", "user_payments_and_operator_tax_transfers_reported_separately"]</td>
+    </tr>
+    <tr>
+      <td>mean</td>
+      <td>a15_uster_hinwil</td>
+      <td>partial_screening_with_explicit_exclusions</td>
+      <td>-1.134969e+09</td>
+      <td>-1.134969e+09</td>
+      <td>0.247586</td>
+      <td>ordinary do-nothing</td>
+      <td>Project compared with ordinary do-nothing</td>
+      <td>["biodiversity_land_take_and_water", "construction_emissions_and_disruption", "foreign_network_changes_outside_assigned_graph", "infrastructure_lifecycle_emissions", "land_use_welfare", "reliability", "unrepresented_external_through_PT_and_active_trips", "user_payments_and_operator_tax_transfers_reported_separately"]</td>
+    </tr>
+    <tr>
+      <td>mean</td>
+      <td>lottstetten_jestetten</td>
+      <td>incomplete_inputs_known_components_reported</td>
+      <td>NaN</td>
+      <td>-3.000304e+07</td>
+      <td>NaN</td>
+      <td>ordinary do-nothing</td>
+      <td>Project compared with ordinary do-nothing</td>
+      <td>["biodiversity_land_take_and_water", "construction_emissions_and_disruption", "direct_rail_noise_and_crashes", "foreign_network_changes_outside_assigned_graph", "infrastructure_lifecycle_emissions", "land_use_welfare", "lottstetten_jestetten.station_measures_not_in_published_capital_scope", "reliability", "unrepresented_external_through_PT_and_active_trips", "user_payments_and_operator_tax_transfers_reported_separately"]</td>
+    </tr>
+  </tbody>
+</table></div></section><section><h2>additional luti effects</h2><a href="figures/additional_luti_effects.png"><img loading="lazy" src="figures/additional_luti_effects.png" alt="additional luti effects"></a></section><section><h2>appraisal comparison</h2><a href="figures/appraisal_comparison.png"><img loading="lazy" src="figures/appraisal_comparison.png" alt="appraisal comparison"></a></section><section><h2>appraisal mean a15 uster hinwil</h2><a href="figures/appraisal_mean_a15_uster_hinwil.png"><img loading="lazy" src="figures/appraisal_mean_a15_uster_hinwil.png" alt="appraisal mean a15 uster hinwil"></a></section><section><h2>appraisal mean amriswil</h2><a href="figures/appraisal_mean_amriswil.png"><img loading="lazy" src="figures/appraisal_mean_amriswil.png" alt="appraisal mean amriswil"></a></section><section><h2>appraisal mean faesenstaub redundancy</h2><a href="figures/appraisal_mean_faesenstaub_redundancy.png"><img loading="lazy" src="figures/appraisal_mean_faesenstaub_redundancy.png" alt="appraisal mean faesenstaub redundancy"></a></section><section><h2>appraisal mean lottstetten jestetten</h2><a href="figures/appraisal_mean_lottstetten_jestetten.png"><img loading="lazy" src="figures/appraisal_mean_lottstetten_jestetten.png" alt="appraisal mean lottstetten jestetten"></a></section><section><h2>mode shares mean a15 uster hinwil 2055</h2><a href="figures/mode_shares_mean_a15_uster_hinwil_2055.png"><img loading="lazy" src="figures/mode_shares_mean_a15_uster_hinwil_2055.png" alt="mode shares mean a15 uster hinwil 2055"></a></section><section><h2>mode shares mean amriswil 2055</h2><a href="figures/mode_shares_mean_amriswil_2055.png"><img loading="lazy" src="figures/mode_shares_mean_amriswil_2055.png" alt="mode shares mean amriswil 2055"></a></section><section><h2>mode shares mean do nothing 2055</h2><a href="figures/mode_shares_mean_do_nothing_2055.png"><img loading="lazy" src="figures/mode_shares_mean_do_nothing_2055.png" alt="mode shares mean do nothing 2055"></a></section><section><h2>mode shares mean faesenstaub redundancy 2055</h2><a href="figures/mode_shares_mean_faesenstaub_redundancy_2055.png"><img loading="lazy" src="figures/mode_shares_mean_faesenstaub_redundancy_2055.png" alt="mode shares mean faesenstaub redundancy 2055"></a></section><section><h2>mode shares mean lottstetten jestetten 2055</h2><a href="figures/mode_shares_mean_lottstetten_jestetten_2055.png"><img loading="lazy" src="figures/mode_shares_mean_lottstetten_jestetten_2055.png" alt="mode shares mean lottstetten jestetten 2055"></a></section><section><h2>npv component breakdown</h2><a href="figures/npv_component_breakdown.png"><img loading="lazy" src="figures/npv_component_breakdown.png" alt="npv component breakdown"></a></section><section><h2>scenario trajectories</h2><a href="figures/scenario_trajectories.png"><img loading="lazy" src="figures/scenario_trajectories.png" alt="scenario trajectories"></a></section></body></html>

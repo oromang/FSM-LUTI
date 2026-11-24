@@ -6,8 +6,8 @@ cloning and `git lfs pull` from the checkout to retrieve them. No separate data
 delivery or predecessor repository is needed for the supplied model.
 
 The complete input set is `data/region/`, `data/projections/` and
-`data/gtfs_2026/` (approximately 447 MiB). Keep all files in these folders:
-`data/region/package_integrity.json` records 46 checked inputs, including
+`data/gtfs_2026/` (approximately 546 MiB). Keep all files in these folders:
+`data/region/package_integrity.json` records 57 checked inputs, including
 provenance and boundary-demand audit tables. The locations below are relative
 to `data/`. To use another prepared geography, set both `data_dir` and
 `gtfs_dir` in `run_settings.py` to that package's locations.
@@ -20,7 +20,10 @@ to `data/`. To use another prepared geography, set both `data_dir` and
 | `region/passenger_od.npz`, `background_od.npz` | Passenger and commercial vehicle demand with explicit axes |
 | `region/gate_nodes.parquet`, `gate_edges.parquet`, `gate_od.npz` | Boundary gates, connectors and external vehicle demand |
 | `region/gate_stub_nodes.parquet`, `international_gate_stub_members.parquet` | Restored native border-road geometry and link provenance; shared links occur once |
-| `region/external_passenger_od.parquet`, `external_*coverage.csv` | Original external passenger OD and coverage audits; fixed external PT/active reporting |
+| `region/external_passenger_od.parquet`, `external_*coverage.csv` | Original external passenger OD and coverage audits |
+| `region/appraisal_road_*` | Original road cohorts, compact runtime country/source groups, native freight classes and physical road classification |
+| `region/external_transit_*` | Conserved external PT/active cohorts, fixed GTFS anchors and proxy coverage |
+| `configs/appraisal/nistra_2022_2_screening.json` | Sourced monetary/fleet profiles, price conversion and explicit sensitivity assumptions |
 | `region/boundary_ledger.parquet` | Original external OD identities, mapped gates and outside journey information |
 | `region/*manifest.json`, `region/package_integrity.json` | Input definitions, provenance and content fingerprints |
 | `projections/neutral_paths.parquet` | Annual population and employment paths by zone and projection family |
@@ -65,7 +68,9 @@ arguments. The main preparation sequence is:
 5. `complete_external_demand.py`: include remaining NPVM external demand using
    available external-zone and connector information, with a coverage audit.
 6. `prepare_gtfs.py`: prepare the selected service day and route PT components.
-7. `seal_data.py`: record fingerprints after a deliberate rebuild.
+7. `prepare_appraisal.py`: recover road cohorts/freight classes, external transit
+   anchors and physical-road classifications. Run with `--help` for source paths.
+8. `seal_data.py`: record fingerprints after a deliberate rebuild.
 
 For example, replacing the placeholder paths with your local sources:
 
@@ -76,6 +81,7 @@ python scripts/prepare_demand.py --npvm-root "PATH_TO_NPVM" --data-dir data
 python scripts/prepare_gates.py --npvm "PATH_TO_NPVM" --region data/region
 python scripts/complete_external_demand.py --npvm "PATH_TO_NPVM" --region data/region --road-source "PATH_TO_REGIONAL_ROAD_SOURCE.parquet" --diagnostics diagnostics/external_demand_zh_tg_sh
 python scripts/prepare_gtfs.py --archive "PATH_TO_GTFS.zip" --date YYYY-MM-DD --zones data/region/zones.parquet --output data/gtfs_2026
+python scripts/prepare_appraisal.py --data-dir data --road-omx-dir "PATH_TO_EXTRACTED_ROAD_OMX_FILES" --road-source "PATH_TO_REGIONAL_ROAD_SOURCE.parquet" --npvm-root "PATH_TO_NPVM"
 python scripts/seal_data.py --data-dir data
 ```
 
@@ -87,5 +93,10 @@ that must not be reused for a different boundary.
 Keep `gtfs_dir` at `data/gtfs_2026` for this example. A changed
 fingerprint is an error until the package is deliberately rebuilt and sealed;
 sealing is not a repair for mismatched geography or incorrectly aligned data.
+Road-cohort preparation refuses to overwrite an existing cohort package. Rebuild
+into a separate copy of the prepared region and review the reconciliation before
+replacing published inputs. Classification uses the supplied project GeoPackages;
+new physical designs need corresponding appraisal classification or documented
+overrides. Missing classes fail instead of receiving invented zero external costs.
 Keep the provider attribution and verify redistribution rights before supplying
 any source or derived inputs to another user.

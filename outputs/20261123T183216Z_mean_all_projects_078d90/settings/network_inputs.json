@@ -1,0 +1,44 @@
+[
+  {
+    "role": "baseline",
+    "id": "baseline",
+    "path": "C:\\Personal\\Code\\FSM-LUTI\\configs\\network_edits\\baseline.gpkg",
+    "sha256": "1a776086b7de1a03c796a117bc49984032afb26d1fa73f52bd8236de286708b9",
+    "snapshot": "C:\\Personal\\Code\\FSM-LUTI\\outputs\\20261123T183216Z_mean_all_projects_078d90\\settings\\network_inputs\\baseline_baseline.gpkg"
+  },
+  {
+    "role": "project",
+    "id": "faesenstaub_redundancy",
+    "path": "C:\\Personal\\Code\\FSM-LUTI\\configs\\projects\\faesenstaub.gpkg",
+    "sha256": "55b388e75019a4bfc83ab6c02e742fc28b6fabdc08cb5bf6127622149abd247d",
+    "snapshot": "C:\\Personal\\Code\\FSM-LUTI\\outputs\\20261123T183216Z_mean_all_projects_078d90\\settings\\network_inputs\\project_faesenstaub_redundancy.gpkg"
+  },
+  {
+    "role": "project",
+    "id": "amriswil",
+    "path": "C:\\Personal\\Code\\FSM-LUTI\\configs\\projects\\amriswil.gpkg",
+    "sha256": "4acdd36e438754629d63e5eba54fb8a7eb3dbea5abcded3b52e4c871e9ed3f36",
+    "snapshot": "C:\\Personal\\Code\\FSM-LUTI\\outputs\\20261123T183216Z_mean_all_projects_078d90\\settings\\network_inputs\\project_amriswil.gpkg"
+  },
+  {
+    "role": "project",
+    "id": "a15_uster_hinwil",
+    "path": "C:\\Personal\\Code\\FSM-LUTI\\configs\\projects\\a15_uster_hinwil.gpkg",
+    "sha256": "b52442b2e840c5c3188ae64731606eed542ad506fa39fdd50540e46414063d60",
+    "snapshot": "C:\\Personal\\Code\\FSM-LUTI\\outputs\\20261123T183216Z_mean_all_projects_078d90\\settings\\network_inputs\\project_a15_uster_hinwil.gpkg"
+  },
+  {
+    "role": "project",
+    "id": "faesenstaub_renovation_closure",
+    "path": "C:\\Personal\\Code\\FSM-LUTI\\configs\\projects\\faesenstaub_renovation_closure.gpkg",
+    "sha256": "eba24ae7b37e61a4d8f54b10516991232996b071394345d712ba75b5ac8993c6",
+    "snapshot": "C:\\Personal\\Code\\FSM-LUTI\\outputs\\20261123T183216Z_mean_all_projects_078d90\\settings\\network_inputs\\project_faesenstaub_renovation_closure.gpkg"
+  },
+  {
+    "role": "project",
+    "id": "faesenstaub_renovation_with_new_tube",
+    "path": "C:\\Personal\\Code\\FSM-LUTI\\configs\\projects\\faesenstaub_renovation_with_new_tube.gpkg",
+    "sha256": "19a99241cdeb7edbd0886e569575e1e3f462dbe0186da9078cf108ffab7a161d",
+    "snapshot": "C:\\Personal\\Code\\FSM-LUTI\\outputs\\20261123T183216Z_mean_all_projects_078d90\\settings\\network_inputs\\project_faesenstaub_renovation_with_new_tube.gpkg"
+  }
+]

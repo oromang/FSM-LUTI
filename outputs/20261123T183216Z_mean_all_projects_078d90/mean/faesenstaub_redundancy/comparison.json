@@ -1,0 +1,21 @@
+{
+  "reference": "case-specific matched neutral land use",
+  "temporary_comparisons": {
+    "faesenstaub_redundancy": {
+      "start_year": 2040,
+      "duration_years": 5,
+      "reference_project_id": "faesenstaub_renovation_closure",
+      "project_project_id": "faesenstaub_renovation_with_new_tube",
+      "end_year_exclusive": 2045
+    }
+  },
+  "extra_evaluation_dates": [
+    2039,
+    2040,
+    2044,
+    2045
+  ],
+  "closure_interval_convention": "start_year inclusive; start_year + duration_years exclusive",
+  "annual_interpolation": "model dates on both calendar-year sides of each change",
+  "common_do_nothing_case_modified": false
+}

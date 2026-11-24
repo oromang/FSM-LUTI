@@ -1,0 +1,15 @@
+{
+  "started_utc": "2026-11-23T21:04:37.280131+00:00",
+  "completed_utc": "2026-11-23T22:10:43.204052+00:00",
+  "elapsed_seconds": 3965.9351648999727,
+  "cache_statistics": {
+    "unique_transport_solves": 11,
+    "exact_cache_hits": 7,
+    "transport_solve_seconds": 3534.8930761000374
+  },
+  "scenario_cache_statistics": {
+    "unique_transport_solves": 36,
+    "exact_cache_hits": 14,
+    "transport_solve_seconds": 11434.084125300113
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "schema": "appraisal_environment_inputs_v1",
+  "source_name": "regional_road_source.parquet",
+  "source_sha256": "dfd684ce9f6cbf277f1aaa1445b517780c4fcdd065bfc9283c69f48f04472244",
+  "type_source": "ARE, NPVM zones/networks report 20 July 2018, table22 pp65-67; NPVM type0-19 motorway/autostrasse,29-37 and50-61 urban, 20-28 and38-49 rural,62-73 motorway ramps",
+  "physical_segment_rows": 246235,
+  "physical_edge_count": 227672,
+  "core_and_border_physical_shared_source_edges_retained": 99,
+  "overlap_policy": "Retain every assigned physical edge traversal; shared source geometry alone is not a duplicate journey",
+  "built_fraction_basis": "EBeN2024 p37: urban100%,motorway22%,rural0%; a national proxy, not measured receptor exposure",
+  "noise_basis": "All base physical road distance except registered existing tunnel; new uninhabited bypass excluded as explicit project assumption; sensitivity allows25% exposure",
+  "synthetic_connectors": "connector:, gate:, border:inbound/outbound excluded; border-road: physical edges retained",
+  "limitations": [
+    "Unregistered existing tunnels remain national-average exposure; no receptor or tunnel-portal dispersion model",
+    "No imported segment permissions or speed-dependent emissions; physical inventory does not alter assignment"
+  ],
+  "files": {
+    "appraisal_road_classification.parquet": {
+      "sha256": "43ec1708c936ed170a4e17ffed845ec8f151c126bdea4d77a856c31a1462bc9d",
+      "bytes": 8720242
+    },
+    "appraisal_project_classification.csv": {
+      "sha256": "6cd10c74ab164ac5d5208c20141ba27cfd31cc1f5821ea943f07ad91c4db1ebc",
+      "bytes": 19096
+    }
+  },
+  "project_classification_additions": {
+    "a15_uster_hinwil": {
+      "source": "configs/projects/a15_uster_hinwil.gpkg",
+      "sha256": "b52442b2e840c5c3188ae64731606eed542ad506fa39fdd50540e46414063d60",
+      "rows": 26,
+      "notes": "Motorway class; zero direct tunnel surface noise; retained split approaches inherit source class. Tunnel portals and construction emissions unmodelled."
+    }
+  }
+}

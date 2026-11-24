@@ -1,6 +1,6 @@
 """Portable per-run geographic, matrix, tabular and figure outputs."""
 from pathlib import Path
-import html, json, shutil, textwrap
+import copy, html, json, os, shutil, textwrap
 import h5py
 import numpy as np
 import pandas as pd
@@ -25,6 +25,17 @@ def appraisal_component_label(component):
     assets={'capital_investment':'Capital investment','infrastructure_om':'Infrastructure operation / maintenance',
         'service_operation':'Service operation','renewal':'Asset renewal','residual_value':'Terminal asset residual (recovery)'}
     if component in assets:return assets[component]
+    if component.startswith(('freight.','external_car.','internal_car.')):
+        words=component.split('.')
+        if words[0]=='freight':
+            owner='Freight '+words[1];parts=words[2:]
+        else:owner={'external_car':'External car','internal_car':'Internal car'}[words[0]];parts=words[1:]
+        labels={'vehicle_resources':'vehicle resources','resources':'vehicle resources','driver_time':'driver / vehicle time',
+            'cargo_time':'cargo time','time':'passenger time','energy':'energy','distance':'distance',
+            'ordinary':'free-flow time','congestion':'congestion'}
+        return owner+': '+', '.join(labels.get(p,p.replace('_',' ')) for p in parts)
+    if component.startswith('external_pt_'):return 'External PT: '+component.removeprefix('external_pt_').replace('_',' ')
+    if component.startswith('internal_pt_service_window_'):return 'PT window correction: '+component.removeprefix('internal_pt_service_window_').replace('_',' ')
     modes={'drive':'Car','bike':'Bicycle','walk':'Walk','pt_walk':'PT (walk access)','pt_bike':'PT (cycle access)'}
     physical={'in_vehicle_min':'in-vehicle time','congestion_min':'congestion','cycle_min':'cycling time',
         'walk_min':'walking time','access_min':'access','egress_min':'egress','wait_min':'waiting',
@@ -60,7 +71,42 @@ def selected_matrix_year(year, config):
     if selection!='endpoints_and_openings':raise ValueError('Invalid matrix_years selection')
     projects=[p for p in config['projects'].values() if p.get('enabled',True)]+list(config.get('baseline_projects',{}).values())
     years=[config['start_year'],config['end_year']]+[p['opening_year'] for p in projects]
+    for uid, spec in config['projects'].items():
+        if not spec.get('enabled', True):continue
+        comparison=spec.get('temporary_comparison',config.get('project_definitions',{}).get(uid,{}).get('temporary_comparison'))
+        if comparison:
+            start=comparison['start_year'];end=start+comparison['duration_years']
+            years.extend([start-1,start,end-1,end])
     return any(np.isclose(year,x,rtol=0.,atol=1e-8) for x in years)
+
+
+def _archive_external_pt(archive, payload, internal_axis, compression):
+    """Keep both cost surfaces and fixed repair maps, with rectangular axes."""
+    state=payload.get('external_transit')
+    if state is None:return
+    group=archive.require_group('external_pt');strings=h5py.string_dtype('utf-8')
+    group.attrs['metadata']=json.dumps({key:state.get(key) for key in (
+        'schema','growth','projects','endpoint_effects','rail_service_supply','unlocated_anchor_stop_id',
+        'anchor_key','cache_key','lazy_unchanged_timetable')},default=str)
+    group.attrs['orientation']='Both inbound and outbound arrays use rows=anchor_stop_ids, columns=internal zone_ids'
+    group.attrs['outside_legs']='Fixed outside legs cancel; endpoint effects are recorded separately in metadata'
+    options={'compression':'gzip','compression_opts':compression,'shuffle':True} if compression else {}
+    anchor_ids=tuple(map(str,state.get('anchor_stop_ids',())))
+    outside_ids=tuple(map(str,state.get('external_zone_ids',())))
+    if not anchor_ids or not outside_ids:raise ValueError('External PT archive requires explicit anchor and original outside axes')
+    axis=group.create_dataset('anchor_stop_ids',data=np.asarray(anchor_ids,dtype=object),dtype=strings);axis.make_scale('anchor_stop_id')
+    outside=group.create_dataset('external_zone_ids',data=np.asarray(outside_ids,dtype=object),dtype=strings);outside.make_scale('external_zone_id')
+    mapping=np.asarray(state['anchor_index_by_external'],dtype=np.int32)
+    if mapping.shape!=(len(outside_ids),) or (mapping<0).any() or (mapping>=len(anchor_ids)).any():raise ValueError('Invalid external PT anchor map')
+    group.create_dataset('anchor_index_by_external',data=mapping,**options).dims[0].attach_scale(outside)
+    for name in ('baseline','routed'):
+        for key,values in state.get(name,{}).items():
+            array=np.asarray(values)
+            if array.shape!=(len(anchor_ids),len(internal_axis)):raise ValueError('External PT rectangular cost/repair axes differ')
+            d=group.require_group(name).create_dataset(key,data=array,**options)
+            d.dims[0].label='anchor';d.dims[0].attach_scale(axis)
+            d.dims[1].label='internal_zone';d.dims[1].attach_scale(internal_axis)
+            d.attrs['units']='index' if key.endswith(('__anchor','__internal')) else 'metres' if key.endswith('__distance_m') else 'count' if key.endswith('__transfers') else 'minutes'
 
 
 def write_matrix_archive(path, outcome, zone_ids, *, metadata=None, compression=1):
@@ -105,6 +151,11 @@ def write_matrix_archive(path, outcome, zone_ids, *, metadata=None, compression=
         if not road_ids or len(set(road_ids))!=len(road_ids) or r.shape!=(len(road_ids),len(road_ids)):
             raise ValueError('Road-assignment matrix does not match its unique road_zone_ids')
         if not np.isfinite(r).all() or (r<0).any():raise ValueError('Road vehicle OD must be finite and nonnegative')
+        for name in ('road_final_time_min','road_final_distance_m','road_free_flow_time_min','road_free_flow_distance_m'):
+            if name not in payload:continue  # Earlier saved runs remain readable.
+            a=np.asarray(payload[name])
+            if a.shape!=r.shape or (a<0).any() or (name.endswith('_min') and np.isnan(a).any()):raise ValueError(f'Invalid {name} or road axes')
+            if np.any((r>1e-8)&~np.isfinite(a)):raise ValueError(f'Assigned vehicles have an unavailable {name}')
     path=Path(path);path.parent.mkdir(parents=True,exist_ok=True)
     with h5py.File(path,'w') as f:
         strings=h5py.string_dtype('utf-8')
@@ -136,6 +187,12 @@ def write_matrix_archive(path, outcome, zone_ids, *, metadata=None, compression=
         for name in ['free_flow_drive_min','congestion_drive_min']:
             if name in payload:put('appraisal_components',name,payload[name],'minutes; see car_time_decomposition')
         f.attrs['car_time_decomposition']=payload.get('car_time_decomposition','unavailable')
+        if 'road_class_growth' in payload:f.attrs['road_class_growth']=json.dumps(payload['road_class_growth'])
+        if 'road_occupancy' in payload:f.attrs['road_occupancy']=payload['road_occupancy']
+        if 'pt_timetable_only' in payload:
+            for name,value in payload['pt_timetable_only'].times.items():
+                if 'pt_' in name:put('pt_timetable_only',name,internal(value,name),'count' if name.startswith('transfer_count') else 'minutes before endpoint station effects')
+        _archive_external_pt(f,payload,internal_axis,compression)
         hm=f.require_group('harmony').create_dataset('mode_ids',data=np.asarray(['pt','car','bicycle'],dtype=object),dtype=strings)
         hm.make_scale('harmony_mode')
         hd=put('harmony','fsm_costs',outcome.harmony_costs,'minutes')
@@ -143,8 +200,12 @@ def write_matrix_archive(path, outcome, zone_ids, *, metadata=None, compression=
             hd.dims[i].label=label;hd.dims[i].attach_scale(scale)
         if 'road_assigned_od' in payload:
             ra=f.create_dataset('road_zone_ids',data=np.asarray(road_ids,dtype=object),dtype=strings);ra.make_scale('road_zone_id')
-            rd=put('road','assigned_vehicle_od',payload['road_assigned_od'],'vehicles per modelled hour; axes road_zone_ids')
-            for i,label in enumerate(('origin','destination')):rd.dims[i].label=label;rd.dims[i].attach_scale(ra)
+            road_arrays={'assigned_vehicle_od':(payload['road_assigned_od'],'vehicles per modelled hour')}
+            for name in ('road_final_time_min','road_final_distance_m','road_free_flow_time_min','road_free_flow_distance_m'):
+                if name in payload:road_arrays[name.removeprefix('road_')]=(payload[name],'minutes' if name.endswith('_min') else 'metres along fastest-time path')
+            for name,(array,units) in road_arrays.items():
+                rd=put('road',name,array,units+'; axes road_zone_ids')
+                for i,label in enumerate(('origin','destination')):rd.dims[i].label=label;rd.dims[i].attach_scale(ra)
     return path
 
 
@@ -182,8 +243,9 @@ def pt_link_geography(connections,stops):
 
 
 class RunArtifacts:
-    def __init__(self,root,output,region,config):
+    def __init__(self,root,output,region,config,*,worker=False):
         self.root=Path(root);self.out=Path(output);self.region=region;self.config=config
+        self.worker=worker
         self.options=config.get('exports',{});self.data=self.root/config.get('data_dir','data')
         self.figures=self.out/'figures';self.tables=self.out/'tables';self.spatial=self.out/'spatial'
         for folder in [self.figures,self.tables,self.spatial]:folder.mkdir(parents=True,exist_ok=True)
@@ -195,8 +257,15 @@ class RunArtifacts:
         self.geozones=geozones.set_index('zone_id').loc[list(region.zone_ids)].reset_index()
         self.gates=pd.read_parquet(self.data/'region/gate_nodes.parquet') if config.get('transport',{}).get('include_gates',True) and (self.data/'region/gate_nodes.parquet').exists() else pd.DataFrame()
         self.npvm=self._benchmark()
-        write_json(self.out/'matrix_schema.json',{'format':'HDF5','precision':'float64','internal_axes':'zone_ids',
+        if not self.worker:write_json(self.out/'matrix_schema.json',{'format':'HDF5','precision':'float64','internal_axes':'zone_ids',
             'road_axes':'road_zone_ids','demand_units':'persons per modelled ASP hour','road_demand_units':'vehicles per modelled ASP hour',
+            'external_pt_axes':{'rows':'external_pt/anchor_stop_ids','columns':'zone_ids',
+                'orientation':'Both inbound and outbound costs are anchor by internal-zone rectangles',
+                'outside_cohorts':'external_pt/external_zone_ids',
+                'outside_anchor_mapping':'external_pt/anchor_index_by_external',
+                'cost_surfaces':['external_pt/baseline','external_pt/routed'],
+                'repair_maps':'Reference-fixed anchor/internal indices; integer datasets',
+                'lazy_states':'Unchanged timetables retain axes/coverage without duplicated cost surfaces'},
             'skims':'minutes except transfer_count, which is a count','distance':'metres',
             'states':{'reference':'do-nothing at neutral land use','fixed':'project at the identical neutral land use',
                       'luti':'project with HARMONY population adjustment'},
@@ -216,12 +285,48 @@ class RunArtifacts:
             volumes={mode:float(value[mask].sum()) for mode,value in matrices.items()};total=sum(volumes.values())
             rows.extend({'group':group,'mode':mode,'persons_per_ASP_hour':value,'share':value/total if total else 0.,
                 'source_year':2023,'scope':'internal-to-internal trips grouped by origin'} for mode,value in volumes.items())
-        result=pd.DataFrame(rows);result.to_csv(self.tables/'npvm_mode_benchmark.csv',index=False);return result
+        result=pd.DataFrame(rows)
+        if not self.worker:result.to_csv(self.tables/'npvm_mode_benchmark.csv',index=False)
+        return result
+
+    def worker_state(self):
+        """Only small report rows cross process boundaries, never OD arrays."""
+        return {'mode_rows':self.mode_rows,'metric_rows':self.metric_rows,'snapshots':self.snapshots}
+
+    def merge_worker_state(self,state):
+        """The parent owns aggregate indices and renders reports after workers."""
+        if self.worker:raise RuntimeError('Only the parent may merge artifact state')
+        for name in ('mode_rows','metric_rows','snapshots'):
+            getattr(self,name).extend(state[name])
+        self.written.update(self.out/row['path'] for row in state['snapshots'])
+        self._write_matrix_indices()
 
     def save_figure(self,fig,name):
         fig.savefig(self.figures/(name+'.png'),dpi=160,bbox_inches='tight')
         if self.options.get('figures_pdf',True):fig.savefig(self.figures/(name+'.pdf'),bbox_inches='tight')
         plt.close(fig)
+
+    def _scenario_report(self,scenario):
+        """A view of shared inputs with scenario-local report destinations."""
+        if str(scenario) in ('','.','..') or Path(str(scenario)).name!=str(scenario) or '/' in str(scenario) or '\\' in str(scenario):
+            raise ValueError('Scenario ID must be a single directory name')
+        report=copy.copy(self)
+        report.run_out=getattr(self,'run_out',self.out)
+        report.scenario_id=str(scenario);report.out=report.run_out/str(scenario)
+        report.figures=report.out/'figures';report.tables=report.out/'tables'
+        report.spatial=report.run_out/'spatial'
+        for folder in (report.figures,report.tables):folder.mkdir(parents=True,exist_ok=True)
+        return report
+
+    def _write_matrix_indices(self):
+        """Root paths are run-relative; scenario paths are scenario-relative."""
+        if getattr(self,'worker',False):return
+        write_json(self.out/'matrix_index.json',self.snapshots)
+        for scenario in sorted({row['scenario'] for row in self.snapshots}):
+            folder=self.out/scenario
+            entries=[{**row,'path':Path(os.path.relpath(self.out/row['path'],folder)).as_posix()}
+                     for row in self.snapshots if row['scenario']==scenario]
+            write_json(folder/'matrix_index.json',entries)
 
     def map_background(self,ax):
         for canton,group in self.geozones.groupby('canton'):
@@ -231,6 +336,7 @@ class RunArtifacts:
         ax.tick_params(axis='x',labelrotation=25)
 
     def setup_geography(self,backend):
+        if getattr(self,'worker',False):raise RuntimeError('Only the parent may write shared geography')
         road=edge_geography(backend.base.road_edges,backend.base.road_nodes)
         pt_links=pt_link_geography(backend.base.pt_connections,backend.base.pt_stops)
         gpkg=self.spatial/'network.gpkg'
@@ -266,7 +372,9 @@ class RunArtifacts:
         self.save_figure(fig,'network_pt')
         fig,ax=plt.subplots(figsize=(10,9));self.map_background(ax)
         if len(self.gates):ax.scatter(self.gates.x,self.gates.y,s=12,c='#a43d66',label=f'{len(self.gates)} boundary gates',zorder=3)
-        ax.set_title(f'{len(self.geozones):,} internal zones and boundary gates');ax.legend();self.save_figure(fig,'zones_and_gates')
+        ax.set_title(f'{len(self.geozones):,} internal zones and boundary gates')
+        if len(self.gates):ax.legend()
+        self.save_figure(fig,'zones_and_gates')
         self.geozones.drop(columns='geometry').to_parquet(self.tables/'zones.parquet',index=False)
         if len(self.gates):self.gates.to_csv(self.tables/'gates.csv',index=False)
         project_geometry=[];effects=[]
@@ -317,12 +425,26 @@ class RunArtifacts:
             self.project_rows.append({'project':uid,'name':project.get('name',uid),'opening_year':project['opening_year'],
                 'road_operations':sum(op['table'].startswith('road_') for op in project['operations']),
                 'pt_operations':sum(op['table'].startswith('pt_') for op in project['operations']),
-                'pt_component_effects':json.dumps(project.get('pt_component_effects',{}),default=str)})
-        ax.set_title('Projects evaluated individually against do nothing');self.save_figure(fig,'projects')
+                'pt_component_effects':json.dumps(project.get('pt_component_effects',{}),default=str),
+                'temporary_comparison':json.dumps(project.get('temporary_comparison',{}),default=str)})
+        ax.set_title('Projects and alternative operating comparisons');self.save_figure(fig,'projects')
         if project_geometry and self.options.get('geopackage',True):
             gpd.GeoDataFrame(project_geometry,crs=2056).to_file(gpkg,layer='projects',index=False)
         pd.DataFrame(self.project_rows).to_csv(self.tables/'projects.csv',index=False)
         pd.DataFrame(effects).to_parquet(self.tables/'project_operations.parquet',index=False)
+        comparison_inputs=[]
+        for uid,project in enabled.items():
+            comparison=project.get('temporary_comparison')
+            if not comparison:continue
+            for role,field in [('reference','reference_project_id'),('project','project_project_id')]:
+                physical=backend.projects[comparison[field]]
+                for op in physical['operations']:
+                    comparison_inputs.append({'case':uid,'state':role,'physical_project_id':physical['id'],
+                        'start_year':comparison['start_year'],'end_year_inclusive':comparison['start_year']+comparison['duration_years']-1,
+                        'table':op['table'],'action':op['action'],'id':str(op['id']),
+                        'expected':json.dumps(op.get('expected',{}),default=str),'values':json.dumps(op.get('values',{}),default=str)})
+        if comparison_inputs:
+            pd.DataFrame(comparison_inputs).to_parquet(self.tables/'temporary_comparison_operations.parquet',index=False)
         write_json(self.out/'settings/resolved_projects.json',backend.projects)
         for name in ['boundary_manifest.json','demand_manifest.json']:
             shutil.copy2(self.data/'region'/name,self.tables/name)
@@ -348,21 +470,41 @@ class RunArtifacts:
                 self.mode_rows.extend({'scenario':scenario,'case':case,'year':year,'state':state,'group':group,
                     'mode':mode,'persons_per_ASP_hour':value,'share':value/total if total else 0.} for mode,value in volumes.items())
             metric={'scenario':scenario,'case':case,'year':year,'state':state}
+            metric.update(reference_project_ids=json.dumps(row.get('reference_project_ids',[])),
+                          comparison_phase=json.dumps(row.get('comparison_phase',{})))
             metric.update({key:outcome.metrics[key] for key in ['passenger_trips','internal_drive_vehicle_km','internal_passenger_hours','method']})
             self.metric_rows.append(metric)
         if self.options.get('matrices',True) and selected_matrix_year(year,self.config):
             for state in self.options.get('matrix_states',['reference','fixed','luti']):
                 outcome=states[state]
-                folder=self.out/'matrices'/scenario/('reference' if state=='reference' or outcome is reference else case)
+                is_reference=state=='reference' or outcome is reference
+                custom_reference=bool(row.get('reference_project_ids'))
+                folder=self.out/scenario/'matrices'
+                if is_reference:
+                    folder=folder/case/'reference' if custom_reference else folder/'reference'
+                else:
+                    folder=folder/case
                 label='reference' if outcome is reference else 'fixed' if outcome is fixed else state
                 path=folder/f'{label}_{year:g}.h5'
+                if getattr(self,'worker',False) and is_reference and not custom_reference:
+                    # Shared references are complete before case workers start.
+                    # A missing file is a planning error, never a concurrent write.
+                    required=[path]
+                    if 'road_assignment_edges' in outcome.payload:required.append(path.with_suffix('.links.parquet'))
+                    if any(not item.is_file() for item in required):
+                        raise RuntimeError(f'Parent reference archive missing before parallel case: {path}')
+                    self.written.add(path)
                 if path not in self.written:
                     write_matrix_archive(path,outcome,self.region.zone_ids,metadata={'scenario':scenario,'case':case,'year':year,'state':label,
-                        'transport_method':outcome.metrics['method'],'land_use_signature':row['land_use_signature'] if state=='luti' else row['reference_land_use_signature']},
+                        'transport_method':outcome.metrics['method'],'land_use_signature':row['land_use_signature'] if state=='luti' else row['reference_land_use_signature'],
+                        'reference_project_ids':row.get('reference_project_ids',[]),
+                        'network_project_ids':row.get('reference_project_ids',[]) if is_reference else row.get('project_network_ids',row.get('active_projects',[])),
+                        'comparison_phase':row.get('comparison_phase',{})},
                         compression=self.options.get('hdf5_compression',1));self.written.add(path)
                     if 'road_assignment_edges' in outcome.payload:
                         outcome.payload['road_assignment_edges'].to_parquet(path.with_suffix('.links.parquet'),index=False)
-                self.snapshots.append({'scenario':scenario,'case':case,'year':year,'state':state,'path':str(path.relative_to(self.out))})
+                self.snapshots.append({'scenario':scenario,'case':case,'year':year,'state':state,'path':path.relative_to(self.out).as_posix(),
+                    'reference_project_ids':row.get('reference_project_ids',[])})
             # Prescribed road loads are kept separate from endogenous assignments.
             if backend.settings['method']=='observed_flow_screening':
                 state=backend._state(tuple(sorted(set(row['active_projects'])|set(row['transport']['baseline_projects']))),year)
@@ -371,9 +513,9 @@ class RunArtifacts:
                 if 'replaces_edge_id' in edges:values=values.fillna(edges.replaces_edge_id.map(original))
                 edges['prescribed_vehicles_per_hour']=values.fillna(0)*luti.metrics['road_flow_factor']
                 edges['load_method']='prescribed NPVM loads; not assignment'
-                path=self.out/'link_tables'/scenario/case;path.mkdir(parents=True,exist_ok=True)
+                path=self.out/scenario/'link_tables'/case;path.mkdir(parents=True,exist_ok=True)
                 edges.to_parquet(path/f'year_{year:g}.parquet',index=False)
-        write_json(self.out/'matrix_index.json',self.snapshots)
+        self._write_matrix_indices()
 
     def _mode_figure(self,modes,scenario,case,year):
         groups=list(self.groups);fig,axes=plt.subplots(len(groups),3,figsize=(11,3*len(groups)),squeeze=False)
@@ -382,7 +524,7 @@ class RunArtifacts:
             reference=modes[(modes.scenario==scenario)&(modes.case==case)&(modes.year==year)&(modes.state=='reference')&(modes.group==group)].set_index('mode').reindex(MODES)
             project=modes[(modes.scenario==scenario)&(modes.case==case)&(modes.year==year)&(modes.state=='luti')&(modes.group==group)].set_index('mode').reindex(MODES)
             project_title=f'Project, fixed land use {year:g}' if self.config.get('luti',{}).get('mode')=='off' else f'Project + LUTI {year:g}'
-            for j,(data,title) in enumerate([(benchmark,'NPVM benchmark'),(reference,f'Do nothing {year:g}'),(project,project_title)]):
+            for j,(data,title) in enumerate([(benchmark,'NPVM benchmark'),(reference,f'Matched reference {year:g}'),(project,project_title)]):
                 values=data.share.fillna(0).to_numpy()
                 if values.sum()>0:axes[i,j].pie(values,colors=[COLORS[m] for m in MODES],autopct=lambda x:f'{x:.1f}%' if x>=3 else '',startangle=90,pctdistance=.8,textprops={'fontsize':8})
                 axes[i,j].set_title(f'{group}\n{title}',fontsize=10)
@@ -391,43 +533,107 @@ class RunArtifacts:
         fig.tight_layout(rect=(0,.04,1,.96));self.save_figure(fig,f'mode_shares_{scenario}_{case}_{year:g}')
 
     def finish(self,index,appraisals):
+        if getattr(self,'worker',False):raise RuntimeError('Only the parent may finish shared reports')
+        # Process completion order must not reorder plots or published tables.
+        order={(row['scenario'],row['case']):i for i,row in enumerate(index)}
+        state_order={'reference':0,'fixed':1,'luti':2}
+        def report_order(row):
+            return (order[(row['scenario'],row['case'])],float(row['year']),
+                    state_order.get(row.get('state'),3))
+        for rows in (self.mode_rows,self.metric_rows,self.snapshots):rows.sort(key=report_order)
+        appraisals={key:appraisals[key] for key in order}
+        self._write_matrix_indices()
         modes=pd.DataFrame(self.mode_rows);metrics=pd.DataFrame(self.metric_rows)
-        modes.to_csv(self.tables/'mode_shares.csv',index=False);metrics.to_csv(self.tables/'transport_metrics.csv',index=False)
-        trajectories=[];summary=[];luti=[];components=[]
+        trajectories=[];summary=[];luti=[];components=[];additional=[];coverage=[]
         for item in index:
             scenario,case=item['scenario'],item['case'];folder=self.out/scenario/case
             land=pd.read_parquet(folder/'land_use.parquet')
             canton=land.groupby(['year','canton'],as_index=False)[['population','neutral_population','employment']].sum()
             canton['scenario']=scenario;canton['case']=case;trajectories.append(canton)
             for row in read_json(folder/'summary.json'):
+                extra=row['fixed_land_use_appraisal'].get('additional_accounts',{})
+                additional.extend(extra.get('ledger',[]))
+                coverage.append({'scenario':scenario,'case':case,'year':row['year'],
+                    'coverage':extra.get('coverage',{}),'geography':extra.get('geography',{}),
+                    'physical_quantities':extra.get('physical_quantities',{}),'assumptions':extra.get('assumptions',{})})
                 summary.append({'scenario':scenario,'case':case,'year':row['year'],'population':row['population'],
+                    'reference_project_ids':json.dumps(row.get('reference_project_ids',[])),
+                    'comparison_phase':json.dumps(row.get('comparison_phase',{})),
                     'employment':row['employment'],'allocation_difference_half_l1':row['population_moved_half_l1'],
                     'coupling_converged':row['coupling']['converged'],
                     'annual_time_benefit_chf':row['fixed_land_use_appraisal'].get('time_benefit_chf'),
-                    'period_time_benefit_chf':row['fixed_land_use_period_appraisal'].get('time_benefit_chf')})
+                    'period_time_benefit_chf':row['fixed_land_use_period_appraisal'].get('time_benefit_chf'),
+                    'additional_annual_accounts_chf':extra.get('annual_total_chf'),
+                    'annual_transport_and_externality_benefit_chf':row['fixed_land_use_appraisal'].get('annual_transport_and_externality_benefit_chf')})
                 luti.append({'scenario':scenario,'case':case,'year':row['year'],
                     'allocation_difference_half_l1':row['population_moved_half_l1'],**row['luti_reporting']})
-            if modes.size:self._mode_figure(modes,scenario,case,max(land.year))
             appraisal=appraisals[(scenario,case)]
             components.extend({'scenario':scenario,'case':case,**r} for r in appraisal.get('component_table',[]))
         summary=pd.DataFrame(summary);summary.to_csv(self.tables/'run_summary.csv',index=False)
-        pd.concat(trajectories,ignore_index=True).to_csv(self.tables/'canton_trajectories.csv',index=False)
-        pd.DataFrame(luti).to_csv(self.tables/'luti_effects.csv',index=False)
-        component_frame=pd.DataFrame(components);component_frame.to_csv(self.tables/'appraisal_components.csv',index=False)
-        app_summary=[{'scenario':s,'case':c,**{k:a.get(k) for k in ['status','npv_chf','known_components_npv_chf','benefit_cost_ratio']},
+        component_frame=pd.DataFrame(components);geo=pd.DataFrame()
+        if component_frame.empty:
+            # Empty declared accounts are valid. Keep an explicit tabular schema
+            # so CSV readers and the NPV renderer can report a zero known total.
+            component_frame=pd.DataFrame(columns=['scenario','case','year','component','account',
+                'amount_chf','discounted_chf','project_id','basis'])
+        if additional:
+            geo=pd.DataFrame(additional)
+            keys=[k for k in ('scenario_id','case_id','year','component','geography','cohort','vehicle_class') if k in geo]
+            # JSON geography remains readable even if a module supplies structured fields.
+            if 'geography' in geo:geo['geography']=geo.geography.map(lambda value:json.dumps(value,sort_keys=True) if isinstance(value,(dict,list)) else value)
+            geo=geo.groupby(keys,dropna=False,as_index=False).amount_chf.sum()
+        app_summary=[{'scenario':s,'case':c,**{k:a.get(k) for k in ['status','npv_chf','known_components_npv_chf','benefit_cost_ratio','reference_network_basis','comparison_description']},
                       'excluded_accounts':json.dumps(a.get('exclusions',[]))} for (s,c),a in appraisals.items()]
-        pd.DataFrame(app_summary).to_csv(self.tables/'appraisal_summary.csv',index=False)
+        app_summary=pd.DataFrame(app_summary);app_summary.to_csv(self.tables/'appraisal_summary.csv',index=False)
+        frames={'mode_shares':modes,'transport_metrics':metrics,'run_summary':summary,
+            'canton_trajectories':pd.concat(trajectories,ignore_index=True) if trajectories else pd.DataFrame(),
+            'luti_effects':pd.DataFrame(luti),'appraisal_components':component_frame,
+            'appraisal_additional_ledger':pd.DataFrame(additional),'appraisal_by_geography':geo,
+            'appraisal_summary':app_summary}
+        for scenario in sorted({row['scenario'] for row in index}):
+            report=self._scenario_report(scenario)
+            local={name:self._filter_scenario(frame,scenario) for name,frame in frames.items()}
+            for name,frame in local.items():frame.to_csv(report.tables/(name+'.csv'),index=False)
+            write_json(report.tables/'appraisal_coverage_and_geography.json',[row for row in coverage if row['scenario']==scenario])
+            write_json(report.out/'index.json',[row for row in index if row['scenario']==scenario])
+            selected={key:value for key,value in appraisals.items() if key[0]==scenario}
+            report._render_scenario(local,selected)
+        write_json(self.out/'report_layout.json',{'schema':'fsm_luti_scenario_reports_v1',
+            'scenarios':sorted({row['scenario'] for row in index}),
+            'shared_inputs':'Run-root settings, tables/npvm_mode_benchmark.csv and spatial are shared across scenarios',
+            'matrix_index_paths':'Relative to the directory containing each matrix_index.json; reference files shared by project cases'})
         self._trajectory_figures(summary,pd.DataFrame(luti))
-        self._appraisal_figures(component_frame,appraisals)
-        self._html(summary,pd.DataFrame(app_summary))
+        self._appraisal_figures(component_frame,appraisals,per_case=False)
+        self._html(summary,app_summary)
+
+    @staticmethod
+    def _filter_scenario(frame,scenario):
+        if frame.empty:return frame.copy()
+        key='scenario' if 'scenario' in frame else 'scenario_id' if 'scenario_id' in frame else None
+        if key is None:raise ValueError('Scenario-specific result table has no scenario identifier')
+        return frame.loc[frame[key].astype(str).eq(str(scenario))].copy()
+
+    def _render_scenario(self,frames,appraisals):
+        modes=frames['mode_shares'];scenario=self.scenario_id
+        if len(modes):
+            for case,selected in modes.groupby('case'):
+                self._mode_figure(modes,scenario,case,selected.year.max())
+        self._trajectory_figures(frames['run_summary'],frames['luti_effects'])
+        self._appraisal_figures(frames['appraisal_components'],appraisals)
+        from .appraisal_figures import npv_component_breakdown
+        figure,components,totals=npv_component_breakdown(frames['appraisal_components'],appraisals,scenario)
+        self.save_figure(figure,'npv_component_breakdown')
+        components.to_csv(self.tables/'npv_plot_components.csv',index=False)
+        totals.to_csv(self.tables/'npv_plot_totals.csv',index=False)
+        self._html(frames['run_summary'],frames['appraisal_summary'])
 
     @classmethod
     def render_saved(cls,output):
-        """Refresh figures/index from saved results without touching numeric files.
+        """Refresh reports from either saved layout without rerunning transport.
 
         This intentionally does not initialize current regional inputs or rerun
-        transport. Geography is left unchanged; a separate audited helper can
-        export a newer prepared geographic package after a run has completed.
+        transport. Legacy numeric files and matrix paths remain in place; filtered
+        scenario report tables are added only when absent. Geography is unchanged.
         """
         out=Path(output)
         if read_json(out/'run_manifest.json').get('status')!='completed':
@@ -438,19 +644,50 @@ class RunArtifacts:
         report.tables=out/'tables';report.spatial=out/'spatial';report.figures.mkdir(exist_ok=True)
         report.npvm=pd.read_csv(report.tables/'npvm_mode_benchmark.csv')
         report.groups=dict.fromkeys(report.npvm.group.unique())
-        modes=pd.read_csv(report.tables/'mode_shares.csv')
-        summary=pd.read_csv(report.tables/'run_summary.csv')
-        luti=pd.read_csv(report.tables/'luti_effects.csv')
-        component_frame=pd.read_csv(report.tables/'appraisal_components.csv')
-        app_summary=pd.read_csv(report.tables/'appraisal_summary.csv')
+        index=read_json(out/'index.json');scenarios=sorted({row['scenario'] for row in index})
+        legacy=not (out/'report_layout.json').exists()
+        def read_table(path):
+            if not path.exists():return pd.DataFrame()
+            try:return pd.read_csv(path)
+            except pd.errors.EmptyDataError:return pd.DataFrame()
+        names=['mode_shares','transport_metrics','run_summary','canton_trajectories','luti_effects',
+            'appraisal_components','appraisal_additional_ledger','appraisal_by_geography','appraisal_summary']
+        global_frames={name:read_table(report.tables/(name+'.csv')) for name in names} if legacy else {}
         appraisals={}
-        for item in read_json(out/'index.json'):
+        for item in index:
             scenario,case=item['scenario'],item['case']
             appraisals[scenario,case]=read_json(out/scenario/case/'appraisal.json')
-            selected=modes[(modes.scenario==scenario)&(modes.case==case)]
-            if len(selected):report._mode_figure(modes,scenario,case,selected.year.max())
+        scenario_frames=[]
+        for scenario in scenarios:
+            local=report._scenario_report(scenario)
+            frames={name:report._filter_scenario(frame,scenario) for name,frame in global_frames.items()} if legacy else {
+                name:read_table(local.tables/(name+'.csv')) for name in names}
+            if legacy:
+                for name,frame in frames.items():
+                    target=local.tables/(name+'.csv')
+                    if not target.exists():frame.to_csv(target,index=False)
+                coverage=report.tables/'appraisal_coverage_and_geography.json'
+                if coverage.exists() and not (local.tables/coverage.name).exists():
+                    write_json(local.tables/coverage.name,[row for row in read_json(coverage) if row['scenario']==scenario])
+            local_index=local.out/'index.json'
+            if not local_index.exists():write_json(local_index,[row for row in index if row['scenario']==scenario])
+            matrix_index=out/'matrix_index.json'
+            if matrix_index.exists() and not (local.out/'matrix_index.json').exists():
+                entries=[{**row,'path':Path(os.path.relpath(out/row['path'],local.out)).as_posix()}
+                         for row in read_json(matrix_index) if row['scenario']==scenario]
+                write_json(local.out/'matrix_index.json',entries)
+            local._render_scenario(frames,{key:value for key,value in appraisals.items() if key[0]==scenario})
+            scenario_frames.append(frames)
+        if not legacy:
+            global_frames={name:pd.concat([frames[name] for frames in scenario_frames],ignore_index=True) for name in names}
+        modes=global_frames['mode_shares'];summary=global_frames['run_summary'];luti=global_frames['luti_effects']
+        component_frame=global_frames['appraisal_components'];app_summary=global_frames['appraisal_summary']
+        if legacy and len(modes):
+            # Preserve the existing gallery location for old links and consumers.
+            for (scenario,case),selected in modes.groupby(['scenario','case']):
+                report._mode_figure(modes,scenario,case,selected.year.max())
         report._trajectory_figures(summary,luti)
-        report._appraisal_figures(component_frame,appraisals)
+        report._appraisal_figures(component_frame,appraisals,per_case=legacy)
         report._html(summary,app_summary)
         return report
 
@@ -468,9 +705,9 @@ class RunArtifacts:
         for ax,key,title in zip(axes,keys,titles):
             if key in final:ax.bar(np.arange(len(final)),final[key],color='#567c8d')
             ax.axhline(0,color='#555',lw=.7);ax.set_title(title,fontsize=10);ax.set_xticks(range(len(final)),labels,rotation=75,fontsize=7)
-        fig.suptitle('Additional LUTI effects: physical changes, not extra monetized welfare')
+        fig.suptitle(f"Additional LUTI effects in {self.config['end_year']:g}: physical changes, not extra monetized welfare")
         self.save_figure(fig,'additional_luti_effects')
-    def _appraisal_figures(self,frame,appraisals):
+    def _appraisal_figures(self,frame,appraisals,*,per_case=True):
         def monetary_axis(values):
             maximum=float(np.max(np.abs(values))) if len(values) else 0.
             return (1e6,'million CHF') if maximum>=1e6 else (1e3,'thousand CHF') if maximum>=1e3 else (1.,'CHF')
@@ -506,12 +743,14 @@ class RunArtifacts:
                 ax.plot(streams.index,values/scale,lw=1.4,marker='o',markersize=3,
                     markevery=active.tolist(),label=appraisal_component_label(component))
             ax.set_ylabel(f'Undiscounted {unit} / year')
+            if len(years)==1:ax.set_xlim(years[0]-.5,years[0]+.5);ax.set_xticks(years)
             ax.legend(fontsize=7,loc='upper left',bbox_to_anchor=(0.,-.23),ncol=2,frameon=False)
         for (scenario,case),appraisal in appraisals.items():
-            if case=='do_nothing':continue
+            if case=='do_nothing' or not per_case:continue
             data=frame[(frame.scenario==scenario)&(frame.case==case)] if len(frame) else pd.DataFrame()
             costs,benefits=appraisal_plot_accounts(data)
-            fig,axes=plt.subplots(2,2,figsize=(17,11),layout='constrained',height_ratios=[1.1,1.])
+            count=max(costs.component.nunique() if len(costs) else 0,benefits.component.nunique() if len(benefits) else 0)
+            fig,axes=plt.subplots(2,2,figsize=(19,max(11,6+.38*count)),layout='constrained',height_ratios=[1.1,1.])
             pv_panel(axes[0,0],costs,'Declared costs and terminal asset recovery')
             pv_panel(axes[0,1],benefits,'Signed benefits / disbenefits (separate scale)')
             annual_panel(axes[1,0],costs,'Annual cost and recovery streams')
@@ -522,6 +761,8 @@ class RunArtifacts:
             exclusions=', '.join(x.replace('_',' ') for x in appraisal.get('exclusions',[])) or 'none declared'
             note=f'Missing accounts: {missing}. Excluded: {exclusions}. Zero-only components omitted; exact ledger is in appraisal_components.csv.'
             header=f'{scenario} / {case} | {npv_label}\n{status}. Declared fixed-land-use accounts only; not a complete project ranking.\n'
+            if appraisal.get('start_year')==appraisal.get('end_year'):
+                header+='One-date diagnostic; not a lifetime project appraisal.\n'
             fig.suptitle(header+'\n'.join(textwrap.wrap(note,160)),fontsize=10)
             self.save_figure(fig,f'appraisal_{scenario}_{case}')
         fig,ax=plt.subplots(figsize=(11,5),layout='constrained')
@@ -540,18 +781,40 @@ class RunArtifacts:
         self.save_figure(fig,'appraisal_comparison')
 
     def _html(self,summary,appraisal):
+        run_out=getattr(self,'run_out',self.out);scenario=getattr(self,'scenario_id',None)
+        title=f'FSM–LUTI: {scenario}' if scenario is not None else 'FSM–LUTI run results'
         sections=[]
         for path in sorted(self.figures.glob('*.png')):
             name=html.escape(path.stem.replace('_',' '));sections.append(f'<section><h2>{name}</h2><a href="figures/{path.name}"><img loading="lazy" src="figures/{path.name}" alt="{name}"></a></section>')
         page='''<!doctype html><html><head><meta charset="utf-8"><title>FSM–LUTI run</title><style>
 body{font:16px system-ui,sans-serif;max-width:1200px;margin:auto;padding:28px;color:#20313d;background:#f5f7f8}
 section{background:white;padding:20px;margin:24px 0;border-radius:10px}img{max-width:100%;height:auto}table{border-collapse:collapse;font-size:13px}td,th{padding:7px;border-bottom:1px solid #ddd;text-align:right}h1,h2{font-weight:600}a{color:#23688b}.table{overflow-x:auto}
-</style></head><body><h1>FSM–LUTI run results</h1><p>Settings, transport states and appraisal are stored together in this folder. Monetary results cover the declared accounts; additional LUTI effects are reported separately.</p>
-<p><a href="configuration.json">Configuration</a> · <a href="tables/run_summary.csv">Summary table</a> · <a href="tables/appraisal_components.csv">Appraisal components</a> · <a href="matrix_index.json">OD archive index</a> · <a href="spatial/network.gpkg">Network GeoPackage</a> · <a href="projection_support.json">Projection coverage</a> · <a href="settings/network_inputs.json">Editable input snapshots</a></p>'''
+</style></head><body>'''
+        page+=f'<h1>{html.escape(title)}</h1><p>Monetary results cover the declared accounts; additional LUTI effects are reported separately. Geography, benchmark inputs and configuration are shared at the run root.</p>'
+        links=[]
+        targets=[(run_out/'index.html','All scenarios')] if scenario is not None else []
+        targets += [(run_out/'configuration.json','Configuration'),(self.tables/'run_summary.csv','Summary table'),
+            (self.tables/'appraisal_components.csv','Appraisal components'),(self.tables/'npv_plot_components.csv','NPV plot components'),
+            (self.tables/'npv_plot_totals.csv','NPV totals'),(self.out/'matrix_index.json','OD archive index'),
+            (run_out/'spatial/network.gpkg','Network GeoPackage'),(run_out/'projection_support.json','Projection coverage'),
+            (run_out/'settings/network_inputs.json','Editable input snapshots')]
+        for target,label in targets:
+            if target.exists() or label=='All scenarios':
+                href=html.escape(Path(os.path.relpath(target,self.out)).as_posix(),quote=True)
+                links.append(f'<a href="{href}">{label}</a>')
+        page+='<p>'+' · '.join(links)+'</p>'
+        if scenario is None:
+            scenarios=sorted(summary.scenario.astype(str).unique()) if 'scenario' in summary else []
+            page+='<section><h2>Scenario reports</h2><ul>'+''.join(
+                f'<li><a href="{html.escape(s,quote=True)}/index.html">{html.escape(s)}</a> — figures, tables, appraisal and OD archive index</li>' for s in scenarios)+'</ul></section>'
+        else:
+            cases=sorted(summary.case.astype(str).unique()) if 'case' in summary else []
+            page+='<section><h2>Case results</h2><ul>'+''.join(
+                f'<li>{html.escape(c)}: <a href="{html.escape(c,quote=True)}/summary.json">Annual results</a> · <a href="{html.escape(c,quote=True)}/appraisal.json">Appraisal ledger</a></li>' for c in cases)+'</ul></section>'
         page+='<section><h2>Appraisal summary</h2><div class="table">'+appraisal.to_html(index=False,border=0,escape=True)+'</div></section>'
-        audits=sorted((self.out/'postprocessing').glob('*/postprocessing_manifest.json'))
+        audits=sorted((run_out/'postprocessing').glob('*/postprocessing_manifest.json'))
         if audits:
-            audit=audits[-1];record=read_json(audit);relative=audit.relative_to(self.out).as_posix()
+            audit=audits[-1];record=read_json(audit);relative=Path(os.path.relpath(audit,self.out)).as_posix()
             note='Figures were regenerated from saved numerical results; transport and appraisal were not rerun.'
             if record.get('boundary_tables_refreshed'):
                 note+=' Boundary input tables and maps were refreshed after execution; numerical outputs retain the original screening calculation.'
@@ -559,13 +822,7 @@ section{background:white;padding:20px;margin:24px 0;border-radius:10px}img{max-w
             for name,title in [('geography_snapshot/tables/boundary_manifest.json','Current boundary input snapshot'),
                     ('boundary_snapshot_before_portals.json','Original boundary preparation fingerprints')]:
                 target=audit.parent/name
-                if target.exists():page+=f' | <a href="{target.relative_to(self.out).as_posix()}">{title}</a>'
+                if target.exists():page+=f' | <a href="{Path(os.path.relpath(target,self.out)).as_posix()}">{title}</a>'
             page+='</p></section>'
-        if not (self.spatial/'network.gpkg').exists():
-            page=page.replace(' · <a href="spatial/network.gpkg">Network GeoPackage</a>','')
-        if not (self.out/'projection_support.json').exists():
-            page=page.replace(' · <a href="projection_support.json">Projection coverage</a>','')
-        if not (self.out/'settings/network_inputs.json').exists():
-            page=page.replace(' · <a href="settings/network_inputs.json">Editable input snapshots</a>','')
         page+=''.join(sections)+'</body></html>'
         (self.out/'index.html').write_text(page,encoding='utf8')

@@ -16,40 +16,63 @@ The supplied packages are:
 
 | File | Purpose |
 | --- | --- |
-| `configs/network_edits/baseline.gpkg` | Baseline correction template. No edits are active initially. Its context covers the two road corridors. |
-| `configs/projects/faesenstaub.gpkg` | The existing Fäsenstaub capacity concept. |
-| `configs/projects/amriswil.gpkg` | The existing Amriswil bypass concept. |
+| `configs/network_edits/baseline.gpkg` | Shared Fäsenstaub, Amriswil and Betzholz baseline corrections, applied in all cases. |
+| `configs/projects/faesenstaub.gpkg` | Mainline widening, revised Nord/Mutzentäli movements and southern Ebnat feeder. |
+| `configs/projects/amriswil.gpkg` | Six-access bypass with the source-informed Hof feeder. |
+| `configs/projects/a15_uster_hinwil.gpkg` | Deep-long A15 concept with Uster and Betzholz connections. |
+| `configs/projects/faesenstaub_renovation_closure.gpkg` | Closed old-tube reference during the configured renovation years. |
+| `configs/projects/faesenstaub_renovation_with_new_tube.gpkg` | Complete project design with temporary two-way operation in the new tube. |
 
-The project packages reproduce the existing model concepts. They are starting
-points for student design work, not verified engineering plans. Unverified
-direction closures, additional accesses and accompanying measures are not
-automatically introduced by exporting a package.
+The supplied projects are bound to the shared corrected baseline. Their source
+geometry, capacities and junction allowances are described in
+[Supplied road designs](road_designs.md). They remain model designs, not approved
+engineering plans.
 
 ## Select designs and run
 
-Set `baseline_network_package` and `project_geopackages` in the configurable
-section of `main.py`. A baseline package is applied to every reference and
-project case. A project package replaces that project's Python road builder and
-takes effect from its configured opening year. Leave a project's package entry
-unset to use its Python definition in `interventions.py`.
+Set `baseline_network_package` and `project_geopackages` in `main.py`. The
+baseline applies to every case; each project starts at its `opening_year` in
+`interventions.py`. The supplied road definitions also point to these packages,
+so removing a `main.py` override restores that default package. Additional
+projects may use Python builders. A `faesenstaub` package override is inherited
+by `faesenstaub_redundancy` unless the latter has an explicit override. The
+redundancy case is an alternative appraisal of the same investment, not another
+road to add to a combined project.
 
-Use a separate copy of a project package for each design alternative, give it a
-clear filename, and select its path in `main.py`. Project opening years, scenario
-selection, costs and appraisal assumptions remain in their Python settings; they
-are not inferred from the geometry. Each run retains copies and hashes of its
-selected design inputs.
-
-Before assignment, validate a project from the repository root:
+To make a separate editable copy of the current designs:
 
 ```powershell
-.\.venv\Scripts\python.exe scripts\qgis_projects.py validate configs\projects\amriswil.gpkg --role project
+.\.venv\Scripts\python.exe scripts\qgis_projects.py branch --output-dir configs\student_design
 ```
 
-When a baseline correction is selected, validate the project against it:
+The command honors `main.RUN` package overrides, copies the baseline and project
+packages without changing fingerprints, validates both pairs and records hashes.
+It refuses existing destination directories and uncheckpointed edits. Optional
+`--projects faesenstaub` selects one road; `--baseline-package FILE` selects a
+different baseline only if the selected projects already match it.
+
+By default, branching follows the current road projects in `main.RUN`. Selecting
+`faesenstaub_redundancy` automatically includes its two internal operating-state
+packages. Those states are not separately selectable investments. Cases sharing
+one source file keep sharing one copied file; an explicit separate source remains
+a separate editable variant. The closure and new-tube operating packages are
+complete designs against the common baseline. Keep their junction edits
+consistent with changes to the ordinary full project.
+
+Copy the two fields from the new `run_settings.json` into `main.RUN`. Open the
+copied packages in QGIS, save and close edits, then run `main.py --check`.
+Changing baseline edits later requires an explicit project rebase; branching
+does not perform that rebase.
+
+Validate a supplied project against its corrected baseline:
 
 ```powershell
 .\.venv\Scripts\python.exe scripts\qgis_projects.py validate configs\projects\amriswil.gpkg --role project --baseline-package configs\network_edits\baseline.gpkg
 ```
+
+Project openings, scenario selection and financial assumptions remain in the
+Python settings. Each model run saves package snapshots, hashes and compiled
+operations. An in-progress run therefore does not read later QGIS edits.
 
 ## Layers and edit contract
 
@@ -148,27 +171,26 @@ template against the corrected baseline, and deliberately transfer/review the
 design edits. Changing the source fingerprint by hand is not a valid rebase.
 The same applies after regenerating the zoning/network.
 
-Export fresh current Python concepts to a new directory:
+Use `branch` for the supplied GeoPackage designs. To export a new Python road
+project registered as `my_road` in `interventions.py`, use:
 
 ```powershell
-.\.venv\Scripts\python.exe scripts\qgis_projects.py export --output-dir configs\design_alternative
+.\.venv\Scripts\python.exe scripts\qgis_projects.py export --projects my_road --output-dir configs\new_design --baseline-package configs\network_edits\baseline.gpkg
 ```
 
-Export against a reviewed corrected baseline:
-
-```powershell
-.\.venv\Scripts\python.exe scripts\qgis_projects.py export --output-dir configs\corrected_designs --baseline-package configs\network_edits\baseline.gpkg
-```
-
-The new `network_edits/baseline.gpkg` in that export is an empty template whose
-source is the already-corrected network. Keep selecting the original baseline
-correction in `main.py`; select the new **project** files. Do not replace the
-original baseline correction with this empty template.
+With `--baseline-package`, the exporter preserves that correction package and
+exports the project against its corrected network. Select both new paths in
+`main.py`. Without the option, it exports against the original prepared network
+and supplies an empty baseline template. It never infers corrections or rebases
+an existing design by rewriting its fingerprint. Export refuses GeoPackage
+project definitions; use `branch` to copy those designs instead.
 
 Export refuses existing destinations unless `--overwrite` is supplied.
-Overwriting discards those design edits. To include the entire prepared network
-in baseline context, add `--full-baseline-context`; this can create a large file.
-Use `--context-buffer-m` to change local context extent. The original prepared
+Overwriting discards those design edits. When creating a new empty baseline
+without `--baseline-package`, add `--full-baseline-context` to include the entire
+prepared network; this can create a large file. A supplied baseline is copied
+unchanged, so its context is not expanded by that option. Use
+`--context-buffer-m` to change newly exported local context. The original prepared
 data and private diagnostics are not altered by any export or validation command.
 
 The importer checks the source fingerprint and all active edits. Runs archive

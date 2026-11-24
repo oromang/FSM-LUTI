@@ -1,0 +1,9 @@
+{
+  "crs": "EPSG:2056",
+  "road_geometry": "Stored engineering geometry from design packages where available; endpoint chords otherwise. Unedited contracted geometry is schematic",
+  "zones": "Prepared NPVM polygons",
+  "pt": "Prepared timetable stops and deduplicated directional stop-pair chords; not track or bus-route geometry",
+  "pt_links": "service_count counts scheduled connections in the prepared timetable window; first/last departure minutes are relative to service-day midnight",
+  "catchments": "Illustrative station buffers in LV95 metres; not path-level station-use observations",
+  "network_layers": "base road network plus project changes, added services, station catchments and gate connectors"
+}

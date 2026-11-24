@@ -1,0 +1,8 @@
+{
+  "reference": "case-specific matched neutral land use",
+  "temporary_comparisons": {},
+  "extra_evaluation_dates": [],
+  "closure_interval_convention": "start_year inclusive; start_year + duration_years exclusive",
+  "annual_interpolation": "model dates on both calendar-year sides of each change",
+  "common_do_nothing_case_modified": false
+}

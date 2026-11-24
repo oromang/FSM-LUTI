@@ -1,0 +1,31 @@
+{
+  "format": "HDF5",
+  "precision": "float64",
+  "internal_axes": "zone_ids",
+  "road_axes": "road_zone_ids",
+  "demand_units": "persons per modelled ASP hour",
+  "road_demand_units": "vehicles per modelled ASP hour",
+  "external_pt_axes": {
+    "rows": "external_pt/anchor_stop_ids",
+    "columns": "zone_ids",
+    "orientation": "Both inbound and outbound costs are anchor by internal-zone rectangles",
+    "outside_cohorts": "external_pt/external_zone_ids",
+    "outside_anchor_mapping": "external_pt/anchor_index_by_external",
+    "cost_surfaces": [
+      "external_pt/baseline",
+      "external_pt/routed"
+    ],
+    "repair_maps": "Reference-fixed anchor/internal indices; integer datasets",
+    "lazy_states": "Unchanged timetables retain axes/coverage without duplicated cost surfaces"
+  },
+  "skims": "minutes except transfer_count, which is a count",
+  "distance": "metres",
+  "states": {
+    "reference": "do-nothing at neutral land use",
+    "fixed": "project at the identical neutral land use",
+    "luti": "project with HARMONY population adjustment"
+  },
+  "reference_deduplication": "Shared scenario/reference files are referenced by each case",
+  "availability": "GTFS>=999 or nonfinite denotes unavailable, not a long valid trip",
+  "matrix_years": "endpoints_and_openings"
+}

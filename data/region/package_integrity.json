@@ -2,6 +2,41 @@
   "schema_version": 1,
   "files": [
     {
+      "path": "region/appraisal_environment_manifest.json",
+      "bytes": 2080,
+      "sha256": "5b187813608f29170185bad23c49040ca8f1e28ad290ab02f562390233b683d5"
+    },
+    {
+      "path": "region/appraisal_project_classification.csv",
+      "bytes": 19096,
+      "sha256": "6cd10c74ab164ac5d5208c20141ba27cfd31cc1f5821ea943f07ad91c4db1ebc"
+    },
+    {
+      "path": "region/appraisal_road_classification.parquet",
+      "bytes": 8720242,
+      "sha256": "43ec1708c936ed170a4e17ffed845ec8f151c126bdea4d77a856c31a1462bc9d"
+    },
+    {
+      "path": "region/appraisal_road_external_aggregates.parquet",
+      "bytes": 2322959,
+      "sha256": "3b6ebc887f4e6e1b955814d2bec07bfb80a81805c80164a2aec86cb6e4f52f1f"
+    },
+    {
+      "path": "region/appraisal_road_external_cohorts.parquet",
+      "bytes": 73684457,
+      "sha256": "f892b55c408e85dfe903e177cee0e3ff75b9432b21a11b18e5595bae816f140f"
+    },
+    {
+      "path": "region/appraisal_road_internal_freight.npz",
+      "bytes": 3370217,
+      "sha256": "a311d962640cf971c69c363fb53dd2df169558fdc8f9246777a77cf768235c37"
+    },
+    {
+      "path": "region/appraisal_road_manifest.json",
+      "bytes": 62495,
+      "sha256": "0fbfe2839be0b4fc81f4e8df809cb8dde8b2eb2756123a0f31adae94d8e653e5"
+    },
+    {
       "path": "region/background_od.npz",
       "bytes": 3628086,
       "sha256": "a97c22dec2ccd787e9eed761a076788b973528a7fd906799de0c7fb6264cdb68"
@@ -60,6 +95,26 @@
       "path": "region/external_road_coverage.csv",
       "bytes": 1448,
       "sha256": "5b83ce51bd9c8edc37cb9b028dfcf97b392d27f2da09afd7eea8590fb2f07820"
+    },
+    {
+      "path": "region/external_transit_anchors.parquet",
+      "bytes": 56717,
+      "sha256": "17dcf8417e07f1cee6961bd627b184c2d09888bd5297d3c8146de5151270d3c1"
+    },
+    {
+      "path": "region/external_transit_manifest.json",
+      "bytes": 49007,
+      "sha256": "bc82800e2c69cf4d0417f1684810b59952295995c47cce54a9b9915c49137be6"
+    },
+    {
+      "path": "region/external_transit_od.parquet",
+      "bytes": 15341393,
+      "sha256": "c5f35aa5f04cac32f4fb33619450b4a0138ed0c78d95dcc792b946144ab3829b"
+    },
+    {
+      "path": "region/external_transit_zones.parquet",
+      "bytes": 255644,
+      "sha256": "51461eca770da88be8740b5d5d6294b0fc673d947276af55eb6ab00d99e0267f"
     },
     {
       "path": "region/external_zone_countries.csv",

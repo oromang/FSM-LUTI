@@ -7,7 +7,16 @@
 # Local model runs, tests and private research work
 /tests/
 /src/fsm_luti/projects/diagnostics.py
-/outputs/
+# Publish this selected report bundle; keep other runs local.
+/outputs/*
+!/outputs/README.md
+!/outputs/20261123T183216Z_mean_all_projects_078d90/
+# Detailed OD/link archives remain on the local machine.
+/outputs/**/matrices/
+/outputs/**/*.h5
+/outputs/**/*.hdf5
+/outputs/**/*.npz
+/outputs/**/external_passenger_od.parquet
 /diagnostics/
 /calibration/
 /source_manifest.json

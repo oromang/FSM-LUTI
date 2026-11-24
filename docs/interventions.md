@@ -1,7 +1,9 @@
 # Defining interventions
 
 Define projects in `PROJECTS` in `interventions.py`, then select their IDs in
-`main.py`. Each selected project is compared individually against do nothing.
+`main.py`. Each selected project is compared individually against its reference,
+normally do nothing. `faesenstaub_redundancy` uses a temporary old-tube closure
+in its own reference; it does not change the other comparisons.
 Use a distinct stable dictionary key for each project. `opening_year` controls
 when effects begin. Optional combined runs apply the selected projects together
 to the same corrected reference network. Baseline GeoPackage corrections apply
@@ -10,6 +12,13 @@ to all cases; they have no project opening date.
 For road design in QGIS, use the [GeoPackage workflow](qgis_projects.md). Paths
 in `main.py` override the corresponding Python road builders. Geometry, link
 attributes and explicit connections then come from the selected package.
+
+The supplied Fäsenstaub and Amriswil definitions use `geopackage` directly.
+They require the shared corrected baseline and include the revised junction
+design and Hof feeder respectively. Edit their road attributes in QGIS;
+their `notes` are explanatory text, not physical parameter overrides. See
+[Supplied road designs](road_designs.md). Python capacity/bypass builders
+remain available for explicitly registered additional projects.
 
 The available builders are:
 
@@ -96,3 +105,27 @@ Select `my_road` in `RUN['projects']` and add its capital and operating assumpti
 in `appraisal_conventions.py`. New nodes and edges need unique IDs if designs
 may be combined. An alternative path can also be supplied through
 `RUN['project_geopackages']` or `--project-package`.
+
+## Temporary comparison networks
+
+`faesenstaub_redundancy` is an alternative appraisal of the Fäsenstaub investment.
+Its `temporary_comparison` supplies `start_year`, `duration_years`, and the IDs of
+two complete physical states: `reference_project_id` and `project_project_id`.
+The configured five-year closure starts in 2040 and covers 2040–2044 in the reference, while
+the project carries two-way traffic in the new tube. In 2045, the ordinary
+reference and full project design resume. Dates immediately before and after
+each transition are simulated explicitly, irrespective of the normal step.
+
+The two helper entries in `PROJECTS` are internal operating states. They are
+compiled and snapshotted automatically when the redundancy case is selected;
+they cannot be selected as separate investments. Edit their GeoPackages for
+closure geometry or temporary capacity/speed. They must each be a complete
+patch against the corrected baseline, rather than a patch stacked on the
+ordinary project. The redundancy case inherits the ordinary project's cost
+assumptions, unless explicitly overridden in `APPRAISAL['project_costs']`.
+
+Ordinary and redundancy Fäsenstaub may appear as separate bars in a report.
+They cannot appear together in a combined project because they represent the
+same investment with different counterfactuals. See
+[the redundancy assumptions](faesenstaub_redundancy.md) and
+[the A15 concept](a15_uster_hinwil.md).

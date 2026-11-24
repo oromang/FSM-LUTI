@@ -1,0 +1,293 @@
+{
+  "id": "all_users_simplified_appraisal",
+  "price_year": 2025,
+  "discount_rate": 0.02,
+  "discount_base_year": null,
+  "equivalent_days_per_year": 300.0,
+  "number_of_peak_hours": 4,
+  "peak_shares": {
+    "drive": 0.1049,
+    "pt_walk": 0.0946,
+    "pt_bike": 0.0946,
+    "bike": 0.15,
+    "walk": 0.15
+  },
+  "values_of_time_chf_per_hour": {
+    "drive": 42.54,
+    "pt_walk": 26.52,
+    "pt_bike": 26.52,
+    "bike": 35.0,
+    "walk": 16.0
+  },
+  "time_component_value_overrides": {},
+  "appraisal_end_year": null,
+  "terminal_benefits": "constant",
+  "payment_accounting": "report_only",
+  "standing": "All represented internal/external passengers and freight, including foreign and through road journeys; endpoint geography is reported separately, never used as a welfare exclusion.",
+  "simplified_factor_profile": "configs/appraisal/nistra_2022_2_screening.json",
+  "road_user_factors": {
+    "car": {
+      "driver_chf_per_vehicle_hour": {
+        "value": 0.0,
+        "price_year": 2019,
+        "target_price_multiplier": 1.0621478224601966,
+        "base_year": 2019,
+        "real_growth_per_year": 0.0,
+        "source": "https://www.astra.admin.ch/dam/de/sd-web/MAwtgrGOaqZw/eNISTRA-2022_2_d.xlsm VQ3n!FK161:FN161; small linear2016-2040 change frozen at2040 (EBeN manual p47 footnote79)"
+      },
+      "vehicle_chf_per_vehicle_hour": {
+        "value": 0.4783857811038354,
+        "price_year": 2019,
+        "target_price_multiplier": 1.0621478224601966,
+        "base_year": 2019,
+        "real_growth_per_year": 0.0,
+        "source": "https://www.astra.admin.ch/dam/de/sd-web/MAwtgrGOaqZw/eNISTRA-2022_2_d.xlsm VQ3n!FK161:FN161; small linear2016-2040 change frozen at2040 (EBeN manual p47 footnote79)"
+      },
+      "vehicle_chf_per_vehicle_km": {
+        "value": 0.11141824883068288,
+        "price_year": 2019,
+        "target_price_multiplier": 1.0621478224601966,
+        "base_year": 2019,
+        "real_growth_per_year": 0.0,
+        "source": "https://www.astra.admin.ch/dam/de/sd-web/MAwtgrGOaqZw/eNISTRA-2022_2_d.xlsm VQ3n!FK161:FN161; small linear2016-2040 change frozen at2040 (EBeN manual p47 footnote79)"
+      },
+      "vehicle_energy_chf_per_vehicle_km": {
+        "value": 0.04550791954714101,
+        "price_year": 2019,
+        "target_price_multiplier": 1.0621478224601966,
+        "base_year": 2019,
+        "real_growth_per_year": 0.0,
+        "source": "https://www.astra.admin.ch/dam/de/sd-web/MAwtgrGOaqZw/eNISTRA-2022_2_d.xlsm UW6 energy/fleet factors2035; equal road-class weighting is explicit screening approximation; fuel densities .745/.835kg/litre"
+      },
+      "cargo_chf_per_vehicle_hour": {
+        "value": 0.0,
+        "price_year": 2025,
+        "target_price_multiplier": 1.0,
+        "base_year": 2025,
+        "real_growth_per_year": 0.0,
+        "source": "Not applicable",
+        "low": 0.0,
+        "high": 0.0
+      },
+      "allocation_note": "Passenger time is separate; these vehicle resource factors do not value passenger time."
+    },
+    "van": {
+      "driver_chf_per_vehicle_hour": {
+        "value": 49.74706018440905,
+        "price_year": 2019,
+        "target_price_multiplier": 1.0621478224601966,
+        "base_year": 2019,
+        "real_growth_per_year": 0.0075,
+        "source": "https://www.astra.admin.ch/dam/de/sd-web/MAwtgrGOaqZw/eNISTRA-2022_2_d.xlsm VQ3n!FK169:FN170; small linear2016-2040 change frozen at2040 (EBeN manual p47 footnote79)"
+      },
+      "vehicle_chf_per_vehicle_hour": {
+        "value": 0.0,
+        "price_year": 2019,
+        "target_price_multiplier": 1.0621478224601966,
+        "base_year": 2019,
+        "real_growth_per_year": 0.0,
+        "source": "https://www.astra.admin.ch/dam/de/sd-web/MAwtgrGOaqZw/eNISTRA-2022_2_d.xlsm VQ3n!FK169:FN170; small linear2016-2040 change frozen at2040 (EBeN manual p47 footnote79)"
+      },
+      "vehicle_chf_per_vehicle_km": {
+        "value": 0.563464288119738,
+        "price_year": 2019,
+        "target_price_multiplier": 1.0621478224601966,
+        "base_year": 2019,
+        "real_growth_per_year": 0.0,
+        "source": "https://www.astra.admin.ch/dam/de/sd-web/MAwtgrGOaqZw/eNISTRA-2022_2_d.xlsm VQ3n!FK169:FN170; small linear2016-2040 change frozen at2040 (EBeN manual p47 footnote79)"
+      },
+      "vehicle_energy_chf_per_vehicle_km": {
+        "value": 0.06159173184671806,
+        "price_year": 2019,
+        "target_price_multiplier": 1.0621478224601966,
+        "base_year": 2019,
+        "real_growth_per_year": 0.0,
+        "source": "https://www.astra.admin.ch/dam/de/sd-web/MAwtgrGOaqZw/eNISTRA-2022_2_d.xlsm UW6 energy/fleet factors2035; equal road-class weighting is explicit screening approximation; fuel densities .745/.835kg/litre"
+      },
+      "cargo_chf_per_vehicle_hour": {
+        "value": 0.0,
+        "price_year": 2025,
+        "target_price_multiplier": 1.0,
+        "base_year": 2025,
+        "real_growth_per_year": 0.0,
+        "source": "EBeN p45: no separate van cargo account",
+        "low": 0.0,
+        "high": 0.0
+      },
+      "allocation_note": "Commercial driver field contains combined professional-driver and time-dependent vehicle resource cost; vehicle-time field explicitly zero to avoid duplication. Truck/articulated use same official SNF average."
+    },
+    "truck": {
+      "driver_chf_per_vehicle_hour": {
+        "value": 60.1508357082984,
+        "price_year": 2019,
+        "target_price_multiplier": 1.0621478224601966,
+        "base_year": 2019,
+        "real_growth_per_year": 0.0075,
+        "source": "https://www.astra.admin.ch/dam/de/sd-web/MAwtgrGOaqZw/eNISTRA-2022_2_d.xlsm VQ3n!FK171:FN172; small linear2016-2040 change frozen at2040 (EBeN manual p47 footnote79)"
+      },
+      "vehicle_chf_per_vehicle_hour": {
+        "value": 0.0,
+        "price_year": 2019,
+        "target_price_multiplier": 1.0621478224601966,
+        "base_year": 2019,
+        "real_growth_per_year": 0.0,
+        "source": "https://www.astra.admin.ch/dam/de/sd-web/MAwtgrGOaqZw/eNISTRA-2022_2_d.xlsm VQ3n!FK171:FN172; small linear2016-2040 change frozen at2040 (EBeN manual p47 footnote79)"
+      },
+      "vehicle_chf_per_vehicle_km": {
+        "value": 0.6537015378858747,
+        "price_year": 2019,
+        "target_price_multiplier": 1.0621478224601966,
+        "base_year": 2019,
+        "real_growth_per_year": 0.0,
+        "source": "https://www.astra.admin.ch/dam/de/sd-web/MAwtgrGOaqZw/eNISTRA-2022_2_d.xlsm VQ3n!FK171:FN172; small linear2016-2040 change frozen at2040 (EBeN manual p47 footnote79)"
+      },
+      "vehicle_energy_chf_per_vehicle_km": {
+        "value": 0.19939208636520225,
+        "price_year": 2019,
+        "target_price_multiplier": 1.0621478224601966,
+        "base_year": 2019,
+        "real_growth_per_year": 0.0,
+        "source": "https://www.astra.admin.ch/dam/de/sd-web/MAwtgrGOaqZw/eNISTRA-2022_2_d.xlsm UW6 energy/fleet factors2035; equal road-class weighting is explicit screening approximation; fuel densities .745/.835kg/litre"
+      },
+      "cargo_chf_per_vehicle_hour": {
+        "value": 5.0,
+        "price_year": 2025,
+        "target_price_multiplier": 1.0,
+        "base_year": 2025,
+        "real_growth_per_year": 0.0,
+        "source": "Preliminary cargo inventory/time proxy; not an official rate. Replace using VSS41 823 cargo and payload data.",
+        "low": 0.0,
+        "high": 20.0
+      },
+      "allocation_note": "Commercial driver field contains combined professional-driver and time-dependent vehicle resource cost; vehicle-time field explicitly zero to avoid duplication. Truck/articulated use same official SNF average."
+    },
+    "articulated": {
+      "driver_chf_per_vehicle_hour": {
+        "value": 60.1508357082984,
+        "price_year": 2019,
+        "target_price_multiplier": 1.0621478224601966,
+        "base_year": 2019,
+        "real_growth_per_year": 0.0075,
+        "source": "https://www.astra.admin.ch/dam/de/sd-web/MAwtgrGOaqZw/eNISTRA-2022_2_d.xlsm VQ3n!FK171:FN172; small linear2016-2040 change frozen at2040 (EBeN manual p47 footnote79)"
+      },
+      "vehicle_chf_per_vehicle_hour": {
+        "value": 0.0,
+        "price_year": 2019,
+        "target_price_multiplier": 1.0621478224601966,
+        "base_year": 2019,
+        "real_growth_per_year": 0.0,
+        "source": "https://www.astra.admin.ch/dam/de/sd-web/MAwtgrGOaqZw/eNISTRA-2022_2_d.xlsm VQ3n!FK171:FN172; small linear2016-2040 change frozen at2040 (EBeN manual p47 footnote79)"
+      },
+      "vehicle_chf_per_vehicle_km": {
+        "value": 0.6537015378858747,
+        "price_year": 2019,
+        "target_price_multiplier": 1.0621478224601966,
+        "base_year": 2019,
+        "real_growth_per_year": 0.0,
+        "source": "https://www.astra.admin.ch/dam/de/sd-web/MAwtgrGOaqZw/eNISTRA-2022_2_d.xlsm VQ3n!FK171:FN172; small linear2016-2040 change frozen at2040 (EBeN manual p47 footnote79)"
+      },
+      "vehicle_energy_chf_per_vehicle_km": {
+        "value": 0.19939208636520225,
+        "price_year": 2019,
+        "target_price_multiplier": 1.0621478224601966,
+        "base_year": 2019,
+        "real_growth_per_year": 0.0,
+        "source": "https://www.astra.admin.ch/dam/de/sd-web/MAwtgrGOaqZw/eNISTRA-2022_2_d.xlsm UW6 energy/fleet factors2035; equal road-class weighting is explicit screening approximation; fuel densities .745/.835kg/litre"
+      },
+      "cargo_chf_per_vehicle_hour": {
+        "value": 10.0,
+        "price_year": 2025,
+        "target_price_multiplier": 1.0,
+        "base_year": 2025,
+        "real_growth_per_year": 0.0,
+        "source": "Preliminary cargo inventory/time proxy; not an official rate. Replace using VSS41 823 cargo and payload data.",
+        "low": 0.0,
+        "high": 40.0
+      },
+      "allocation_note": "Commercial driver field contains combined professional-driver and time-dependent vehicle resource cost; vehicle-time field explicitly zero to avoid duplication. Truck/articulated use same official SNF average."
+    }
+  },
+  "external_passengers": {
+    "unlocated_anchor_stop_id": "Parent8503000"
+  },
+  "rail_supply": {
+    "operating_days_per_year": 300.0,
+    "track_distance_multiplier": 1.1
+  },
+  "simplified_appraisal": {},
+  "excluded_accounts": [
+    "reliability",
+    "construction_emissions_and_disruption",
+    "infrastructure_lifecycle_emissions",
+    "land_use_welfare",
+    "unrepresented_external_through_PT_and_active_trips",
+    "foreign_network_changes_outside_assigned_graph",
+    "biodiversity_land_take_and_water"
+  ],
+  "price_basis": "NB05 numerical unit values treated as constant 2025 CHF screening assumptions; no official rebase claimed",
+  "annualization_basis": "NB05: 300 equivalent weekdays, 4 congested hours/day; NPVM mode peak shares; active modes use a teaching assumption",
+  "asset_defaults": {
+    "lifetime_years": 80.0,
+    "residual_eligible_share": 0.6,
+    "annual_infrastructure_om_fraction": 0.02,
+    "capital_payment_timing": "opening",
+    "construction_years": 8,
+    "renewals_chf": {},
+    "assumption_basis": "NB05 teaching conventions transferred to these projects; not engineering estimates"
+  },
+  "project_costs": {
+    "faesenstaub": {
+      "capital_cost_chf": 470000000.0,
+      "source_price_year": 2025,
+      "cost_accuracy_fraction": 0.3,
+      "cost_status": "published_reference_scope_proxy",
+      "source": "https://www.uvek.admin.ch/dam/de/sd-web/trOl0yMZSQ9M/Beilage%2015%20Erl%C3%A4uternder%20Bericht%20DE%20zu%20BRA%20UVEK.pdf",
+      "scope_note": "Verkehr 45 Table 11: April 2025 prices, excluding VAT, +/-30%; STEP capacity-expansion share only. Additional adaptation and maintenance of existing road assets are excluded from that capital estimate",
+      "annual_service_operation_chf": 0.0,
+      "service_operation_basis": "Road infrastructure O&M is separately represented by the configured fraction"
+    },
+    "a15_uster_hinwil": {
+      "capital_cost_chf": 2250000000.0,
+      "source_price_year": 2025,
+      "cost_accuracy_fraction": 0.3,
+      "cost_status": "published_reference_scope_proxy",
+      "source": "https://www.uvek.admin.ch/dam/de/sd-web/trOl0yMZSQ9M/Beilage%2015%20Erl%C3%A4uternder%20Bericht%20DE%20zu%20BRA%20UVEK.pdf",
+      "scope_note": "Verkehr 45 Table 11: April 2025 prices, excluding VAT, +/-30%; Uster–Hinwil reference expansion scope. A proxy for the implemented deep-long concept, not a variant-specific construction estimate or approved opening date.",
+      "annual_service_operation_chf": 0.0,
+      "service_operation_basis": "Road infrastructure O&M is separately represented by the configured fraction"
+    },
+    "amriswil": {
+      "capital_cost_chf": 1280000000.0,
+      "source_price_year": 2025,
+      "cost_accuracy_fraction": 0.3,
+      "cost_status": "published_reference_scope_proxy",
+      "source": "https://www.uvek.admin.ch/dam/de/sd-web/trOl0yMZSQ9M/Beilage%2015%20Erl%C3%A4uternder%20Bericht%20DE%20zu%20BRA%20UVEK.pdf",
+      "scope_note": "Verkehr 45 Table 11: April 2025 prices, excluding VAT, +/-30%; Amriswil Nord including Romanshorn connection, STEP capacity-expansion share only. Existing-road adaptation and maintenance capital are additional",
+      "annual_service_operation_chf": 0.0,
+      "service_operation_basis": "Road infrastructure O&M is separately represented by the configured fraction"
+    },
+    "lottstetten_jestetten": {
+      "capital_cost_chf": 180000000.0,
+      "source_price_year": null,
+      "cost_status": "published_infrastructure_reference_with_screening_price_assumption",
+      "source": "https://company.sbb.ch/de/bahnentwicklung/projekte/deutschschweiz/region-ostschweiz/doppelspurausbau-lottstetten-jestetten.html",
+      "cost_accuracy_fraction": 0.2,
+      "construction_years": 4,
+      "scope_note": "Published double-track/half-hour infrastructure estimate, not a quote for quarter-hour service or illustrative additional hub measures; treated as 2025 CHF only for screening",
+      "annual_service_operation_chf": null,
+      "service_operation_from_supply": true,
+      "station_capital_included": false,
+      "service_operation_basis": "Additional scheduled train-km/hours and screening resource rates; calculated in the annual extension ledger. Station measure capital is not included in the published reference."
+    },
+    "faesenstaub_redundancy": {
+      "capital_cost_chf": 470000000.0,
+      "source_price_year": 2025,
+      "cost_accuracy_fraction": 0.3,
+      "cost_status": "published_reference_scope_proxy",
+      "source": "https://www.uvek.admin.ch/dam/de/sd-web/trOl0yMZSQ9M/Beilage%2015%20Erl%C3%A4uternder%20Bericht%20DE%20zu%20BRA%20UVEK.pdf",
+      "scope_note": "Verkehr 45 Table 11: April 2025 prices, excluding VAT, +/-30%; STEP capacity-expansion share only. Additional adaptation and maintenance of existing road assets are excluded from that capital estimate",
+      "annual_service_operation_chf": 0.0,
+      "service_operation_basis": "Road infrastructure O&M is separately represented by the configured fraction"
+    }
+  }
+}

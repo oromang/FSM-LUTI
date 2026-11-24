@@ -364,8 +364,14 @@ def solve_feedback(demand, physical_skims: Skims, network: DirectedRoadNetwork, 
                 and (previous_residual is None or previous_residual>5*demand_tolerance)):
             inner_gap_target=max(final_gap_target,min(.01,.01 if previous_residual is None else .1*previous_residual))
         inner_options['relative_gap']=inner_gap_target
+        if progress is not None:
+            progress({'event':'feedback_iteration_start','outer_iteration':iteration,
+                'max_outer_iterations':max_outer_iterations,'relative_gap_target':inner_gap_target,
+                'final_assignment_relative_gap_target':final_gap_target,'demand_tolerance':demand_tolerance})
         if progress is not None and 'progress' not in inner_options:
-            inner_options['progress']=lambda row:progress({'stage':'road_assignment','outer_iteration':iteration,**row})
+            inner_options['progress']=lambda row:progress({'stage':'road_assignment','outer_iteration':iteration,
+                'max_outer_iterations':max_outer_iterations,'max_iterations':inner_options.get('max_iterations',100),
+                'relative_gap_target':inner_gap_target,'final_assignment_relative_gap_target':final_gap_target,**row})
         assigned=assign_road(network,vehicles,**inner_options)
         routed=physical_skims.copy(); routed.times['drive']=assigned.time_min[road_ix].copy()
         # Within-zone road demand is reported separately, not routed through centroid loops.

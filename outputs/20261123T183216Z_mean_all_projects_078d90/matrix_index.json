@@ -1,0 +1,590 @@
+[
+  {
+    "scenario": "mean",
+    "case": "do_nothing",
+    "year": 2025.0,
+    "state": "reference",
+    "path": "mean/matrices/reference/reference_2025.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "do_nothing",
+    "year": 2025.0,
+    "state": "fixed",
+    "path": "mean/matrices/reference/reference_2025.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "do_nothing",
+    "year": 2025.0,
+    "state": "luti",
+    "path": "mean/matrices/reference/reference_2025.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "do_nothing",
+    "year": 2039.0,
+    "state": "reference",
+    "path": "mean/matrices/reference/reference_2039.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "do_nothing",
+    "year": 2039.0,
+    "state": "fixed",
+    "path": "mean/matrices/reference/reference_2039.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "do_nothing",
+    "year": 2039.0,
+    "state": "luti",
+    "path": "mean/matrices/reference/reference_2039.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "do_nothing",
+    "year": 2040.0,
+    "state": "reference",
+    "path": "mean/matrices/reference/reference_2040.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "do_nothing",
+    "year": 2040.0,
+    "state": "fixed",
+    "path": "mean/matrices/reference/reference_2040.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "do_nothing",
+    "year": 2040.0,
+    "state": "luti",
+    "path": "mean/matrices/reference/reference_2040.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "do_nothing",
+    "year": 2044.0,
+    "state": "reference",
+    "path": "mean/matrices/reference/reference_2044.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "do_nothing",
+    "year": 2044.0,
+    "state": "fixed",
+    "path": "mean/matrices/reference/reference_2044.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "do_nothing",
+    "year": 2044.0,
+    "state": "luti",
+    "path": "mean/matrices/reference/reference_2044.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "do_nothing",
+    "year": 2045.0,
+    "state": "reference",
+    "path": "mean/matrices/reference/reference_2045.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "do_nothing",
+    "year": 2045.0,
+    "state": "fixed",
+    "path": "mean/matrices/reference/reference_2045.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "do_nothing",
+    "year": 2045.0,
+    "state": "luti",
+    "path": "mean/matrices/reference/reference_2045.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "do_nothing",
+    "year": 2055.0,
+    "state": "reference",
+    "path": "mean/matrices/reference/reference_2055.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "do_nothing",
+    "year": 2055.0,
+    "state": "fixed",
+    "path": "mean/matrices/reference/reference_2055.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "do_nothing",
+    "year": 2055.0,
+    "state": "luti",
+    "path": "mean/matrices/reference/reference_2055.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "faesenstaub_redundancy",
+    "year": 2025.0,
+    "state": "reference",
+    "path": "mean/matrices/reference/reference_2025.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "faesenstaub_redundancy",
+    "year": 2025.0,
+    "state": "fixed",
+    "path": "mean/matrices/reference/reference_2025.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "faesenstaub_redundancy",
+    "year": 2025.0,
+    "state": "luti",
+    "path": "mean/matrices/reference/reference_2025.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "faesenstaub_redundancy",
+    "year": 2039.0,
+    "state": "reference",
+    "path": "mean/matrices/reference/reference_2039.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "faesenstaub_redundancy",
+    "year": 2039.0,
+    "state": "fixed",
+    "path": "mean/matrices/reference/reference_2039.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "faesenstaub_redundancy",
+    "year": 2039.0,
+    "state": "luti",
+    "path": "mean/matrices/reference/reference_2039.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "faesenstaub_redundancy",
+    "year": 2040.0,
+    "state": "reference",
+    "path": "mean/matrices/faesenstaub_redundancy/reference/reference_2040.h5",
+    "reference_project_ids": [
+      "faesenstaub_renovation_closure"
+    ]
+  },
+  {
+    "scenario": "mean",
+    "case": "faesenstaub_redundancy",
+    "year": 2040.0,
+    "state": "fixed",
+    "path": "mean/matrices/faesenstaub_redundancy/fixed_2040.h5",
+    "reference_project_ids": [
+      "faesenstaub_renovation_closure"
+    ]
+  },
+  {
+    "scenario": "mean",
+    "case": "faesenstaub_redundancy",
+    "year": 2040.0,
+    "state": "luti",
+    "path": "mean/matrices/faesenstaub_redundancy/luti_2040.h5",
+    "reference_project_ids": [
+      "faesenstaub_renovation_closure"
+    ]
+  },
+  {
+    "scenario": "mean",
+    "case": "faesenstaub_redundancy",
+    "year": 2044.0,
+    "state": "reference",
+    "path": "mean/matrices/faesenstaub_redundancy/reference/reference_2044.h5",
+    "reference_project_ids": [
+      "faesenstaub_renovation_closure"
+    ]
+  },
+  {
+    "scenario": "mean",
+    "case": "faesenstaub_redundancy",
+    "year": 2044.0,
+    "state": "fixed",
+    "path": "mean/matrices/faesenstaub_redundancy/fixed_2044.h5",
+    "reference_project_ids": [
+      "faesenstaub_renovation_closure"
+    ]
+  },
+  {
+    "scenario": "mean",
+    "case": "faesenstaub_redundancy",
+    "year": 2044.0,
+    "state": "luti",
+    "path": "mean/matrices/faesenstaub_redundancy/luti_2044.h5",
+    "reference_project_ids": [
+      "faesenstaub_renovation_closure"
+    ]
+  },
+  {
+    "scenario": "mean",
+    "case": "faesenstaub_redundancy",
+    "year": 2045.0,
+    "state": "reference",
+    "path": "mean/matrices/reference/reference_2045.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "faesenstaub_redundancy",
+    "year": 2045.0,
+    "state": "fixed",
+    "path": "mean/matrices/faesenstaub_redundancy/fixed_2045.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "faesenstaub_redundancy",
+    "year": 2045.0,
+    "state": "luti",
+    "path": "mean/matrices/faesenstaub_redundancy/luti_2045.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "faesenstaub_redundancy",
+    "year": 2055.0,
+    "state": "reference",
+    "path": "mean/matrices/reference/reference_2055.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "faesenstaub_redundancy",
+    "year": 2055.0,
+    "state": "fixed",
+    "path": "mean/matrices/faesenstaub_redundancy/fixed_2055.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "faesenstaub_redundancy",
+    "year": 2055.0,
+    "state": "luti",
+    "path": "mean/matrices/faesenstaub_redundancy/luti_2055.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "amriswil",
+    "year": 2025.0,
+    "state": "reference",
+    "path": "mean/matrices/reference/reference_2025.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "amriswil",
+    "year": 2025.0,
+    "state": "fixed",
+    "path": "mean/matrices/reference/reference_2025.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "amriswil",
+    "year": 2025.0,
+    "state": "luti",
+    "path": "mean/matrices/reference/reference_2025.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "amriswil",
+    "year": 2040.0,
+    "state": "reference",
+    "path": "mean/matrices/reference/reference_2040.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "amriswil",
+    "year": 2040.0,
+    "state": "fixed",
+    "path": "mean/matrices/amriswil/fixed_2040.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "amriswil",
+    "year": 2040.0,
+    "state": "luti",
+    "path": "mean/matrices/amriswil/luti_2040.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "amriswil",
+    "year": 2045.0,
+    "state": "reference",
+    "path": "mean/matrices/reference/reference_2045.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "amriswil",
+    "year": 2045.0,
+    "state": "fixed",
+    "path": "mean/matrices/amriswil/fixed_2045.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "amriswil",
+    "year": 2045.0,
+    "state": "luti",
+    "path": "mean/matrices/amriswil/luti_2045.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "amriswil",
+    "year": 2055.0,
+    "state": "reference",
+    "path": "mean/matrices/reference/reference_2055.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "amriswil",
+    "year": 2055.0,
+    "state": "fixed",
+    "path": "mean/matrices/amriswil/fixed_2055.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "amriswil",
+    "year": 2055.0,
+    "state": "luti",
+    "path": "mean/matrices/amriswil/luti_2055.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "a15_uster_hinwil",
+    "year": 2025.0,
+    "state": "reference",
+    "path": "mean/matrices/reference/reference_2025.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "a15_uster_hinwil",
+    "year": 2025.0,
+    "state": "fixed",
+    "path": "mean/matrices/reference/reference_2025.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "a15_uster_hinwil",
+    "year": 2025.0,
+    "state": "luti",
+    "path": "mean/matrices/reference/reference_2025.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "a15_uster_hinwil",
+    "year": 2040.0,
+    "state": "reference",
+    "path": "mean/matrices/reference/reference_2040.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "a15_uster_hinwil",
+    "year": 2040.0,
+    "state": "fixed",
+    "path": "mean/matrices/a15_uster_hinwil/fixed_2040.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "a15_uster_hinwil",
+    "year": 2040.0,
+    "state": "luti",
+    "path": "mean/matrices/a15_uster_hinwil/luti_2040.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "a15_uster_hinwil",
+    "year": 2045.0,
+    "state": "reference",
+    "path": "mean/matrices/reference/reference_2045.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "a15_uster_hinwil",
+    "year": 2045.0,
+    "state": "fixed",
+    "path": "mean/matrices/a15_uster_hinwil/fixed_2045.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "a15_uster_hinwil",
+    "year": 2045.0,
+    "state": "luti",
+    "path": "mean/matrices/a15_uster_hinwil/luti_2045.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "a15_uster_hinwil",
+    "year": 2055.0,
+    "state": "reference",
+    "path": "mean/matrices/reference/reference_2055.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "a15_uster_hinwil",
+    "year": 2055.0,
+    "state": "fixed",
+    "path": "mean/matrices/a15_uster_hinwil/fixed_2055.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "a15_uster_hinwil",
+    "year": 2055.0,
+    "state": "luti",
+    "path": "mean/matrices/a15_uster_hinwil/luti_2055.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "lottstetten_jestetten",
+    "year": 2025.0,
+    "state": "reference",
+    "path": "mean/matrices/reference/reference_2025.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "lottstetten_jestetten",
+    "year": 2025.0,
+    "state": "fixed",
+    "path": "mean/matrices/reference/reference_2025.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "lottstetten_jestetten",
+    "year": 2025.0,
+    "state": "luti",
+    "path": "mean/matrices/reference/reference_2025.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "lottstetten_jestetten",
+    "year": 2040.0,
+    "state": "reference",
+    "path": "mean/matrices/reference/reference_2040.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "lottstetten_jestetten",
+    "year": 2040.0,
+    "state": "fixed",
+    "path": "mean/matrices/lottstetten_jestetten/fixed_2040.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "lottstetten_jestetten",
+    "year": 2040.0,
+    "state": "luti",
+    "path": "mean/matrices/lottstetten_jestetten/luti_2040.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "lottstetten_jestetten",
+    "year": 2045.0,
+    "state": "reference",
+    "path": "mean/matrices/reference/reference_2045.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "lottstetten_jestetten",
+    "year": 2045.0,
+    "state": "fixed",
+    "path": "mean/matrices/lottstetten_jestetten/fixed_2045.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "lottstetten_jestetten",
+    "year": 2045.0,
+    "state": "luti",
+    "path": "mean/matrices/lottstetten_jestetten/luti_2045.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "lottstetten_jestetten",
+    "year": 2055.0,
+    "state": "reference",
+    "path": "mean/matrices/reference/reference_2055.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "lottstetten_jestetten",
+    "year": 2055.0,
+    "state": "fixed",
+    "path": "mean/matrices/lottstetten_jestetten/fixed_2055.h5",
+    "reference_project_ids": []
+  },
+  {
+    "scenario": "mean",
+    "case": "lottstetten_jestetten",
+    "year": 2055.0,
+    "state": "luti",
+    "path": "mean/matrices/lottstetten_jestetten/luti_2055.h5",
+    "reference_project_ids": []
+  }
+]
